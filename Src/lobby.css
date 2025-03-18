@@ -1,0 +1,87 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Exo 2", sans-serif;
+}
+
+body {
+  background-image: url("../assets/images/lobby_background.jpg");
+  background-size: cover;
+}
+
+/* navigatiebalk */
+
+nav {
+  padding: 15px;
+  padding-top: 20px;
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* v-bucks */
+
+.v-bucks {
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 25px;
+  box-shadow: 2px 2px 5px black;
+}
+
+.v-bucks-img {
+  width: 50px;
+}
+
+.v-bucks-count {
+  font-size: 16px;
+  color: black;
+  padding: 10px;
+  font-weight: bold;
+  align-content: center;
+  padding-right: 10px;
+}
+
+/* navigatie */
+
+.nav-item {
+  padding: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  color: black;
+  background-color: rgba(4, 42, 96, 0.7);
+  border-radius: 25px;
+  transition: transform 0.3s ease;
+  box-shadow: 2px 2px 5px black;
+}
+
+.nav-li {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.nav-item:hover {
+  transform: scale(1.1);
+}
+
+/* profielfoto */
+
+.pfp-icon {
+  width: 50px;
+  border-radius: 50px;
+  transition: transform 0.3s ease;
+  box-shadow: 2px 2px 5px black;
+}
+
+.pfp-icon:hover {
+  transform: scale(1.1);
+}
+
+/* Main */
+
+.character {
+  width: 100px;
+}
