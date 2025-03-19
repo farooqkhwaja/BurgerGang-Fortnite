@@ -4,29 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Lobby</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="css/battle.css">
+    <link rel="stylesheet" href="css/venster.css">
+    <script src="venster.js" defer></script>
 </head>
-<body>
+<body> 
     <main class="container">
         <header>
+            <section class="v-bucks">
+                <figure class="v-bucks">
+                    <img src="assets/images/VBucksIcon.png" height="40px" alt="">
+                </figure>
+                <span class="v-bucks-count">1600</span>
+            </section>
             <nav class="navbar">
                 <ul>
-                    <li><a href="lobby.html" class="nav-item">LOBBY</a></li>
-                    <li><a href="locker.html" class="nav-item">KLEDINGKAST</a></li>
-                    <li><a href="shop.html" class="nav-item">WINKEL</a></li>
+                    <li><a href="lobby.html" class="nav-item">Lobby</a></li>
+                    <li><a href="locker.html" class="nav-item">Kleedkamer</a></li>
+                    <li><a href="shop.html" class="nav-item">Winkels</a></li>
                 </ul>
             </nav>
-            <div class="profile-container">
-                <figure class="profile-pic">
-                    <img src="assets/images/Profile.webp" alt="Profile">
+                <figure class="pfp-icon">
+                    <img class="pfp-icon" src="assets/images/Profile.webp" alt="Profile">
                 </figure>
-                <section class="currency">
-                    <figure class="currency-icon">
-                        <img src="assets/images/VBucksIcon.png" height="30px" alt="">
-                    </figure>
-                    <span class="amount">16,940</span>
-                </section>
-            </div>
+               
         </header>
 
         <section class="content">
@@ -64,6 +69,24 @@
                     </table>
                 </section>
             </aside>
+        </section>
+        <section class="sliding-venster" id="slidingvenster">
+            <section class="venster-content">
+              <img
+                class="leave-button"
+                src="./assets/images/leave.png"
+                alt="leave-button"
+              />
+              <section class="venster-icons">
+                <img src="./assets/images/darkmode.png" alt="" />
+                <img src="./assets/images/blindmodus.png" alt="" />
+                <img src="./assets/images/bellicon.png" alt="" />
+              </section>
+              <section class="venster-buttons">
+                <button>Gegevens aanpassen</button>
+                <button>Account verwijderen</button>
+              </section>
+            </section>
         </section>
     </main>
 </body>
