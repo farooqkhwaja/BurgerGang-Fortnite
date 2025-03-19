@@ -8,96 +8,107 @@ body {
 /* navigatiebalk */
 
 nav {
-    padding: 15px;
-    padding-top: 20px;
-  }
-  
-  nav ul {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  /* v-bucks */
-  
-  .v-bucks {
-    display: flex;
-    background-color: rgba(255, 255, 255, 0.7);
-    border-radius: 25px;
-    box-shadow: 2px 2px 5px black;
-  }
-  
-  .v-bucks-img {
-    width: 50px;
-  }
-  
-  .v-bucks-count {
-    font-size: 16px;
-    color: black;
-    padding: 10px;
-    font-weight: bold;
-    align-content: center;
-    padding-right: 10px;
-  }
-  
-  /* navigatie */
-  
-  .nav-item {
-    padding: 10px;
-    font-size: 20px;
-    font-weight: bold;
-    color: rgb(23, 76, 220);
-    background-color: rgba(234, 239, 44, 1);
-    border-radius: 25px;
-    transition: transform 0.3s ease;
-    box-shadow: 2px 2px 5px black;
-  }
-  
-  .nav-li {
-    display: flex;
-    justify-content: space-between;
-    gap: 40px;
-  }
-  
-  .nav-item:hover {
-    transform: scale(1.1);
-  }
-  
-  /* profielfoto */
-  
-  #pfp-icon {
-    width: 50px;
-    border-radius: 50px;
-    transition: transform 0.3s ease;
-    box-shadow: 2px 2px 5px black;
-    z-index: 110;
-    position: relative;
-  }
-  
-  #pfp-icon:hover {
-    transform: scale(1.1);
-  }
-  
+  padding: 15px;
+  padding-top: 20px;
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* v-bucks */
+
+.v-bucks {
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 25px;
+  box-shadow: 2px 2px 5px black;
+}
+
+.v-bucks-img {
+  width: 50px;
+}
+
+.v-bucks-count {
+  font-size: 16px;
+  color: black;
+  padding: 10px;
+  font-weight: bold;
+  align-content: center;
+  padding-right: 10px;
+}
+
+/* navigatie */
+
+.nav-item {
+  padding: 10px;
+  padding-top: 12px;
+  font-size: 20px;
+  font-weight: bold;
+  color: rgb(23, 76, 220);
+  background-color: rgba(234, 239, 44, 1);
+  border-radius: 25px;
+  transition: transform 0.3s ease;
+  box-shadow: 2px 2px 5px black;
+}
+
+.nav-li {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.nav-item:hover {
+  transform: scale(1.1);
+}
+
+/* profielfoto */
+
+#pfp-icon {
+  width: 50px;
+  border-radius: 50px;
+  transition: transform 0.3s ease;
+  box-shadow: 2px 2px 5px black;
+  z-index: 110;
+  position: relative;
+}
+
+#pfp-icon:hover {
+  transform: scale(1.1);
+}
+
 main {
   display: flex;
 }
 section {
   margin: 5rem;
 }
+main .sectie1 img:hover{
+    transform: scale(1.15) rotate(5deg);
+}
 main .sectie1 img {
   width: 50px;
   padding-bottom: 2rem;
+  transition: transform 0.3s ease;
 }
 main .sectie1 {
   border-radius: 10px;
-  padding-top: 10px;
+  /* padding-top: 10px; */
+  padding-top: 1rem;
+  padding-bottom: 1rem;
   background-color: rgb(64, 105, 211);
+  align-self: center;
 }
 
 .sectie2 {
+    margin-top: 10rem;
   width: 200px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 1.5rem;
+  margin-left: 10rem;
+  transition: transform 0.3s ease;
 }
 .sectie2 figure {
   border: 1px solid rgb(14, 18, 102);
@@ -115,9 +126,59 @@ main .sectie1 {
   border-radius: 20px;
   padding: 1rem;
 }
+main .sectie2 figure:hover{
+    transform: scale(1.15) rotate(5deg);
+}
 
 main .sectie3 img {
-  width: 100px;
+  width: 200px;
+  margin-top: 4rem;
   /* background-color: red; */
   margin-left: 5rem;
+  position: relative;
+  
+
+}
+main .sectie4 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+main .sectie4 figure{
+    padding: 1rem;
+}
+main .sectie4 img{
+    width: 20px;
+    margin-left: 1rem;
+}
+
+main .sectie4 .rotate img{
+    rotate: 180deg;
+    width: 15px;
+}
+
+main .sectie4 .notes img{
+    width: 30px;
+    
+}
+
+main .sectie4 .star img{
+    width: 30px;
+    
+}
+
+main .sectie4 .add img{
+    width: 30px;
+}
+main .sectie4 figure{
+    transition: transform 0.3s ease;
+}
+
+main .sectie4 figure:hover{
+    transform: scale(1.15) rotate(20deg);
+}
+
+main .sectie3{
+    margin-left: 15rem;
 }
