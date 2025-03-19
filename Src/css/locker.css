@@ -1,5 +1,5 @@
-*{
-    font-family: "Exo 2",sans-serif;
+* {
+  font-family: "Exo 2", sans-serif;
 }
 body {
   background-color: rgb(42, 112, 232);
@@ -84,8 +84,8 @@ main {
 section {
   margin: 5rem;
 }
-main .sectie1 img:hover{
-    transform: scale(1.15) rotate(5deg);
+main .sectie1 img:hover {
+  transform: scale(1.15) rotate(5deg);
 }
 main .sectie1 img {
   width: 50px;
@@ -102,7 +102,7 @@ main .sectie1 {
 }
 
 .sectie2 {
-    margin-top: 10rem;
+  margin-top: 10rem;
   width: 200px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -126,8 +126,8 @@ main .sectie1 {
   border-radius: 20px;
   padding: 1rem;
 }
-main .sectie2 figure:hover{
-    transform: scale(1.15) rotate(5deg);
+main .sectie2 figure:hover {
+  transform: scale(1.15) rotate(5deg);
 }
 
 main .sectie3 img {
@@ -136,49 +136,158 @@ main .sectie3 img {
   /* background-color: red; */
   margin-left: 5rem;
   position: relative;
-  
-
 }
 main .sectie4 {
-    display: flex;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+main .sectie4 figure {
+  padding: 1rem;
+}
+main .sectie4 img {
+  width: 20px;
+  margin-left: 1rem;
+}
+
+main .sectie4 .rotate img {
+  rotate: 180deg;
+  width: 15px;
+}
+
+main .sectie4 .notes img {
+  width: 30px;
+}
+
+main .sectie4 .star img {
+  width: 30px;
+}
+
+main .sectie4 .add img {
+  width: 30px;
+}
+main .sectie4 figure {
+  transition: transform 0.3s ease;
+}
+
+main .sectie4 figure:hover {
+  transform: scale(1.15) rotate(20deg);
+}
+
+main .sectie3 {
+  margin-left: 15rem;
+}
+
+@media (max-width: 768px) {
+  .nav-li {
+    gap: 20px;
+  }
+
+  .nav-item {
+    font-size: 16px;
+  }
+
+  main {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  section {
+    margin: 2rem;
+  }
+
+  .sectie2 {
+    margin-top: 2rem;
+    margin-left: 0;
+    width: 180px;
+    gap: 1rem;
+  }
+
+  .sectie2 figure {
+    width: 80px;
+    height: 80px;
+    padding: 0.8rem;
+  }
+
+  main .sectie3 {
+    margin-left: 0;
+    order: -1;
+  }
+
+  main .sectie3 img {
+    margin-left: 0;
+  }
+
+  main .sectie4 {
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+/* Media query for mobile */
+@media (max-width: 480px) {
+  nav ul {
     flex-direction: column;
     align-items: center;
-}
+    gap: 15px;
+  }
 
-main .sectie4 figure{
-    padding: 1rem;
-}
-main .sectie4 img{
-    width: 20px;
-    margin-left: 1rem;
-}
+  .nav-li {
+    gap: 10px;
+  }
 
-main .sectie4 .rotate img{
-    rotate: 180deg;
-    width: 15px;
-}
+  .nav-item {
+    font-size: 14px;
+    padding: 8px;
+  }
 
-main .sectie4 .notes img{
-    width: 30px;
-    
-}
+  main {
+    flex-direction: column;
+    align-items: center;
+  }
 
-main .sectie4 .star img{
-    width: 30px;
-    
-}
+  section {
+    margin: 1rem;
+  }
 
-main .sectie4 .add img{
-    width: 30px;
-}
-main .sectie4 figure{
-    transition: transform 0.3s ease;
-}
+  main .sectie1 {
+    display: flex;
+    justify-content: space-around;
+    width: 90%;
+    padding: 1rem 0;
+  }
 
-main .sectie4 figure:hover{
-    transform: scale(1.15) rotate(20deg);
-}
+  main .sectie1 img {
+    width: 40px;
+    padding-bottom: 0;
+  }
 
-main .sectie3{
-    margin-left: 15rem;
+  .sectie2 {
+    margin-top: 1rem;
+    width: 90%;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+  }
+
+  .sectie2 figure {
+    width: 70px;
+    height: 70px;
+    padding: 0.5rem;
+    margin: 0 auto;
+  }
+
+  main .sectie3 img {
+    width: 150px;
+    margin-top: 1rem;
+  }
+
+  main .sectie4 {
+    flex-wrap: wrap;
+  }
+
+  main .sectie4 figure {
+    padding: 0.5rem;
+  }
 }

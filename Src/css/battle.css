@@ -8,8 +8,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background-image: url("/Src/assets/images/Battle\ Background.PNG");
-  background-size: cover;
+  background: linear-gradient(135deg, #10002b, #3c0279, #7a0fc4, #a32dff);
   font-family: Arial, sans-serif;
   color: white;
   height: 100%;
@@ -165,7 +164,7 @@ header {
 }
 
 .character:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .character-name {
