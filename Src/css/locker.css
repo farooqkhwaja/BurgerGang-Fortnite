@@ -1,0 +1,123 @@
+*{
+    font-family: "Exo 2",sans-serif;
+}
+body {
+  background-color: rgb(42, 112, 232);
+}
+
+/* navigatiebalk */
+
+nav {
+    padding: 15px;
+    padding-top: 20px;
+  }
+  
+  nav ul {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  /* v-bucks */
+  
+  .v-bucks {
+    display: flex;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 25px;
+    box-shadow: 2px 2px 5px black;
+  }
+  
+  .v-bucks-img {
+    width: 50px;
+  }
+  
+  .v-bucks-count {
+    font-size: 16px;
+    color: black;
+    padding: 10px;
+    font-weight: bold;
+    align-content: center;
+    padding-right: 10px;
+  }
+  
+  /* navigatie */
+  
+  .nav-item {
+    padding: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: rgb(23, 76, 220);
+    background-color: rgba(234, 239, 44, 1);
+    border-radius: 25px;
+    transition: transform 0.3s ease;
+    box-shadow: 2px 2px 5px black;
+  }
+  
+  .nav-li {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+  }
+  
+  .nav-item:hover {
+    transform: scale(1.1);
+  }
+  
+  /* profielfoto */
+  
+  #pfp-icon {
+    width: 50px;
+    border-radius: 50px;
+    transition: transform 0.3s ease;
+    box-shadow: 2px 2px 5px black;
+    z-index: 110;
+    position: relative;
+  }
+  
+  #pfp-icon:hover {
+    transform: scale(1.1);
+  }
+  
+main {
+  display: flex;
+}
+section {
+  margin: 5rem;
+}
+main .sectie1 img {
+  width: 50px;
+  padding-bottom: 2rem;
+}
+main .sectie1 {
+  border-radius: 10px;
+  padding-top: 10px;
+  background-color: rgb(64, 105, 211);
+}
+
+.sectie2 {
+  width: 200px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.5rem;
+}
+.sectie2 figure {
+  border: 1px solid rgb(14, 18, 102);
+  align-content: center;
+  background-color: rgb(14, 18, 102);
+  border-radius: 15px;
+
+  /*vierkant locker blokjes*/
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 20px;
+  padding: 1rem;
+}
+
+main .sectie3 img {
+  width: 100px;
+  /* background-color: red; */
+  margin-left: 5rem;
+}

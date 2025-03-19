@@ -4,19 +4,78 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="assets/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/reset.css" />
+    <link rel="stylesheet" href="./css/locker.css" />
+    <link rel="stylesheet" href="./css/venster.css">
+    <script src="venster.js" defer></script>
   </head>
   <body>
     <header>
       <nav>
         <ul>
-          <li>Lobby</li>
-          <li>Locker</li>
-          <li>Shop</li>
+          <li class="v-bucks">
+            <img
+              class="v-bucks-img"
+              src="./assets/images/VBucksIcon.png"
+              alt="v-bucks-icon"
+            />
+            <p class="v-bucks-count">1600</p>
+          </li>
+          <li class="nav-li">
+            <a class="nav-item" href="./lobby.html">Lobby</a>
+            <a class="nav-item" href="./locker.html">Kleedkamer</a>
+            <a class="nav-item" href="./winkel.html">Winkel</a>
+          </li>
+          <li>
+            <img
+              id="pfp-icon"
+              src="./assets/images/Profile.webp"
+              alt="profielfoto"
+            />
+          </li>
         </ul>
       </nav>
     </header>
-    <main><aside></aside></main>
-    <footer></footer>
+    <main>
+      <section class="sectie1">
+          <figure class="charsIcon"><img src="./assets/images/Survivor Icon.PNG" alt=""></figure>
+          <figure class="danceIcon"><img src="./assets/images/lockerEmote.PNG" alt=""></figure>
+          <figure class="blacklist"><img src="./assets/images/blacklist_new.png" alt=""></figure>
+          <figure class="favoriet"><img src="./assets/images/star_fort-removebg-preview.png" alt=""></figure>
+    </section>
+      <section class="sectie2">
+        <figure class="lockerSkin"><img src="./assets/images/Profile.webp" alt=""></figure>
+        <figure class="pickaxe"><img src="./assets/images/Harvesting Tool Locker Graphic.PNG" alt=""></figure>
+        <figure class="lockerEmote"><img src="./assets/images/boogiedown.webp" alt=""></figure>
+        <figure class="shuffle"><img src="./assets/images/Shuffle Icon.PNG" alt=""></figure>
+        <figure class="pump"><img src="./assets/images/png-clipart-brown-and-black-pump-action-shut-gun-graphic-fortnite-battle-royale-pump-action-shotgun-weapon-weapon-playstation-4-assault-rifle-thumbnail-removebg-preview.png" alt=""></figure>
+        <figure class="glider"><img src="./assets/images/One_Shot_-_Glider_-_Fortnite.webp" alt=""></figure>
+      </section>
+      <section class="sectie3"><img src="./assets/images/Full character.png" alt=""></section>
+      <section class="sectie4"></section>
+      <aside></aside>
+    </main>
+    <section class="sliding-venster" id="slidingvenster">
+      <section class="venster-content">
+        <img
+          class="leave-button"
+          src="./assets/images/leave.png"
+          alt="leave-button"
+        />
+        <section class="venster-icons">
+          <img src="./assets/images/darkmode.png" alt="" />
+          <img src="./assets/images/blindmodus.png" alt="" />
+          <img src="./assets/images/bellicon.png" alt="" />
+        </section>
+        <section class="venster-buttons">
+          <button>Gegevens aanpassen</button>
+          <button>Account verwijderen</button>
+        </section>
+      </section>
+    </section>
   </body>
 </html>
