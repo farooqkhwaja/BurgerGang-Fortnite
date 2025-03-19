@@ -1,0 +1,54 @@
+/* Venster */
+
+.sliding-venster {
+  position: fixed;
+  top: 0;
+  right: -300px;
+  width: 300px;
+  height: 100vh;
+  background: linear-gradient(135deg, #4d4dc6 0%, #39788b 50%, #7755a0 100%);
+  border-radius: 15px 0px 0px 15px;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+  transition: right 0.3s ease;
+  z-index: 105;
+}
+
+.venster-icons {
+  margin-top: 50px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.venster-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.venster-buttons button {
+  background-color: #0d47a1;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 12px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.venster-content {
+  padding: 20px;
+}
+
+.leave-button {
+  width: 50px;
+}
+
+.sliding-venster.open {
+  right: 0;
+}
+
+.venster-icons img {
+  width: 50px;
+}

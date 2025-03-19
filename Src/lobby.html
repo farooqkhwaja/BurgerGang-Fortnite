@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="NL-be">
+<html lang="nl-BE">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,8 +8,9 @@
       href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./css/reset.s" />
     <link rel="stylesheet" href="./css/lobby.css" />
+    <link rel="stylesheet" href="./css/venster.css" />
+    <script src="venster.js" defer></script>
   </head>
   <body>
     <header>
@@ -24,13 +25,13 @@
             <p class="v-bucks-count">1600</p>
           </li>
           <li class="nav-li">
-            <p class="nav-item">LOBBY</p>
-            <p class="nav-item">KLEEDKAMER</p>
-            <p class="nav-item">WINKEL</p>
+            <a class="nav-item" href="./lobby.html">Lobby</a>
+            <a class="nav-item" href="./locker.html">Kleedkamer</a>
+            <a class="nav-item" href="./winkel.html">Winkel</a>
           </li>
           <li>
             <img
-              class="pfp-icon"
+              id="pfp-icon"
               src="./assets/images/Profile.webp"
               alt="profielfoto"
             />
@@ -39,11 +40,46 @@
       </nav>
     </header>
     <main>
-      <img
-        class="character"
-        src="./assets/images/Full character.png"
-        alt="full-character"
-      />
+      <section class="character-container">
+        <a href="./locker.html"
+          ><img
+            class="character"
+            src="./assets/images/Full character.png"
+            alt="full-character"
+        /></a>
+      </section>
+      <a href="./battle.html"
+        ><section class="rank-showcase">
+          <article>
+            <img src="./assets/images/RankingLogo.png" alt="rank-logo" />
+          </article></section
+      ></a>
+      <a href="./battle.html"
+        ><section class="play-button">
+          <article>
+            <p>SPEEL</p>
+          </article>
+        </section>
+      </a>
     </main>
+
+    <section class="sliding-venster" id="slidingvenster">
+      <section class="venster-content">
+        <img
+          class="leave-button"
+          src="./assets/images/leave.png"
+          alt="leave-button"
+        />
+        <section class="venster-icons">
+          <img src="./assets/images/darkmode.png" alt="" />
+          <img src="./assets/images/blindmodus.png" alt="" />
+          <img src="./assets/images/bellicon.png" alt="" />
+        </section>
+        <section class="venster-buttons">
+          <button>Gegevens aanpassen</button>
+          <button>Account verwijderen</button>
+        </section>
+      </section>
+    </section>
   </body>
 </html>
