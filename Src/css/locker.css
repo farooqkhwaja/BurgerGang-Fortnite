@@ -141,6 +141,7 @@ main .sectie4 {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 20px;
 }
 
 main .sectie4 figure {
