@@ -1,0 +1,174 @@
+.main-lobby {
+  display: flex;
+  height: calc(100vh - 85px);
+  position: relative;
+}
+
+.news-side {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.news-card {
+  background-color: rgba(15, 25, 35, 0.8);
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 3px solid var(--fortnite-blue);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.news-title {
+  color: var(--fortnite-yellow);
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  text-align: center;
+  border-bottom: 3px solid var(--fortnite-blue);
+  padding-bottom: 8px;
+}
+
+.news-image {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  border: 2px solid var(--fortnite-yellow);
+}
+
+.news-body {
+  font-size: 1.1rem;
+  line-height: 1.4;
+  text-transform: none;
+}
+
+.character-display {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+}
+
+.character-container {
+  position: relative;
+  width: 320px;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.character {
+  height: 95%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 25px rgba(247, 212, 23, 0.7));
+  transition: transform 0.3s;
+  z-index: 10;
+}
+
+.character:hover {
+  transform: scale(1.05);
+}
+
+.character-name {
+  position: absolute;
+  bottom: 0;
+  font-size: 2.2rem;
+  color: white;
+  text-shadow: 3px 3px 0 var(--fortnite-dark), -1px -1px 0 var(--fortnite-dark),
+    1px -1px 0 var(--fortnite-dark), -1px 1px 0 var(--fortnite-dark);
+  z-index: 20;
+  background-color: rgba(15, 25, 35, 0.8);
+  padding: 8px 25px;
+  border-radius: 25px;
+  border: 3px solid var(--fortnite-yellow);
+  letter-spacing: 2px;
+}
+
+.stats-side {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 40px;
+  gap: 25px;
+}
+
+.stats-card {
+  background-color: rgba(15, 25, 35, 0.8);
+  border-radius: 15px;
+  padding: 25px;
+  border: 3px solid var(--fortnite-blue);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.stats-title {
+  color: var(--fortnite-yellow);
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  text-align: center;
+  border-bottom: 3px solid var(--fortnite-blue);
+  padding-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 0;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+}
+
+.stat-value {
+  color: var(--fortnite-yellow);
+  font-weight: bold;
+}
+
+.play-button {
+  background-color: var(--fortnite-green);
+  color: white;
+  padding: 25px 80px;
+  font-size: 2.5rem;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 10px 0 #3d8b3d, 0 15px 30px rgba(0, 0, 0, 0.4);
+  z-index: 100;
+  margin-top: 20px;
+  letter-spacing: 3px;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+}
+
+.play-button:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 0 #3d8b3d, 0 20px 35px rgba(0, 0, 0, 0.5);
+}
+
+.play-button:active {
+  transform: translateY(5px);
+  box-shadow: 0 5px 0 #3d8b3d;
+}
+
+.spinner {
+  border: 5px solid rgba(0, 176, 240, 0.3);
+  border-top: 5px solid var(--fortnite-blue);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

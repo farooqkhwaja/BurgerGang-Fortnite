@@ -1,0 +1,15 @@
+<header>
+  <div class="user-info">
+    <div class="v-bucks">
+      <img class="v-bucks-img" src="/images/VBucksIcon.png" alt="V-Bucks" />
+      <span class="v-bucks-count">1,600</span>
+    </div>
+    <nav>
+      <a href="./lobby" class="nav-item <%= (path === '/lobby') ? 'active' : ''  %>">Lobby</a>
+      <a href="./locker" class="nav-item <%= (path === '/locker') ? 'active' : ''  %>">Kleedkamer</a>
+      <a href="./shop" class="nav-item <%= (path === '/shop') ? 'active' : ''  %>">Winkel</a>
+      <a href="./battle" class="nav-item <%= (path === '/battle') ? 'active' : 'green'  %>">Speel</a>
+    </nav>
+    <img id="pfp-icon" src="/images/Profile.webp" alt="Profile" />
+  </div>
+</header>
