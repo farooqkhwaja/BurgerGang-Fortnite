@@ -3,7 +3,34 @@
 <!-- Include nav -->
 <%- include('./partials/nav') %>
 
-
+<main class="main-battle">
+    <!-- Container -->
+  
+    <section class="battle-container">
+      <h1 class="battle-title">Battle Results</h1>
+  
+      <!-- Aantal gewonnen -->
+      <section class="battle-stats">
+        <article class="stat-box">
+          <header class="stat-label">Wins</header>
+          <output class="stat-value" id="wins-count">24</output>
+        </article>
+  
+        <!-- Aantal verloren -->
+        <article class="stat-box">
+          <header class="stat-label">Losses</header>
+          <output class="stat-value" id="losses-count">12</output>
+        </article>
+      </section>
+  
+      <!-- Win en verlies knoppen -->
+      <nav class="battle-buttons" aria-label="Battle outcome controls">
+        <button class="battle-button win-button">Win</button>
+        <button class="battle-button loss-button">Loss</button>
+      </nav>
+    </section>
+  </main>
+  
 
 <!-- Include window -->
 <%- include('./partials/window') %>
