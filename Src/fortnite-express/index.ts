@@ -1,6 +1,7 @@
 import express, { Express } from "express";
 import dotenv from "dotenv";
 import path from "path";
+import { Fortnite } from "./types"
 
 dotenv.config();
 
@@ -14,10 +15,36 @@ app.set("views", path.join(__dirname, "views"));
 
 app.set("port", process.env.PORT || 3000);
 
-app.use((req, res, next) => {
-    res.locals.path = req.path;
-    next();
-  });
+app.use(async (req, res, next) => {
+    try {
+        const response = await fetch("https://fortnite-api.com/v2/cosmetics/new")
+        const json : Fortnite = await response.json()
+
+        const collection = json.data.items.br
+
+        const skinsOnly = collection.filter((skin) => {
+            return skin.type.value === "outfit"
+        })
+
+        const weaponsOnly = collection.filter((weapon) => {
+            return weapon.type.value === "pickaxe"
+        })
+
+        const emotesOnly = collection.filter((emote) => {
+            return emote.type.value === "emote"
+        })
+
+        res.locals.skins = skinsOnly
+        res.locals.weapons = weaponsOnly
+        res.locals.emotes = emotesOnly
+        res.locals.path = req.path;
+    
+    next()
+
+    } catch(e) {
+        console.error(e)
+    }
+})
 
 app.get("/lobby", (req, res) => {
     res.render("lobby", {

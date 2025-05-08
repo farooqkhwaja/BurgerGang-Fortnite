@@ -7,12 +7,13 @@
   <!-- Personages -->
 
   <section class="locker-section">
-    <header class="section-title">Personages</header>
+    <header class="section-title">Outfits</header>
     <ul class="items-grid">
-      <% for (let i = 0; i < 12; i++) { %>
+      <% for (let i = 0; i < 20; i++) { %>
+        <% const skin = skins[i]; %>
       <li class="locker-item">
         <figure>
-          <img src="/images/farooq.png" alt="Costume" class="item-image" />
+          <img src="<%= skin.images.smallIcon %>" alt="Costume" class="item-image" />
           <figcaption class="item-actions">
             <img
               src="/images/star.webp"
@@ -37,9 +38,10 @@
     <header class="section-title">Wapens</header>
     <ul class="items-grid">
       <% for (let i = 0; i < 15; i++) { %>
+        <% const weapon = weapons[i]; %>
       <li class="locker-item">
         <figure>
-          <img src="/images/farooq.png" alt="Weapon" class="item-image" />
+          <img src="<%= weapon.images.smallIcon %>" alt="Weapon" class="item-image" />
           <figcaption class="item-actions">
             <img
               src="/images/star.webp"
@@ -59,9 +61,10 @@
     <header class="section-title">Dansjes</header>
     <ul class="items-grid">
       <% for (let i = 0; i < 15; i++) { %>
+        <% const emote = emotes[i]; %>
       <li class="locker-item">
         <figure>
-          <img src="/images/farooq.png" alt="Dance" class="item-image" />
+          <img src="<%= emote.images.smallIcon %>" alt="Dance" class="item-image" />
           <figcaption class="item-actions">
             <img
               src="/images/star.webp"
