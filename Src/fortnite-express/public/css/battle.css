@@ -1,4 +1,3 @@
-/* Algemene layout */
 body {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -6,7 +5,6 @@ body {
     color: #333;
 }
 
-/* Main battle section */
 .main-battle {
     display: flex;
     justify-content: center;
@@ -15,7 +13,6 @@ body {
     min-height: 80vh;
 }
 
-/* Container voor inhoud */
 .battle-container {
     background-color: rgba(15, 25, 35, 0.8);
     border: 3px solid var(--fortnite-blue);
@@ -27,7 +24,6 @@ body {
     text-align: center;
 }
 
-/* Titel */
 .battle-title {  
     color: var(--fortnite-yellow);
     font-size: 2rem;
@@ -35,7 +31,6 @@ body {
     color: #fdbb2d
 }
 
-/* Statistieken */
 .battle-stats {
     display: flex;
     justify-content: space-around;
@@ -69,7 +64,6 @@ body {
     color: red
 }
 
-/* Knoppen */
 .battle-buttons {
     display: flex;
     justify-content: center;

@@ -46,6 +46,20 @@ app.use(async (req, res, next) => {
     }
 })
 
+app.get("/", (req, res) => {
+    res.render("index", {
+        title: "Launch",
+        style: "index"
+    })
+});
+
+app.get("/login", (req, res) => {
+    res.render("login", {
+        title: "login",
+        style: "login"
+    })
+})
+
 app.get("/lobby", (req, res) => {
     res.render("lobby", {
         title: "Lobby",

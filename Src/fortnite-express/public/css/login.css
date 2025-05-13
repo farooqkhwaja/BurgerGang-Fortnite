@@ -1,0 +1,81 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Arial", sans-serif;
+  }
+  
+  body {
+    background: linear-gradient(135deg, #2b5876, #4e4376);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  
+  main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .form-container {
+    background-color: #1e1e2f;
+    padding: 30px;
+    border-radius: 8px;
+    width: 350px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  form {
+    display: none;
+    flex-direction: column;
+  }
+  
+  form.active {
+    display: flex;
+  }
+  
+  form input {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #333;
+    background-color: #2a2a3d;
+    color: white;
+  }
+  
+  form button {
+    background-color: #ffcc00;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: black;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+  
+  form button:hover {
+    background-color: #e6b800;
+  }
+  
+  p {
+    margin-top: 15px;
+    font-size: 14px;
+  }
+  
+  p span {
+    color: #ffcc00;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+  p span:hover {
+    color: #e6b800;
+  }
+  
