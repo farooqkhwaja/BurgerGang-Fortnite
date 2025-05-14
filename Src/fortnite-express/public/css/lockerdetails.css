@@ -1,91 +1,152 @@
 .main-locker {
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.locker-section {
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 40px;
+}
+
+.section-title {
+  color: var(--fortnite-yellow);
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 25px;
+  text-shadow: 3px 3px 0 var(--fortnite-dark);
+  letter-spacing: 2px;
+  position: relative;
+}
+
+.section-title::after {
+  content: "";
+  display: block;
+  width: 150px;
+  height: 3px;
+  background: var(--fortnite-blue);
+  margin: 10px auto;
+}
+
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 20px;
+}
+
+.locker-item {
+  background-color: rgba(15, 25, 35, 0.8);
+  border-radius: 15px;
+  padding: 15px;
+  border: 3px solid var(--fortnite-blue);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s;
+  position: relative;
+  aspect-ratio: 1/1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.locker-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
+  border-color: var(--fortnite-yellow);
+}
+
+.item-image {
+  border-radius: 10%;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  flex-grow: 1;
+}
+
+.item-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  gap: 10px;
+}
+
+.item-action {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  transition: all 0.3s;
+  object-fit: contain;
+}
+
+.item-action:hover {
+  transform: scale(1.2);
+}
+
+.star-icon {
+  color: var(--fortnite-yellow);
+}
+
+.blacklist-icon {
+  background-color: var(--fortnite-red);
+  border-radius: 30%;
+}
+
+.icon-form {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+}
+
+.locker-item:hover .item-action {
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+}
+
+.locker-item:hover .star-icon {
+  filter: drop-shadow(0 0 8px var(--fortnite-yellow));
+}
+
+.locker-item:hover .blacklist-icon {
+  filter: drop-shadow(0 0 8px var(--fortnite-red));
+}
+
+.icon-button:focus {
+  outline: 2px solid var(--fortnite-blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.cross:hover,
+.star-icon:hover {
+  transform: scale(1.2) rotate(135deg);
+}
+
+.blacklist-icon:hover {
+  transform: scale(1.2) rotate(360deg);
+  transition: transform 0.6s;
+}
+
+.locker-item.removing {
+  animation: fadeOut 0.3s forwards;
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: scale(0.8);
   }
-  
-  .locker-section {
-    width: 100%;
-    max-width: 1200px;
-    margin-bottom: 40px;
-  }
-  
-  .section-title {
-    color: var(--fortnite-yellow);
-    font-size: 2rem;
-    text-align: center;
-    margin-bottom: 25px;
-    text-shadow: 3px 3px 0 var(--fortnite-dark);
-    letter-spacing: 2px;
-    position: relative;
-  }
-  
-  .section-title::after {
-    content: "";
-    display: block;
-    width: 150px;
-    height: 3px;
-    background: var(--fortnite-blue);
-    margin: 10px auto;
-  }
-  
-  .items-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 20px;
-  }
-  
-  .locker-item {
-    background-color: rgba(15, 25, 35, 0.8);
-    border-radius: 15px;
-    padding: 15px;
-    border: 3px solid var(--fortnite-blue);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s;
-    position: relative;
-    aspect-ratio: 1/1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  
-  .locker-item:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
-    border-color: var(--fortnite-yellow);
-  }
-  
-  .item-image {
-    border-radius: 10%;
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    flex-grow: 1;
-  }
-  
-  .item-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-  }
-  
-  .item-action {
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-  
-  .item-action:hover {
-    transform: scale(1.2) rotate(10deg);
-  }
-  
-  .star-icon {
-    color: var(--fortnite-yellow);
-  }
-  
-  .blacklist-icon {
-    background-color: var(--fortnite-red);
-    border-radius: 30%;
-  }
+}
+
+.cross {
+  transform: rotate(45deg);
+}

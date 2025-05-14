@@ -6,7 +6,7 @@
     </div>
     <nav>
       <a href="./lobby" class="nav-item <%= (path === '/lobby') ? 'active' : ''  %>">Lobby</a>
-      <a href="./locker" class="nav-item <%= (path === '/locker') ? 'active' : ''  %>">Kleedkamer</a>
+      <a href="./locker" class="nav-item <%= (path === '/locker' || path === '/lockerdetails') ? 'active' : ''  %>">Kleedkamer</a>
       <a href="./shop" class="nav-item <%= (path === '/shop') ? 'active' : ''  %>">Winkel</a>
       <a href="./battle" class="nav-item <%= (path === '/battle') ? 'active' : 'green'  %>">Speel</a>
     </nav>
