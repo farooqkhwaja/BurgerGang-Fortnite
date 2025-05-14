@@ -4,31 +4,85 @@
 <%- include('./partials/nav') %>
 
 <main class="main-locker">
-  <!-- Personages -->
+  <!-- Favoriete lijst  -->
+
+  <% if (favorites && favorites.length > 0) { %>
+  <section class="locker-section">
+    <header class="section-title">Favorieten</header>
+    <ul class="items-grid">
+      <% favorites.forEach((item) => { %> <% if (item) { %>
+      <li class="locker-item">
+        <figure>
+          <img
+            src="<%= item.images?.smallIcon || item.images?.icon || '/images/default.png' %>"
+            alt="<%= item.name %>"
+            class="item-image"
+          />
+          <figcaption class="item-actions">
+            <form action="/remove-favorite" method="POST" class="icon-form">
+              <input type="hidden" name="itemId" value="<%= item.id %>" />
+              <button type="submit" class="icon-button">
+                <img
+                  src="/images/cross.png"
+                  alt="Remove favorite"
+                  class="item-action cross"
+                />
+              </button>
+            </form>
+          </figcaption>
+        </figure>
+      </li>
+      <% } %> <% }) %>
+    </ul>
+  </section>
+  <% } %>
+
+  <!-- Outfits -->
 
   <section class="locker-section">
     <header class="section-title">Outfits</header>
     <ul class="items-grid">
-      <% for (let i = 0; i < 20; i++) { %>
-        <% const skin = skins[i]; %>
+      <% skins.forEach((item) => { %>
       <li class="locker-item">
         <figure>
-          <img src="<%= skin.images.smallIcon %>" alt="Costume" class="item-image" />
+          <img
+            src="<%= item.images.smallIcon %>"
+            alt="Costume"
+            class="item-image"
+          />
           <figcaption class="item-actions">
-            <img
-              src="/images/star.webp"
-              alt="Favorite"
-              class="item-action star-icon"
-            />
-            <img
-              src="/images/blacklist_new.png"
-              alt="Blacklist"
-              class="item-action blacklist-icon"
-            />
+            <form action="/lockerdetails" method="POST" class="icon-form">
+              <input
+                type="hidden"
+                name="favorite"
+                value="<%= JSON.stringify(item) %>"
+              />
+              <button type="submit" class="icon-button">
+                <img
+                  src="/images/star.webp"
+                  alt="Favorite"
+                  class="item-action star-icon"
+                />
+              </button>
+            </form>
+            <form action="/lockerdetails" method="POST" class="icon-form">
+              <input
+                type="hidden"
+                name="blacklisted"
+                value="<%= JSON.stringify(item) %>"
+              />
+              <button type="submit" class="icon-button">
+                <img
+                  src="/images/blacklist_new.png"
+                  alt="Blacklist"
+                  class="item-action blacklist-icon"
+                />
+              </button>
+            </form>
           </figcaption>
         </figure>
       </li>
-      <% } %>
+      <% }) %>
     </ul>
   </section>
 
@@ -37,21 +91,33 @@
   <section class="locker-section">
     <header class="section-title">Wapens</header>
     <ul class="items-grid">
-      <% for (let i = 0; i < 15; i++) { %>
-        <% const weapon = weapons[i]; %>
+      <% weapons.forEach((item) => { %>
       <li class="locker-item">
         <figure>
-          <img src="<%= weapon.images.smallIcon %>" alt="Weapon" class="item-image" />
+          <img
+            src="<%= item.images.smallIcon %>"
+            alt="Costume"
+            class="item-image"
+          />
           <figcaption class="item-actions">
-            <img
-              src="/images/star.webp"
-              alt="Favorite"
-              class="item-action star-icon"
-            />
+            <form action="/lockerdetails" method="POST" class="icon-form">
+              <input
+                type="hidden"
+                name="favorite"
+                value="<%= JSON.stringify(item) %>"
+              />
+              <button type="submit" class="icon-button">
+                <img
+                  src="/images/star.webp"
+                  alt="Favorite"
+                  class="item-action star-icon"
+                />
+              </button>
+            </form>
           </figcaption>
         </figure>
       </li>
-      <% } %>
+      <% }) %>
     </ul>
   </section>
 
@@ -60,38 +126,68 @@
   <section class="locker-section">
     <header class="section-title">Dansjes</header>
     <ul class="items-grid">
-      <% for (let i = 0; i < 15; i++) { %>
-        <% const emote = emotes[i]; %>
+      <% emotes.forEach((item) => { %>
       <li class="locker-item">
         <figure>
-          <img src="<%= emote.images.smallIcon %>" alt="Dance" class="item-image" />
+          <img
+            src="<%= item.images.smallIcon %>"
+            alt="Costume"
+            class="item-image"
+          />
           <figcaption class="item-actions">
-            <img
-              src="/images/star.webp"
-              alt="Favorite"
-              class="item-action star-icon"
-            />
+            <form action="/lockerdetails" method="POST" class="icon-form">
+              <input
+                type="hidden"
+                name="favorite"
+                value="<%= JSON.stringify(item) %>"
+              />
+              <button type="submit" class="icon-button">
+                <img
+                  src="/images/star.webp"
+                  alt="Favorite"
+                  class="item-action star-icon"
+                />
+              </button>
+            </form>
           </figcaption>
         </figure>
       </li>
-      <% } %>
+      <% }) %>
     </ul>
   </section>
 
-  <!-- Zwarte lijst -->
+  <!-- Zwarte Lijst -->
 
+  <% if (blacklisted && blacklisted.length > 0) { %>
   <section class="locker-section">
-    <header class="section-title">Zwarte lijst</header>
+    <header class="section-title">Zwarte Lijst</header>
     <ul class="items-grid">
-      <% for (let i = 0; i < 15; i++) { %>
+      <% blacklisted.forEach((item) => { %> <% if (item) { %>
       <li class="locker-item">
         <figure>
-          <img src="/images/farooq.png" alt="Blacklisted" class="item-image" />
+          <img
+            src="<%= item.images?.smallIcon || item.images?.icon || '/images/default.png' %>"
+            alt="<%= item.name %>"
+            class="item-image"
+          />
+          <figcaption class="item-actions">
+            <form action="/remove-blacklisted" method="POST" class="icon-form">
+              <input type="hidden" name="itemId" value="<%= item.id %>" />
+              <button type="submit" class="icon-button">
+                <img
+                  src="/images/cross.png"
+                  alt="Remove from blacklist"
+                  class="item-action cross"
+                />
+              </button>
+            </form>
+          </figcaption>
         </figure>
       </li>
-      <% } %>
+      <% } %> <% }) %>
     </ul>
   </section>
+  <% } %>
 </main>
 
 <!-- Include window -->
