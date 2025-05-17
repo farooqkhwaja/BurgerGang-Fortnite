@@ -172,3 +172,67 @@
     transform: rotate(360deg);
   }
 }
+ /* ===================== Phone version media query ===================== */
+ 
+@media (max-width: 768px) {
+  .main-lobby {
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+  }
+
+  .news-side,
+  .stats-side {
+    width: 100%;
+    padding: 10px 5px;
+  }
+
+  .character-display {
+    order: -1;
+    padding: 10px 0;
+  }
+
+  .character-container {
+    width: 200px;
+    height: 300px;
+  }
+
+  .character {
+    height: 90%;
+  }
+
+  .character-name {
+    font-size: 1.2rem;
+    padding: 5px 15px;
+    letter-spacing: 1px;
+  }
+
+  .play-button {
+    font-size: 1.5rem;
+    padding: 15px 40px;
+    margin-top: 15px;
+  }
+
+  .stats-card,
+  .news-card {
+    padding: 15px;
+  }
+
+  .stats-title,
+  .news-title {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+
+  .stat-item,
+  .news-body {
+    font-size: 0.95rem;
+  }
+
+  .news-image {
+    max-height: 180px;
+    object-fit: cover;
+  }
+
+
+}

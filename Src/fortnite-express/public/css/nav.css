@@ -143,3 +143,56 @@ header > .user-info {
 .nav-item:hover {
   transform: translateY(-3px);
 }
+
+@media (max-width: 768px) {
+  header > .user-info {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 15px;
+    gap: 15px;
+    position: relative;
+  }
+
+  .v-bucks {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 3px 6px;
+    z-index: 10;
+  }
+
+  #pfp-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 45px;
+    height: 45px;
+    z-index: 10;
+  }
+
+  nav {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 10px;
+    width: 100%;
+    justify-content: center;
+    margin-top: 70px; 
+    padding: 0 10px;
+  }
+
+  .nav-item {
+    font-size: 1.2rem;
+    padding: 12px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-item {
+    font-size: 1rem;
+  }
+
+  .logo {
+    font-size: 2rem;
+  }
+}

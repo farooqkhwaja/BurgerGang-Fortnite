@@ -154,4 +154,61 @@
   #rotate-button img {
     transform: rotate(180deg);
   }
+
+
+ @media (max-width: 768px) {
+  .locker-container {
+    flex-direction: column;
+    align-items: center;
+  }
   
+  .items-column {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    order: 2; 
+    width: 100%;
+    margin-top: 20px;
+  }
+  .slot-title{
+    font-size: 1rem;
+  }
+  .item-slot {
+    width: 45%;
+    min-width: 130px;
+    text-align: center;
+  }
+
+  .character-container {
+    order: 1;
+    text-align: center;
+    width: 100%;
+  }
+
+  .character-container .character {
+    width: 50%;
+    max-width: 100px;
+    height: auto;
+  }
+  .character-name{
+    font-size: 1rem;
+  }
+  .utility-buttons {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .action-buttons {
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .action-button {
+    font-size: 1rem;
+    padding: 8px 16px;
+  }
+}
