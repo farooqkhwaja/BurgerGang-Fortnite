@@ -28,9 +28,10 @@
 
   <section class="character-container">
     <!-- Personage -->
-
-    <img class="character" src="/images/Full character.png" alt="Character" />
-    <p class="character-name">John_Pork_2012</p>
+    <div class="character-wrapper">
+      <img class="character" src="<%= currentOutfit?.images?.featured || currentOutfit?.images?.icon || '/images/Full character.png' %>" alt="<%= currentOutfit?.name || 'Character' %>" />
+    </div>
+    <p class="character-name"><%= currentOutfit?.name || 'John_Pork_2012' %></p>
 
     <!-- Bovenste knopjes -->
 
@@ -74,14 +75,14 @@
       <p class="item-name"><%= currentEmote?.name || 'Boogie Down' %></p>
     </a>
 
-    <a href="./lockerdetails?type=glider" class="item-slot">
-      <header class="slot-title">Glider</header>
+    <a href="./lockerdetails" class="item-slot">
+      <header class="slot-title">Backpack</header>
       <img
         class="item-image"
-        src="/images/One_Shot_-_Glider_-_Fortnite.webp"
-        alt="Glider"
+        src="<%= currentBackpack?.images?.smallIcon %>"
+        alt="Backpack"
       />
-      <p class="item-name">Gewone Glider</p>
+      <p class="item-name"><%= currentBackpack?.name || 'Gewone Backpack' %></p>
     </a>
   </aside>
 </main>

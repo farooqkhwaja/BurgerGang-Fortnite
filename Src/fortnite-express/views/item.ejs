@@ -15,8 +15,8 @@
       <div class="item-info">
         <h1 class="item-title"><%= item.name %></h1>
         <div class="item-meta">
-          <p class="item-type"><span>Type:</span> <%= item.type?.value || 'Unknown' %></p>
-          <p class="item-rarity <%= item.rarity?.value?.toLowerCase() || 'common' %>"><span>Rarity:</span> <%= item.rarity?.value || 'Common' %></p>
+          <p class="item-type"><span>Type:</span> <%= item.type?.displayValue || item.type?.value || 'Unknown' %></p>
+          <p class="item-rarity <%= item.rarity?.value?.toLowerCase() || 'common' %>"><span>Rarity:</span> <%= item.rarity?.displayValue || item.rarity?.value || 'Common' %></p>
           <% if (item.added) { %>
             <p class="item-added"><span>Added:</span> <%= new Date(item.added).toLocaleDateString() %></p>
           <% } %>
@@ -74,6 +74,17 @@
         
         <div class="item-actions">
           <% if (favorites && favorites.some(fav => fav.id === item.id)) { %>
+            <form action="/equip-item" method="POST" class="icon-form">
+              <input type="hidden" name="itemId" value="<%= item.id %>" />
+              <input type="hidden" name="itemType" value="<%= item.type?.value %>" />
+              <button type="submit" class="icon-button equip-button <%= item.type?.value === 'outfit' ? (currentOutfitId === item.id ? 'equipped' : '') : 
+                                                                    item.type?.value === 'pickaxe' ? (currentWeaponId === item.id ? 'equipped' : '') :
+                                                                    item.type?.value === 'emote' ? (currentEmoteId === item.id ? 'equipped' : '') :
+                                                                    item.type?.value === 'backpack' ? (currentBackpackId === item.id ? 'equipped' : '') : '' %>">
+                <img src="/images/equip.png" alt="Equip item" class="item-action equip-icon" />
+              </button>
+            </form>
+
             <form action="/remove-favorite" method="POST" class="icon-form">
               <input type="hidden" name="itemId" value="<%= item.id %>" />
               <button type="submit" class="icon-button">
@@ -93,7 +104,8 @@
               <input type="hidden" name="itemType" value="<%= item.type?.value %>" />
               <button type="submit" class="icon-button equip-button <%= item.type?.value === 'outfit' ? (currentOutfitId === item.id ? 'equipped' : '') : 
                                                                     item.type?.value === 'pickaxe' ? (currentWeaponId === item.id ? 'equipped' : '') :
-                                                                    item.type?.value === 'emote' ? (currentEmoteId === item.id ? 'equipped' : '') : '' %>">
+                                                                    item.type?.value === 'emote' ? (currentEmoteId === item.id ? 'equipped' : '') :
+                                                                    item.type?.value === 'backpack' ? (currentBackpackId === item.id ? 'equipped' : '') : '' %>">
                 <img src="/images/equip.png" alt="Equip item" class="item-action equip-icon" />
               </button>
             </form>
@@ -103,12 +115,14 @@
                 <img src="/images/star.webp" alt="Favorite" class="item-action star-icon" />
               </button>
             </form>
+            <% if (item.type.value === 'outfit') { %>
             <form action="/lockerdetails" method="POST" class="icon-form">
               <input type="hidden" name="blacklisted" value="<%= JSON.stringify(item) %>" />
               <button type="submit" class="icon-button">
                 <img src="/images/blacklist_new.png" alt="Blacklist" class="item-action blacklist-icon" />
               </button>
             </form>
+            <% } %>
           <% } %>
         </div>
       </div>

@@ -157,6 +157,22 @@ body {
   animation: pulse 2s infinite;
 }
 
+.shop-item-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.shop-item-link:hover {
+  transform: scale(1.02);
+}
+
+.shop-item-link:active {
+  transform: scale(0.98);
+} 
+
 @keyframes pulse {
   0% {
     box-shadow: 0 0 15px var(--fortnite-green);

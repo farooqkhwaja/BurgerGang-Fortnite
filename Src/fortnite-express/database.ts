@@ -26,13 +26,6 @@ async function seed() {
         let cosmetics: any[] = [];
         let news: any[] = [];
         let shop: any[] = [];
-        let boughtItems: any[] = [];
-        let favorites: any[] = [];
-        let blacklisted: any[] = [];
-        let equippedOutfit: any[] = [];
-        let equippedWeapon: any[] = [];
-        let equippedEmote: any[] = [];
-
 
         const cosmeticsResponse = await fetch("https://fortnite-api.com/v2/cosmetics/new");
         const cosmeticsJson: Fortnite = await cosmeticsResponse.json();
@@ -56,6 +49,7 @@ async function seed() {
         if ((await cosmeticsCollection.countDocuments()) === 0) {
             await cosmeticsCollection.insertMany(cosmetics);
             console.log("Updated cosmetics collection");
+            
         }
         if ((await newsCollection.countDocuments()) === 0) {
             await newsCollection.insertMany(news);
@@ -65,6 +59,8 @@ async function seed() {
             await shopCollection.insertMany(shop);
             console.log("Updated shop collection");
         }
+
+        
 
     } catch (error) {
         console.error("Error seeding database:", error);

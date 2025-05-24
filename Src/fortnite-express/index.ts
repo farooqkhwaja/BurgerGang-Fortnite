@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import path from "path";
 import { Fortnite, MOTD, News, Shop, Entry } from "./types"
 import { connect, cosmeticsCollection, newsCollection, shopCollection } from "./database";
+import { Request, Response } from 'express';
 
 dotenv.config();
 
@@ -23,15 +24,51 @@ let losses: number = 0
 app.use(async (req, res, next) => {
     try {
         const cosmetics = await cosmeticsCollection.find({}).toArray();
-        const currentCosmetic = cosmetics.find(item => item.id === currentOutfitId);
+
+        // If no outfit is equipped, equip the first available one
+        if (!currentOutfit) {
+            const firstOutfit = cosmetics.find(item => item.type.value === "outfit");
+            if (firstOutfit) {
+                currentOutfit = firstOutfit;
+                currentOutfitId = firstOutfit.id;
+            }
+        }
+
+        // If no weapon is equipped, equip the first available one
+        if (!currentWeapon) {
+            const firstWeapon = cosmetics.find(item => item.type.value === "pickaxe");
+            if (firstWeapon) {
+                currentWeapon = firstWeapon;
+                currentWeaponId = firstWeapon.id;
+            }
+        }
+
+        // If no emote is equipped, equip the first available one
+        if (!currentEmote) {
+            const firstEmote = cosmetics.find(item => item.type.value === "emote");
+            if (firstEmote) {
+                currentEmote = firstEmote;
+                currentEmoteId = firstEmote.id;
+            }
+        }
+
+        // If no backpack is equipped, equip the first available one
+        if (!currentBackpack) {
+            const firstBackpack = cosmetics.find(item => item.type.value === "backpack");
+            if (firstBackpack) {
+                currentBackpack = firstBackpack;
+                currentBackpackId = firstBackpack.id;
+            }
+        }
 
         res.locals.wins = wins
         res.locals.losses = losses
         res.locals.vBucks = vBucks
         res.locals.path = req.path
-        res.locals.currentOutfit = currentCosmetic
+        res.locals.currentOutfit = currentOutfit
         res.locals.currentWeapon = currentWeapon
         res.locals.currentEmote = currentEmote
+        res.locals.currentBackpack = currentBackpack
     } catch (e) {
         console.error(e)
     }
@@ -52,34 +89,9 @@ app.get("/login", (req, res) => {
     })
 })
 
-app.get("/lobby", async (req, res) => {
-    try {
-        const newsItems = await newsCollection.find({}).limit(5).toArray();
-
-        res.render("lobby", {
-            title: "Lobby",
-            style: "lobby",
-            newsItems: newsItems
-        })
-    } catch (e) {
-        console.error(e)
-        res.render("lobby", {
-            title: "Lobby",
-            style: "lobby",
-            newsItems: []
-        })
-    }
-});
-
-app.get("/locker", (req, res) => {
-    res.render("locker", {
-        title: "Locker",
-        style: "locker"
-    })
-});
-
 let favorites: any[] = []
 let blacklisted: any[] = []
+
 
 let currentOutfit: any = null;
 let currentOutfitId: string | null = null;
@@ -87,6 +99,8 @@ let currentEmote: any = null;
 let currentEmoteId: string | null = null;
 let currentWeapon: any = null;
 let currentWeaponId: string | null = null;
+let currentBackpack: any = null;
+let currentBackpackId: string | null = null;
 
 app.get("/lockerdetails", async (req, res) => {
     try {
@@ -114,12 +128,14 @@ app.get("/lockerdetails", async (req, res) => {
             skins: getAvailableItems("outfit").slice(0, 15),
             weapons: getAvailableItems("pickaxe").slice(0, 15),
             emotes: getAvailableItems("emote").slice(0, 15),
+            backpack: getAvailableItems("backpack").slice(0, 15),
             favorites: favorites,
             blacklisted: blacklisted,
             boughtItems: boughtItems,
             currentEmoteId: currentEmoteId,
             currentOutfitId: currentOutfitId,
-            currentWeaponId: currentWeaponId
+            currentWeaponId: currentWeaponId,
+            currentBackpackId: currentBackpackId
         });
     } catch (e) {
         console.error(e);
@@ -239,7 +255,7 @@ app.post("/battle", (req, res) => {
 
     if (win) {
         wins++
-        vBucks += 100
+        vBucks += 500
     }
     if (loss) {
         losses++
@@ -273,6 +289,10 @@ app.post("/equip-item", async (req, res) => {
             case "emote":
                 currentEmote = item;
                 currentEmoteId = item.id;
+                break;
+            case "backpack":
+                currentBackpack = item;
+                currentBackpackId = item.id;
                 break;
             default:
                 return res.status(400).send("Invalid item type");
@@ -329,7 +349,8 @@ app.get("/item/:id", async (req, res) => {
                 blacklisted: blacklisted,
                 currentOutfitId: currentOutfitId,
                 currentWeaponId: currentWeaponId,
-                currentEmoteId: currentEmoteId
+                currentEmoteId: currentEmoteId,
+                currentBackpackId: currentBackpackId
             });
         }
         res.render("item", {
@@ -341,7 +362,8 @@ app.get("/item/:id", async (req, res) => {
             blacklisted: blacklisted,
             currentOutfitId: currentOutfitId,
             currentWeaponId: currentWeaponId,
-            currentEmoteId: currentEmoteId
+            currentEmoteId: currentEmoteId,
+            currentBackpackId: currentBackpackId
         });
     } catch (e) {
         console.error(e);
@@ -353,9 +375,51 @@ app.get("/item/:id", async (req, res) => {
             blacklisted: blacklisted,
             currentOutfitId: currentOutfitId,
             currentWeaponId: currentWeaponId,
-            currentEmoteId: currentEmoteId
+            currentEmoteId: currentEmoteId,
+            currentBackpackId: currentBackpackId
         });
     }
+});
+
+app.get("/lobby", async (req: Request, res: Response) => {
+    try {
+        const newsItems = await newsCollection.find({}).toArray();
+        res.render("lobby", {
+            title: "Lobby",
+            style: "lobby",
+            wins: 0,
+            losses: 0,
+            newsItems: newsItems,
+            currentOutfit: currentOutfit || null,
+            currentOutfitId: currentOutfitId || null
+        });
+    } catch (e) {
+        console.error(e);
+        res.render("lobby", {
+            title: "Lobby",
+            style: "lobby",
+            wins: 0,
+            losses: 0,
+            newsItems: [],
+            currentOutfit: currentOutfit || null,
+            currentOutfitId: currentOutfitId || null
+        });
+    }
+});
+
+app.get("/locker", (req: Request, res: Response) => {
+    res.render("locker", {
+        title: "Locker",
+        style: "locker",
+        currentOutfit: currentOutfit || null,
+        currentOutfitId: currentOutfitId || null,
+        currentWeapon: currentWeapon || null,
+        currentWeaponId: currentWeaponId || null,
+        currentEmote: currentEmote || null,
+        currentEmoteId: currentEmoteId || null,
+        currentBackpack: currentBackpack || null,
+        currentBackpackId: currentBackpackId || null
+    });
 });
 
 app.listen(app.get("port"), async () => {

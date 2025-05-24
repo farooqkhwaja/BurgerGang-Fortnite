@@ -13,7 +13,8 @@
       <li
         class="locker-item <%= item.type.value === 'outfit' ? (currentOutfitId === item.id ? 'selected-outfit' : '') : 
                               item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'selected-outfit' : '') :
-                              item.type.value === 'emote' ? (currentEmoteId === item.id ? 'selected-outfit' : '') : '' %>"
+                              item.type.value === 'emote' ? (currentEmoteId === item.id ? 'selected-outfit' : '') :
+                              item.type.value === 'backpack' ? (currentBackpackId === item.id ? 'selected-outfit' : '') : '' %>"
       >
         <a href="/item/<%= item.id %>" style="text-decoration:none;color:inherit;display:block">
           <figure>
@@ -28,7 +29,8 @@
                 <input type="hidden" name="itemType" value="<%= item.type.value %>" />
                 <button type="submit" class="icon-button equip-button <%= item.type.value === 'outfit' ? (currentOutfitId === item.id ? 'equipped' : '') : 
                                                                       item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'equipped' : '') :
-                                                                      item.type.value === 'emote' ? (currentEmoteId === item.id ? 'equipped' : '') : '' %>">
+                                                                      item.type.value === 'emote' ? (currentEmoteId === item.id ? 'equipped' : '') :
+                                                                      item.type.value === 'backpack' ? (currentBackpackId === item.id ? 'equipped' : '') : '' %>">
                   <img
                     src="/images/equip.png"
                     alt="Equip item"
@@ -64,7 +66,8 @@
       <li
         class="locker-item <%= item.type.value === 'outfit' ? (currentOutfitId === item.id ? 'selected-outfit' : '') : 
                               item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'selected-outfit' : '') :
-                              item.type.value === 'emote' ? (currentEmoteId === item.id ? 'selected-outfit' : '') : '' %>"
+                              item.type.value === 'emote' ? (currentEmoteId === item.id ? 'selected-outfit' : '') :
+                              item.type.value === 'backpack' ? (currentBackpackId === item.id ? 'selected-outfit' : '') : '' %>"
       >
         <a href="/item/<%= item.id %>" style="text-decoration:none;color:inherit;display:block">
           <figure>
@@ -79,7 +82,8 @@
                 <input type="hidden" name="itemType" value="<%= item.type.value %>" />
                 <button type="submit" class="icon-button equip-button <%= item.type.value === 'outfit' ? (currentOutfitId === item.id ? 'equipped' : '') : 
                                                                       item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'equipped' : '') :
-                                                                      item.type.value === 'emote' ? (currentEmoteId === item.id ? 'equipped' : '') : '' %>">
+                                                                      item.type.value === 'emote' ? (currentEmoteId === item.id ? 'equipped' : '') :
+                                                                      item.type.value === 'backpack' ? (currentBackpackId === item.id ? 'equipped' : '') : '' %>">
                   <img
                     src="/images/equip.png"
                     alt="Equip item"
@@ -132,7 +136,8 @@
       <li
         class="locker-item <%= item.type.value === 'outfit' ? (currentOutfitId === item.id ? 'selected-outfit' : '') : 
                               item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'selected-outfit' : '') :
-                              item.type.value === 'emote' ? (currentEmoteId === item.id ? 'selected-outfit' : '') : '' %>"
+                              item.type.value === 'emote' ? (currentEmoteId === item.id ? 'selected-outfit' : '') :
+                              item.type.value === 'backpack' ? (currentBackpackId === item.id ? 'selected-outfit' : '') : '' %>"
       >
         <a href="/item/<%= item.id %>" style="text-decoration:none;color:inherit;display:block">
           <figure>
@@ -147,7 +152,8 @@
                 <input type="hidden" name="itemType" value="outfit" />
                 <button type="submit" class="icon-button equip-button <%= item.type.value === 'outfit' ? (currentOutfitId === item.id ? 'equipped' : '') : 
                                                                       item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'equipped' : '') :
-                                                                      item.type.value === 'emote' ? (currentEmoteId === item.id ? 'equipped' : '') : '' %>">
+                                                                      item.type.value === 'emote' ? (currentEmoteId === item.id ? 'equipped' : '') :
+                                                                      item.type.value === 'backpack' ? (currentBackpackId === item.id ? 'equipped' : '') : '' %>">
                   <img
                     src="/images/equip.png"
                     alt="Equip outfit"
@@ -199,7 +205,8 @@
       <li
         class="locker-item <%= item.type.value === 'outfit' ? (currentOutfitId === item.id ? 'selected-outfit' : '') : 
                               item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'selected-outfit' : '') :
-                              item.type.value === 'emote' ? (currentEmoteId === item.id ? 'selected-outfit' : '') : '' %>"
+                              item.type.value === 'emote' ? (currentEmoteId === item.id ? 'selected-outfit' : '') :
+                              item.type.value === 'backpack' ? (currentBackpackId === item.id ? 'selected-outfit' : '') : '' %>"
       >
         <a href="/item/<%= item.id %>" style="text-decoration:none;color:inherit;display:block">
           <figure>
@@ -214,7 +221,8 @@
                 <input type="hidden" name="itemType" value="pickaxe" />
                 <button type="submit" class="icon-button equip-button <%= item.type.value === 'outfit' ? (currentOutfitId === item.id ? 'equipped' : '') : 
                                                                       item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'equipped' : '') :
-                                                                      item.type.value === 'emote' ? (currentEmoteId === item.id ? 'equipped' : '') : '' %>">
+                                                                      item.type.value === 'emote' ? (currentEmoteId === item.id ? 'equipped' : '') :
+                                                                      item.type.value === 'backpack' ? (currentBackpackId === item.id ? 'equipped' : '') : '' %>">
                   <img
                     src="/images/equip.png"
                     alt="Equip weapon"
@@ -244,6 +252,61 @@
     </ul>
   </section>
 
+<!-- Backpacks -->
+<section class="locker-section">
+  <header class="section-title">Rugzakkern</header>
+  <ul class="items-grid">
+    <% backpack.forEach((item) => { %>
+    <li
+      class="locker-item <%= item.type.value === 'outfit' ? (currentOutfitId === item.id ? 'selected-outfit' : '') : 
+                            item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'selected-outfit' : '') :
+                            item.type.value === 'emote' ? (currentEmoteId === item.id ? 'selected-outfit' : '') :
+                            item.type.value === 'backpack' ? (currentBackpackId === item.id ? 'selected-outfit' : '') : '' %>"
+    >
+      <a href="/item/<%= item.id %>" style="text-decoration:none;color:inherit;display:block">
+        <figure>
+          <img
+            src="<%= item.images?.smallIcon || item.images?.icon || '/images/default.png' %>"
+            alt="<%= item.name %>"
+            class="item-image"
+          />
+          <figcaption class="item-actions">
+            <form action="/equip-item" method="POST" class="icon-form">
+              <input type="hidden" name="itemId" value="<%= item.id %>" />
+              <input type="hidden" name="itemType" value="<%= item.type.value %>" />
+              <button type="submit" class="icon-button equip-button <%= item.type.value === 'outfit' ? (currentOutfitId === item.id ? 'equipped' : '') : 
+                                                                    item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'equipped' : '') :
+                                                                    item.type.value === 'emote' ? (currentEmoteId === item.id ? 'equipped' : '') :
+                                                                    item.type.value === 'backpack' ? (currentBackpackId === item.id ? 'equipped' : '') : '' %>">
+                <img
+                  src="/images/equip.png"
+                  alt="Equip item"
+                  class="item-action equip-icon"
+                />
+              </button>
+            </form>
+            <form action="/lockerdetails" method="POST" class="icon-form">
+              <input
+                type="hidden"
+                name="favorite"
+                value="<%= JSON.stringify(item) %>"
+              />
+              <button type="submit" class="icon-button">
+                <img
+                  src="/images/star.webp"
+                  alt="Favorite"
+                  class="item-action star-icon"
+                />
+              </button>
+            </form>
+          </figcaption>
+        </figure>
+      </a>
+    </li>
+    <% }) %>
+  </ul>
+</section>
+
   <!-- Dansjes -->
   <section class="locker-section">
     <header class="section-title">Dansjes</header>
@@ -252,7 +315,8 @@
       <li
         class="locker-item <%= item.type.value === 'outfit' ? (currentOutfitId === item.id ? 'selected-outfit' : '') : 
                               item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'selected-outfit' : '') :
-                              item.type.value === 'emote' ? (currentEmoteId === item.id ? 'selected-outfit' : '') : '' %>"
+                              item.type.value === 'emote' ? (currentEmoteId === item.id ? 'selected-outfit' : '') :
+                              item.type.value === 'backpack' ? (currentBackpackId === item.id ? 'selected-outfit' : '') : '' %>"
       >
         <a href="/item/<%= item.id %>" style="text-decoration:none;color:inherit;display:block">
           <figure>
@@ -267,7 +331,8 @@
                 <input type="hidden" name="itemType" value="emote" />
                 <button type="submit" class="icon-button equip-button <%= item.type.value === 'outfit' ? (currentOutfitId === item.id ? 'equipped' : '') : 
                                                                       item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'equipped' : '') :
-                                                                      item.type.value === 'emote' ? (currentEmoteId === item.id ? 'equipped' : '') : '' %>">
+                                                                      item.type.value === 'emote' ? (currentEmoteId === item.id ? 'equipped' : '') :
+                                                                      item.type.value === 'backpack' ? (currentBackpackId === item.id ? 'equipped' : '') : '' %>">
                   <img
                     src="/images/equip.png"
                     alt="Equip emote"
