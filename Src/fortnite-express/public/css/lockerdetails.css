@@ -108,6 +108,11 @@
   display: flex;
 }
 
+.locker-item:hover {
+  box-shadow: 0 0 15px 5px rgba(255, 215, 0, 1);
+  border: 1px solid rgba(255, 230, 80, 0.6);
+}
+
 .locker-item:hover .item-action {
   filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
 }
@@ -128,7 +133,12 @@
 
 .cross:hover,
 .star-icon:hover {
-  transform: scale(1.2) rotate(135deg);
+  transform: scale(1.2) rotate(180deg);
+}
+
+.equip-icon:hover {
+  transform: scale(1.2) rotate(360deg);
+  transition: transform 0.6s;
 }
 
 .blacklist-icon:hover {
@@ -147,6 +157,109 @@
   }
 }
 
-.cross {
-  transform: rotate(45deg);
+.selected-outfit {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.8) !important;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.selected-outfit::after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border: 2px solid white;
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+.outfit-form {
+  display: contents;
+}
+
+.outfit-button {
+  background: none;
+  border: none;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.equip-button.equipped {
+  background-color: var(--fortnite-green);
+  border-radius: 50%;
+  padding: 5px;
+  box-shadow: 0 0 15px var(--fortnite-green);
+  animation: pulse 2s infinite;
+  position: relative;
+  z-index: 2;
+}
+
+.equip-button.equipped img {
+  filter: brightness(1.2) drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 15px var(--fortnite-green);
+  }
+  50% {
+    box-shadow: 0 0 25px var(--fortnite-green);
+  }
+  100% {
+    box-shadow: 0 0 15px var(--fortnite-green);
+  }
+}
+
+.locker-item.selected-outfit {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px 10px rgba(92, 184, 92, 0.6) !important;
+  border: 3px solid var(--fortnite-green);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.locker-item.selected-outfit::before {
+  content: "EQUIPPED";
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--fortnite-green);
+  color: white;
+  padding: 5px 15px;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  animation: float 2s infinite;
+  z-index: 3;
+}
+
+.locker-item.selected-outfit::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border: 3px solid var(--fortnite-green);
+  border-radius: 15px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes float {
+  0% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-5px);
+  }
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
 }

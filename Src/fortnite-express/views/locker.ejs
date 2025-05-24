@@ -9,18 +9,18 @@
   <aside class="items-column">
     <a href="./lockerdetails?type=character" class="item-slot">
       <header class="slot-title">Personage</header>
-      <img class="item-image" src="/images/Profile.webp" alt="Character" />
-      <p class="item-name">Astronaut</p>
+      <img class="item-image" src="<%= currentOutfit?.images?.smallIcon || '/images/Profile.webp' %>" alt="Character" />
+      <p class="item-name"><%= currentOutfit?.name || 'Astronaut' %></p>
     </a>
 
     <a href="./lockerdetails?type=pickaxe" class="item-slot">
       <header class="slot-title">Bijl</header>
       <img
         class="item-image"
-        src="/images/Harvesting Tool Locker Graphic.PNG"
+        src="<%= currentWeapon?.images?.smallIcon || '/images/Harvesting Tool Locker Graphic.PNG' %>"
         alt="Pickaxe"
       />
-      <p class="item-name">Gewone Bijl</p>
+      <p class="item-name"><%= currentWeapon?.name || 'Gewone Bijl' %></p>
     </a>
   </aside>
 
@@ -70,8 +70,8 @@
   <aside class="items-column">
     <a href="./lockerdetails?type=emote" class="item-slot">
       <header class="slot-title">Emote</header>
-      <img class="item-image" src="/images/boogiedown.webp" alt="Emote" />
-      <p class="item-name">Boogie Down</p>
+      <img class="item-image" src="<%= currentEmote?.images?.smallIcon || '/images/boogiedown.webp' %>" alt="Emote" />
+      <p class="item-name"><%= currentEmote?.name || 'Boogie Down' %></p>
     </a>
 
     <a href="./lockerdetails?type=glider" class="item-slot">

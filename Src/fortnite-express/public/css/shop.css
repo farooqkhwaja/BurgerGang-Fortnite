@@ -1,102 +1,132 @@
 body {
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #1e1e2f;
-    color: #f9f9f9;
-  }
-  
-  .shop-container {
-    padding: 2rem;
-  }
-  
-  .featured-banner {
-    background: linear-gradient(90deg, #ff6b6b, #ffa801);
-    color: #fff;
-    text-align: center;
-    padding: 1rem;
-    font-size: 1.25rem;
-    border-radius: 0.75rem;
-    margin-bottom: 2rem;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-  }
-  
-  .countdown {
-    display: block;
-    font-weight: bold;
-    margin-top: 0.5rem;
-  }
-  
-  .shop-items {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.5rem;
-  }
-  
-  .shop-item {
-    background-color: #2c2c3e;
-    border-radius: 1rem;
-    overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.2s;
-  }
-  
-  .shop-item:hover {
-    transform: scale(1.03);
-  }
-  
-  .item-image-container {
-    width: 100%;
-    height: 200px;
-    overflow: hidden;
-    background-color: #1a1a2e;
-  }
-  
-  .shop-item-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .shop-item-details {
-    padding: 1rem;
-    text-align: center;
-  }
-  
-  .shop-item-name {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-    color: #ffd32a;
-  }
-  
-  .shop-item-price {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    font-weight: bold;
-    color: #f1f2f6;
-    margin-bottom: 1rem;
-  }
-  
-  .shop-item-price img {
-    width: 20px;
-    height: 20px;
-  }
-  
-  .shop-item-button {
-    background-color: #0be881;
-    color: #000;
-    border: none;
-    padding: 0.5rem 1.5rem;
-    font-size: 1rem;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .shop-item-button:hover {
-    background-color: #05c46b;
-  }
-  
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #1e1e2f;
+  color: #f9f9f9;
+}
+
+.shop-container {
+  padding: 2rem;
+}
+
+.featured-banner {
+  background: linear-gradient(90deg, #ff6b6b, #ffa801);
+  color: #fff;
+  text-align: center;
+  padding: 1rem;
+  font-size: 1.25rem;
+  border-radius: 0.75rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.countdown {
+  display: block;
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+
+.shop-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.shop-item {
+  background-color: #2c2c3e;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s;
+}
+
+.shop-item:hover {
+  transform: scale(1.03);
+}
+
+.item-image-container {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background-color: #1a1a2e;
+}
+
+.shop-item-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.shop-item-details {
+  padding: 1rem;
+  text-align: center;
+}
+
+.shop-item-name {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #ffd32a;
+}
+
+.shop-item-price {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: bold;
+  color: #f1f2f6;
+  margin-bottom: 1rem;
+}
+
+.shop-item-price img {
+  width: 20px;
+  height: 20px;
+}
+
+.shop-item-button {
+  background-color: #0be881;
+  color: #000;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.shop-item-button:hover {
+  background-color: #05c46b;
+}
+
+.shop-item.bought {
+  opacity: 0.7;
+  border-color: var(--fortnite-green);
+}
+
+.owned-button {
+  background-color: var(--fortnite-green);
+}
+
+.rarity-common {
+  box-shadow: 0 0 10px 2px rgba(179, 179, 179, 0.7);
+}
+.rarity-uncommon {
+  box-shadow: 0 0 10px 2px rgba(94, 199, 94, 0.7);
+}
+.rarity-rare {
+  box-shadow: 0 0 10px 2px rgba(73, 172, 235, 0.7);
+}
+.rarity-epic {
+  box-shadow: 0 0 10px 2px rgba(177, 91, 226, 0.7);
+}
+.rarity-legendary {
+  box-shadow: 0 0 10px 2px rgba(238, 162, 54, 0.7);
+}
+.rarity-mythic {
+  box-shadow: 0 0 10px 2px rgba(238, 102, 54, 0.7);
+}
+.rarity-exotic {
+  box-shadow: 0 0 10px 2px rgba(255, 215, 0, 0.7);
+}

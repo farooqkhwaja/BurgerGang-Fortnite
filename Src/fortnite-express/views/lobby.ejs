@@ -14,15 +14,21 @@
       <ul class="stat-list">
         <li class="stat-item">
           <label>Wins:</label>
-          <output class="stat-value">24</output>
+          <output class="stat-value"><%= wins %></output>
         </li>
         <li class="stat-item">
           <label>Losses:</label>
-          <output class="stat-value">12</output>
+          <output class="stat-value"><%= losses %></output>
         </li>
         <li class="stat-item">
           <label>K/D Ratio:</label>
-          <output class="stat-value">2.0</output>
+          <% if (losses === 0) { %>
+          <output class="stat-value"
+            ><%= wins > 0 ? wins.toFixed(2) : "0.00" %></output
+          >
+          <% } else { %>
+          <output class="stat-value"><%= (wins/losses).toFixed(2) %></output>
+          <% } %>
         </li>
       </ul>
     </article>
@@ -64,19 +70,21 @@
     <article class="news-card">
       <header class="news-title">NIEUWS</header>
       <section id="news-content">
-        <% if (newsItems.length > 0) { %>
-            <% newsItems.forEach((item) => { %>
-                <section class="news-item">
-                  <h3><%= item.title %></h3>
-                  <% if (item.image) { %>
-                    <img src="<%= item.image %>" class="news-image" alt="<%= item.title %>">
-                  <% } %>
-                  <p class="news-body"><%= item.body %></p>
-                </section>
-                <hr style="border-color: var(--fortnite-blue); margin: 15px 0;">
-            <% }); %>
-        <% } else { %>
-            <figure class="spinner"></figure>
+        <% if (newsItems.length > 0) { %> <% newsItems.forEach((item) => { %>
+        <section class="news-item">
+          <h3><%= item.title %></h3>
+          <% if (item.image) { %>
+          <img
+            src="<%= item.image %>"
+            class="news-image"
+            alt="<%= item.title %>"
+          />
+          <% } %>
+          <p class="news-body"><%= item.body %></p>
+        </section>
+        <hr style="border-color: var(--fortnite-blue); margin: 15px 0" />
+        <% }); %> <% } else { %>
+        <figure class="spinner"></figure>
         <% } %>
       </section>
     </article>
@@ -87,4 +95,3 @@
 <%- include('./partials/window') %>
 <!-- Include foot -->
 <%- include('./partials/foot') %>
-
