@@ -4,33 +4,38 @@
 <%- include('./partials/nav') %>
 
 <main class="main-battle">
-    <!-- Container -->
-  
-    <section class="battle-container">
-      <h1 class="battle-title">Battle Results</h1>
-  
-      <!-- Aantal gewonnen -->
-      <section class="battle-stats">
-        <article class="stat-box">
-          <header  class="stat-label">Wins</header>
-          <output class="stat-value" id="wins-count">24</output>
-        </article>
-  
-        <!-- Aantal verloren -->
-        <article class="stat-box">
-          <header class="stat-label">Losses</header>
-          <output class="stat-value" id="losses-count">12</output>
-        </article>
-      </section>
-  
-      <!-- Win en verlies knoppen -->
-      <nav class="battle-buttons" aria-label="Battle outcome controls">
-        <button class="battle-button win-button">WIN</button>
-        <button class="battle-button loss-button">LOSS</button>
-      </nav>
+  <!-- Container -->
+
+  <section class="battle-container">
+    <h1 class="battle-title">Battle Results</h1>
+
+    <!-- Aantal gewonnen -->
+    <section class="battle-stats">
+      <article class="stat-box">
+        <header class="stat-label">Wins</header>
+        <output class="stat-value" id="wins-count"><%= wins %></output>
+      </article>
+
+      <!-- Aantal verloren -->
+      <article class="stat-box">
+        <header class="stat-label">Losses</header>
+        <output class="stat-value" id="losses-count"><%= losses %></output>
+      </article>
     </section>
-  </main>
-  
+
+    <!-- Win en verlies knoppen -->
+    <nav class="battle-buttons" aria-label="Battle outcome controls">
+      <form action="/battle" method="POST">
+        <input type="hidden" name="win" value="true" />
+        <button type="submit" class="battle-button win-button">WIN</button>
+      </form>
+      <form action="/battle" method="POST">
+        <input type="hidden" name="loss" value="true" />
+        <button type="submit" class="battle-button loss-button">LOSS</button>
+      </form>
+    </nav>
+  </section>
+</main>
 
 <!-- Include window -->
 <%- include('./partials/window') %>

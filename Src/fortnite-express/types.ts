@@ -89,12 +89,11 @@ export interface MOTD {
 // Shop
 
 export interface Shop {
-    status: number;
     data: DataShop;
 }
 
 export interface DataShop {
-    date: string;  // Changed from Date to string as API returns ISO string
+    date: string;
     entries: Entry[];
 }
 
@@ -114,7 +113,7 @@ export interface Item {
     rarity: Rarity;
     series?: Series;
     images: Images;
-    added: string;  // Changed from Date to string
+    added: string;
 }
 
 export interface BrItem {
@@ -127,7 +126,7 @@ export interface BrItem {
     set?: Set;
     introduction?: Introduction;
     images: Images;
-    added: string;  // Changed from Date to string
+    added: string;
 }
 
 export interface Bundle {
