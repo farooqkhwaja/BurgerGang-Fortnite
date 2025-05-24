@@ -15,38 +15,40 @@
                               item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'selected-outfit' : '') :
                               item.type.value === 'emote' ? (currentEmoteId === item.id ? 'selected-outfit' : '') : '' %>"
       >
-        <figure>
-          <img
-            src="<%= item.images?.smallIcon || item.images?.icon || '/images/default.png' %>"
-            alt="<%= item.name %>"
-            class="item-image"
-          />
-          <figcaption class="item-actions">
-            <form action="/equip-item" method="POST" class="icon-form">
-              <input type="hidden" name="itemId" value="<%= item.id %>" />
-              <input type="hidden" name="itemType" value="<%= item.type.value %>" />
-              <button type="submit" class="icon-button equip-button <%= item.type.value === 'outfit' ? (currentOutfitId === item.id ? 'equipped' : '') : 
-                                                                    item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'equipped' : '') :
-                                                                    item.type.value === 'emote' ? (currentEmoteId === item.id ? 'equipped' : '') : '' %>">
-                <img
-                  src="/images/equip.png"
-                  alt="Equip item"
-                  class="item-action equip-icon"
-                />
-              </button>
-            </form>
-            <form action="/remove-favorite" method="POST" class="icon-form">
-              <input type="hidden" name="itemId" value="<%= item.id %>" />
-              <button type="submit" class="icon-button">
-                <img
-                  src="/images/remove.png"
-                  alt="Remove favorite"
-                  class="item-action cross"
-                />
-              </button>
-            </form>
-          </figcaption>
-        </figure>
+        <a href="/item/<%= item.id %>" style="text-decoration:none;color:inherit;display:block">
+          <figure>
+            <img
+              src="<%= item.images?.smallIcon || item.images?.icon || '/images/default.png' %>"
+              alt="<%= item.name %>"
+              class="item-image"
+            />
+            <figcaption class="item-actions">
+              <form action="/equip-item" method="POST" class="icon-form">
+                <input type="hidden" name="itemId" value="<%= item.id %>" />
+                <input type="hidden" name="itemType" value="<%= item.type.value %>" />
+                <button type="submit" class="icon-button equip-button <%= item.type.value === 'outfit' ? (currentOutfitId === item.id ? 'equipped' : '') : 
+                                                                      item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'equipped' : '') :
+                                                                      item.type.value === 'emote' ? (currentEmoteId === item.id ? 'equipped' : '') : '' %>">
+                  <img
+                    src="/images/equip.png"
+                    alt="Equip item"
+                    class="item-action equip-icon"
+                  />
+                </button>
+              </form>
+              <form action="/remove-favorite" method="POST" class="icon-form">
+                <input type="hidden" name="itemId" value="<%= item.id %>" />
+                <button type="submit" class="icon-button">
+                  <img
+                    src="/images/remove.png"
+                    alt="Remove favorite"
+                    class="item-action cross"
+                  />
+                </button>
+              </form>
+            </figcaption>
+          </figure>
+        </a>
       </li>
       <% } %> <% }) %>
     </ul>
@@ -64,56 +66,58 @@
                               item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'selected-outfit' : '') :
                               item.type.value === 'emote' ? (currentEmoteId === item.id ? 'selected-outfit' : '') : '' %>"
       >
-        <figure>
-          <img
-            src="<%= item.images?.smallIcon || item.images?.icon || '/images/default.png' %>"
-            alt="<%= item.name %>"
-            class="item-image"
-          />
-          <figcaption class="item-actions">
-            <form action="/equip-item" method="POST" class="icon-form">
-              <input type="hidden" name="itemId" value="<%= item.id %>" />
-              <input type="hidden" name="itemType" value="<%= item.type.value %>" />
-              <button type="submit" class="icon-button equip-button <%= item.type.value === 'outfit' ? (currentOutfitId === item.id ? 'equipped' : '') : 
-                                                                    item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'equipped' : '') :
-                                                                    item.type.value === 'emote' ? (currentEmoteId === item.id ? 'equipped' : '') : '' %>">
-                <img
-                  src="/images/equip.png"
-                  alt="Equip item"
-                  class="item-action equip-icon"
+        <a href="/item/<%= item.id %>" style="text-decoration:none;color:inherit;display:block">
+          <figure>
+            <img
+              src="<%= item.images?.smallIcon || item.images?.icon || '/images/default.png' %>"
+              alt="<%= item.name %>"
+              class="item-image"
+            />
+            <figcaption class="item-actions">
+              <form action="/equip-item" method="POST" class="icon-form">
+                <input type="hidden" name="itemId" value="<%= item.id %>" />
+                <input type="hidden" name="itemType" value="<%= item.type.value %>" />
+                <button type="submit" class="icon-button equip-button <%= item.type.value === 'outfit' ? (currentOutfitId === item.id ? 'equipped' : '') : 
+                                                                      item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'equipped' : '') :
+                                                                      item.type.value === 'emote' ? (currentEmoteId === item.id ? 'equipped' : '') : '' %>">
+                  <img
+                    src="/images/equip.png"
+                    alt="Equip item"
+                    class="item-action equip-icon"
+                  />
+                </button>
+              </form>
+              <form action="/lockerdetails" method="POST" class="icon-form">
+                <input
+                  type="hidden"
+                  name="favorite"
+                  value="<%= JSON.stringify(item) %>"
                 />
-              </button>
-            </form>
-            <form action="/lockerdetails" method="POST" class="icon-form">
-              <input
-                type="hidden"
-                name="favorite"
-                value="<%= JSON.stringify(item) %>"
-              />
-              <button type="submit" class="icon-button">
-                <img
-                  src="/images/star.webp"
-                  alt="Favorite"
-                  class="item-action star-icon"
+                <button type="submit" class="icon-button">
+                  <img
+                    src="/images/star.webp"
+                    alt="Favorite"
+                    class="item-action star-icon"
+                  />
+                </button>
+              </form>
+              <form action="/lockerdetails" method="POST" class="icon-form">
+                <input
+                  type="hidden"
+                  name="blacklisted"
+                  value="<%= JSON.stringify(item) %>"
                 />
-              </button>
-            </form>
-            <form action="/lockerdetails" method="POST" class="icon-form">
-              <input
-                type="hidden"
-                name="blacklisted"
-                value="<%= JSON.stringify(item) %>"
-              />
-              <button type="submit" class="icon-button">
-                <img
-                  src="/images/blacklist_new.png"
-                  alt="Blacklist"
-                  class="item-action blacklist-icon"
-                />
-              </button>
-            </form>
-          </figcaption>
-        </figure>
+                <button type="submit" class="icon-button">
+                  <img
+                    src="/images/blacklist_new.png"
+                    alt="Blacklist"
+                    class="item-action blacklist-icon"
+                  />
+                </button>
+              </form>
+            </figcaption>
+          </figure>
+        </a>
       </li>
       <% } %> <% }) %>
     </ul>
@@ -130,56 +134,58 @@
                               item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'selected-outfit' : '') :
                               item.type.value === 'emote' ? (currentEmoteId === item.id ? 'selected-outfit' : '') : '' %>"
       >
-        <figure>
-          <img
-            src="<%= item.images.smallIcon %>"
-            alt="Costume"
-            class="item-image"
-          />
-          <figcaption class="item-actions">
-            <form action="/equip-item" method="POST" class="icon-form">
-              <input type="hidden" name="itemId" value="<%= item.id %>" />
-              <input type="hidden" name="itemType" value="outfit" />
-              <button type="submit" class="icon-button equip-button <%= item.type.value === 'outfit' ? (currentOutfitId === item.id ? 'equipped' : '') : 
-                                                                    item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'equipped' : '') :
-                                                                    item.type.value === 'emote' ? (currentEmoteId === item.id ? 'equipped' : '') : '' %>">
-                <img
-                  src="/images/equip.png"
-                  alt="Equip outfit"
-                  class="item-action equip-icon"
+        <a href="/item/<%= item.id %>" style="text-decoration:none;color:inherit;display:block">
+          <figure>
+            <img
+              src="<%= item.images.smallIcon %>"
+              alt="Costume"
+              class="item-image"
+            />
+            <figcaption class="item-actions">
+              <form action="/equip-item" method="POST" class="icon-form">
+                <input type="hidden" name="itemId" value="<%= item.id %>" />
+                <input type="hidden" name="itemType" value="outfit" />
+                <button type="submit" class="icon-button equip-button <%= item.type.value === 'outfit' ? (currentOutfitId === item.id ? 'equipped' : '') : 
+                                                                      item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'equipped' : '') :
+                                                                      item.type.value === 'emote' ? (currentEmoteId === item.id ? 'equipped' : '') : '' %>">
+                  <img
+                    src="/images/equip.png"
+                    alt="Equip outfit"
+                    class="item-action equip-icon"
+                  />
+                </button>
+              </form>
+              <form action="/lockerdetails" method="POST" class="icon-form">
+                <input
+                  type="hidden"
+                  name="favorite"
+                  value="<%= JSON.stringify(item) %>"
                 />
-              </button>
-            </form>
-            <form action="/lockerdetails" method="POST" class="icon-form">
-              <input
-                type="hidden"
-                name="favorite"
-                value="<%= JSON.stringify(item) %>"
-              />
-              <button type="submit" class="icon-button">
-                <img
-                  src="/images/star.webp"
-                  alt="Favorite"
-                  class="item-action star-icon"
+                <button type="submit" class="icon-button">
+                  <img
+                    src="/images/star.webp"
+                    alt="Favorite"
+                    class="item-action star-icon"
+                  />
+                </button>
+              </form>
+              <form action="/lockerdetails" method="POST" class="icon-form">
+                <input
+                  type="hidden"
+                  name="blacklisted"
+                  value="<%= JSON.stringify(item) %>"
                 />
-              </button>
-            </form>
-            <form action="/lockerdetails" method="POST" class="icon-form">
-              <input
-                type="hidden"
-                name="blacklisted"
-                value="<%= JSON.stringify(item) %>"
-              />
-              <button type="submit" class="icon-button">
-                <img
-                  src="/images/blacklist_new.png"
-                  alt="Blacklist"
-                  class="item-action blacklist-icon"
-                />
-              </button>
-            </form>
-          </figcaption>
-        </figure>
+                <button type="submit" class="icon-button">
+                  <img
+                    src="/images/blacklist_new.png"
+                    alt="Blacklist"
+                    class="item-action blacklist-icon"
+                  />
+                </button>
+              </form>
+            </figcaption>
+          </figure>
+        </a>
       </li>
       <% }) %>
     </ul>
@@ -195,42 +201,44 @@
                               item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'selected-outfit' : '') :
                               item.type.value === 'emote' ? (currentEmoteId === item.id ? 'selected-outfit' : '') : '' %>"
       >
-        <figure>
-          <img
-            src="<%= item.images.smallIcon %>"
-            alt="Costume"
-            class="item-image"
-          />
-          <figcaption class="item-actions">
-            <form action="/equip-item" method="POST" class="icon-form">
-              <input type="hidden" name="itemId" value="<%= item.id %>" />
-              <input type="hidden" name="itemType" value="pickaxe" />
-              <button type="submit" class="icon-button equip-button <%= item.type.value === 'outfit' ? (currentOutfitId === item.id ? 'equipped' : '') : 
-                                                                    item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'equipped' : '') :
-                                                                    item.type.value === 'emote' ? (currentEmoteId === item.id ? 'equipped' : '') : '' %>">
-                <img
-                  src="/images/equip.png"
-                  alt="Equip weapon"
-                  class="item-action equip-icon"
+        <a href="/item/<%= item.id %>" style="text-decoration:none;color:inherit;display:block">
+          <figure>
+            <img
+              src="<%= item.images.smallIcon %>"
+              alt="Costume"
+              class="item-image"
+            />
+            <figcaption class="item-actions">
+              <form action="/equip-item" method="POST" class="icon-form">
+                <input type="hidden" name="itemId" value="<%= item.id %>" />
+                <input type="hidden" name="itemType" value="pickaxe" />
+                <button type="submit" class="icon-button equip-button <%= item.type.value === 'outfit' ? (currentOutfitId === item.id ? 'equipped' : '') : 
+                                                                      item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'equipped' : '') :
+                                                                      item.type.value === 'emote' ? (currentEmoteId === item.id ? 'equipped' : '') : '' %>">
+                  <img
+                    src="/images/equip.png"
+                    alt="Equip weapon"
+                    class="item-action equip-icon"
+                  />
+                </button>
+              </form>
+              <form action="/lockerdetails" method="POST" class="icon-form">
+                <input
+                  type="hidden"
+                  name="favorite"
+                  value="<%= JSON.stringify(item) %>"
                 />
-              </button>
-            </form>
-            <form action="/lockerdetails" method="POST" class="icon-form">
-              <input
-                type="hidden"
-                name="favorite"
-                value="<%= JSON.stringify(item) %>"
-              />
-              <button type="submit" class="icon-button">
-                <img
-                  src="/images/star.webp"
-                  alt="Favorite"
-                  class="item-action star-icon"
-                />
-              </button>
-            </form>
-          </figcaption>
-        </figure>
+                <button type="submit" class="icon-button">
+                  <img
+                    src="/images/star.webp"
+                    alt="Favorite"
+                    class="item-action star-icon"
+                  />
+                </button>
+              </form>
+            </figcaption>
+          </figure>
+        </a>
       </li>
       <% }) %>
     </ul>
@@ -246,42 +254,44 @@
                               item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'selected-outfit' : '') :
                               item.type.value === 'emote' ? (currentEmoteId === item.id ? 'selected-outfit' : '') : '' %>"
       >
-        <figure>
-          <img
-            src="<%= item.images.smallIcon %>"
-            alt="Costume"
-            class="item-image"
-          />
-          <figcaption class="item-actions">
-            <form action="/equip-item" method="POST" class="icon-form">
-              <input type="hidden" name="itemId" value="<%= item.id %>" />
-              <input type="hidden" name="itemType" value="emote" />
-              <button type="submit" class="icon-button equip-button <%= item.type.value === 'outfit' ? (currentOutfitId === item.id ? 'equipped' : '') : 
-                                                                    item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'equipped' : '') :
-                                                                    item.type.value === 'emote' ? (currentEmoteId === item.id ? 'equipped' : '') : '' %>">
-                <img
-                  src="/images/equip.png"
-                  alt="Equip emote"
-                  class="item-action equip-icon"
+        <a href="/item/<%= item.id %>" style="text-decoration:none;color:inherit;display:block">
+          <figure>
+            <img
+              src="<%= item.images.smallIcon %>"
+              alt="Costume"
+              class="item-image"
+            />
+            <figcaption class="item-actions">
+              <form action="/equip-item" method="POST" class="icon-form">
+                <input type="hidden" name="itemId" value="<%= item.id %>" />
+                <input type="hidden" name="itemType" value="emote" />
+                <button type="submit" class="icon-button equip-button <%= item.type.value === 'outfit' ? (currentOutfitId === item.id ? 'equipped' : '') : 
+                                                                      item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'equipped' : '') :
+                                                                      item.type.value === 'emote' ? (currentEmoteId === item.id ? 'equipped' : '') : '' %>">
+                  <img
+                    src="/images/equip.png"
+                    alt="Equip emote"
+                    class="item-action equip-icon"
+                  />
+                </button>
+              </form>
+              <form action="/lockerdetails" method="POST" class="icon-form">
+                <input
+                  type="hidden"
+                  name="favorite"
+                  value="<%= JSON.stringify(item) %>"
                 />
-              </button>
-            </form>
-            <form action="/lockerdetails" method="POST" class="icon-form">
-              <input
-                type="hidden"
-                name="favorite"
-                value="<%= JSON.stringify(item) %>"
-              />
-              <button type="submit" class="icon-button">
-                <img
-                  src="/images/star.webp"
-                  alt="Favorite"
-                  class="item-action star-icon"
-                />
-              </button>
-            </form>
-          </figcaption>
-        </figure>
+                <button type="submit" class="icon-button">
+                  <img
+                    src="/images/star.webp"
+                    alt="Favorite"
+                    class="item-action star-icon"
+                  />
+                </button>
+              </form>
+            </figcaption>
+          </figure>
+        </a>
       </li>
       <% }) %>
     </ul>
@@ -298,25 +308,27 @@
                               item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'selected-outfit' : '') :
                               item.type.value === 'emote' ? (currentEmoteId === item.id ? 'selected-outfit' : '') : '' %>"
       >
-        <figure>
-          <img
-            src="<%= item.images?.smallIcon || item.images?.icon || '/images/default.png' %>"
-            alt="<%= item.name %>"
-            class="item-image"
-          />
-          <figcaption class="item-actions">
-            <form action="/remove-blacklisted" method="POST" class="icon-form">
-              <input type="hidden" name="itemId" value="<%= item.id %>" />
-              <button type="submit" class="icon-button">
-                <img
-                  src="/images/remove.png"
-                  alt="Remove from blacklist"
-                  class="item-action cross"
-                />
-              </button>
-            </form>
-          </figcaption>
-        </figure>
+        <a href="/item/<%= item.id %>" style="text-decoration:none;color:inherit;display:block">
+          <figure>
+            <img
+              src="<%= item.images?.smallIcon || item.images?.icon || '/images/default.png' %>"
+              alt="<%= item.name %>"
+              class="item-image"
+            />
+            <figcaption class="item-actions">
+              <form action="/remove-blacklisted" method="POST" class="icon-form">
+                <input type="hidden" name="itemId" value="<%= item.id %>" />
+                <button type="submit" class="icon-button">
+                  <img
+                    src="/images/remove.png"
+                    alt="Remove from blacklist"
+                    class="item-action cross"
+                  />
+                </button>
+              </form>
+            </figcaption>
+          </figure>
+        </a>
       </li>
       <% } %> <% }) %>
     </ul>

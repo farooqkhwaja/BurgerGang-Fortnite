@@ -10,6 +10,6 @@
       <a href="./shop" class="nav-item <%= (path === '/shop') ? 'active' : ''  %>">Winkel</a>
       <a href="./battle" class="nav-item <%= (path === '/battle') ? 'active' : 'green'  %>">Speel</a>
     </nav>
-    <img id="pfp-icon" src="<%= currentOutfit?.images?.smallIcon || '/images/Profile.webp' %>" alt="Profile" />
+    <img id="pfp-icon" src="<%= currentOutfit?.images?.icon || '/images/Profile.webp' %>" alt="Profile" />
   </div>
 </header>

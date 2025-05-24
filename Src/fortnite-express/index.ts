@@ -2,6 +2,7 @@ import express, { Express } from "express";
 import dotenv from "dotenv";
 import path from "path";
 import { Fortnite, MOTD, News, Shop, Entry } from "./types"
+import { connect, cosmeticsCollection, newsCollection, shopCollection } from "./database";
 
 dotenv.config();
 
@@ -19,20 +20,16 @@ let vBucks: number = 2000
 let wins: number = 0
 let losses: number = 0
 
-
 app.use(async (req, res, next) => {
-
     try {
-        const response = await fetch("https://fortnite-api.com/v2/cosmetics/new")
-        const json: Fortnite = await response.json()
-
-
+        const cosmetics = await cosmeticsCollection.find({}).toArray();
+        const currentCosmetic = cosmetics.find(item => item.id === currentOutfitId);
 
         res.locals.wins = wins
         res.locals.losses = losses
         res.locals.vBucks = vBucks
         res.locals.path = req.path
-        res.locals.currentOutfit = currentOutfit
+        res.locals.currentOutfit = currentCosmetic
         res.locals.currentWeapon = currentWeapon
         res.locals.currentEmote = currentEmote
     } catch (e) {
@@ -56,21 +53,16 @@ app.get("/login", (req, res) => {
 })
 
 app.get("/lobby", async (req, res) => {
-
     try {
-        const response = await fetch("https://fortnite-api.com/v2/news/br")
-        const json: News = await response.json()
-        const newsItems: MOTD[] = json.data.motds.slice(0, 5)
+        const newsItems = await newsCollection.find({}).limit(5).toArray();
 
         res.render("lobby", {
             title: "Lobby",
             style: "lobby",
             newsItems: newsItems
         })
-
     } catch (e) {
         console.error(e)
-
         res.render("lobby", {
             title: "Lobby",
             style: "lobby",
@@ -98,19 +90,17 @@ let currentWeaponId: string | null = null;
 
 app.get("/lockerdetails", async (req, res) => {
     try {
-        const shopResponse = await fetch("https://fortnite-api.com/v2/shop");
-        const shopJson: Shop = await shopResponse.json();
+        const shopItems = await shopCollection.find({}).toArray();
         const shopItemIds = new Set(
-            shopJson.data.entries.flatMap(entry =>
-                (entry.brItems || []).map(item => item.id)
-            ))
+            shopItems.flatMap(entry =>
+                (entry.brItems || []).map((item: { id: string }) => item.id)
+            )
+        );
 
-        const response = await fetch("https://fortnite-api.com/v2/cosmetics/new")
-        const json: Fortnite = await response.json()
-        let items: any[] = json.data.items.br
+        const cosmetics = await cosmeticsCollection.find({}).toArray();
 
         const getAvailableItems = (type: string) => {
-            return items.filter(item =>
+            return cosmetics.filter(item =>
                 item.type.value === type &&
                 !favorites.some(fav => fav.id === item.id) &&
                 !blacklisted.some(bl => bl.id === item.id) &&
@@ -131,7 +121,6 @@ app.get("/lockerdetails", async (req, res) => {
             currentOutfitId: currentOutfitId,
             currentWeaponId: currentWeaponId
         });
-
     } catch (e) {
         console.error(e);
         res.status(500).send("Error loading data");
@@ -140,7 +129,7 @@ app.get("/lockerdetails", async (req, res) => {
 
 app.post("/remove-favorite", (req, res) => {
     const itemId = req.body.itemId;
-    const item = favorites.find(item => item.id === itemId);
+    const item = favorites.find((item: { id: string }) => item.id === itemId);
 
     if (item) {
         favorites = favorites.filter(fav => fav.id !== itemId);
@@ -155,7 +144,7 @@ app.post("/remove-favorite", (req, res) => {
 
 app.post("/remove-blacklisted", (req, res) => {
     const itemId = req.body.itemId;
-    const item = blacklisted.find(item => item.id === itemId);
+    const item = blacklisted.find((item: { id: string }) => item.id === itemId);
 
     if (item) {
         blacklisted = blacklisted.filter(bl => bl.id !== itemId);
@@ -172,19 +161,16 @@ let boughtItems: any[] = []
 
 app.get("/shop", async (req, res) => {
     try {
-        const response = await fetch("https://fortnite-api.com/v2/shop");
-        const json: Shop = await response.json();
-
-        const items: Entry[] = json.data.entries;
+        const shopItems = await shopCollection.find({}).toArray();
 
         // Process items with duplicate prevention
         const processItems = (type: string) => {
             const seen = new Set();
-            return items
+            return shopItems
                 .flatMap(entry =>
                     (entry.brItems || [])
-                        .filter(item => item?.type?.value === type)
-                        .map(item => ({
+                        .filter((item: { type?: { value: string } }) => item?.type?.value === type)
+                        .map((item: { id?: string; name?: string; finalPrice?: number }) => ({
                             ...item,
                             finalPrice: entry.finalPrice
                         }))
@@ -205,7 +191,6 @@ app.get("/shop", async (req, res) => {
             vBucks: vBucks,
             boughtItems: boughtItems
         });
-
     } catch (e) {
         console.error(e);
         res.render("shop", {
@@ -267,13 +252,9 @@ app.post("/equip-item", async (req, res) => {
     try {
         const { itemId, itemType } = req.body;
 
-        // Fetch the item details from the API
-        const response = await fetch("https://fortnite-api.com/v2/cosmetics/new");
-        const json: Fortnite = await response.json();
-        const items = json.data.items.br;
-
-        // Find the item in the API response
-        const item = items.find(i => i.id === itemId);
+        // Get the item details from the database
+        const cosmetics = await cosmeticsCollection.find({}).toArray();
+        const item = cosmetics.find(i => i.id === itemId);
 
         if (!item) {
             return res.status(404).send("Item not found");
@@ -335,6 +316,49 @@ app.post("/lockerdetails", (req, res) => {
     }
 });
 
-app.listen(app.get("port"), () => {
+app.get("/item/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+        const item = await cosmeticsCollection.findOne({ id });
+        if (!item) {
+            return res.status(404).render("item", {
+                error: "Item not found",
+                style: "item",
+                item: null,
+                favorites: favorites,
+                blacklisted: blacklisted,
+                currentOutfitId: currentOutfitId,
+                currentWeaponId: currentWeaponId,
+                currentEmoteId: currentEmoteId
+            });
+        }
+        res.render("item", {
+            title: item.name,
+            style: "item",
+            item,
+            error: null,
+            favorites: favorites,
+            blacklisted: blacklisted,
+            currentOutfitId: currentOutfitId,
+            currentWeaponId: currentWeaponId,
+            currentEmoteId: currentEmoteId
+        });
+    } catch (e) {
+        console.error(e);
+        res.status(500).render("item", {
+            error: "Error loading item",
+            style: "item",
+            item: null,
+            favorites: favorites,
+            blacklisted: blacklisted,
+            currentOutfitId: currentOutfitId,
+            currentWeaponId: currentWeaponId,
+            currentEmoteId: currentEmoteId
+        });
+    }
+});
+
+app.listen(app.get("port"), async () => {
+    await connect();
     console.log("Server started on http://localhost:" + app.get("port"))
 })

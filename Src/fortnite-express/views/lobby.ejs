@@ -70,21 +70,23 @@
     <article class="news-card">
       <header class="news-title">NIEUWS</header>
       <section id="news-content">
-        <% if (newsItems.length > 0) { %> <% newsItems.forEach((item) => { %>
-        <section class="news-item">
-          <h3><%= item.title %></h3>
-          <% if (item.image) { %>
-          <img
-            src="<%= item.image %>"
-            class="news-image"
-            alt="<%= item.title %>"
-          />
-          <% } %>
-          <p class="news-body"><%= item.body %></p>
-        </section>
-        <hr style="border-color: var(--fortnite-blue); margin: 15px 0" />
-        <% }); %> <% } else { %>
-        <figure class="spinner"></figure>
+        <% if (newsItems && newsItems.length > 0) { %>
+          <% newsItems.forEach((item) => { %>
+            <section class="news-item">
+              <h3><%= item.title || 'News Update' %></h3>
+              <% if (item.image) { %>
+                <img
+                  src="<%= item.image %>"
+                  class="news-image"
+                  alt="<%= item.title || 'News Image' %>"
+                />
+              <% } %>
+              <p class="news-body"><%= item.body || 'No content available' %></p>
+            </section>
+            <hr style="border-color: var(--fortnite-blue); margin: 15px 0" />
+          <% }); %>
+        <% } else { %>
+          <figure class="spinner"></figure>
         <% } %>
       </section>
     </article>
