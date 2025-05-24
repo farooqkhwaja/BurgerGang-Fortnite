@@ -172,7 +172,70 @@
     transform: rotate(360deg);
   }
 }
- /* ===================== Phone version media query ===================== */
+
+.outfit-info {
+  display: flex;
+  gap: 15px;
+  padding: 10px;
+}
+
+.outfit-icon {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border: 2px solid var(--fortnite-yellow);
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.outfit-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.outfit-name {
+  color: var(--fortnite-yellow);
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.outfit-type {
+  color: #fff;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.outfit-rarity {
+  font-size: 0.9rem;
+  margin: 0;
+  padding: 2px 8px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.outfit-rarity.common { background-color: #b0c3d9; color: #000; }
+.outfit-rarity.uncommon { background-color: #5e9e2e; color: #fff; }
+.outfit-rarity.rare { background-color: #4b69ff; color: #fff; }
+.outfit-rarity.epic { background-color: #9d4dbb; color: #fff; }
+.outfit-rarity.legendary { background-color: #e3ae39; color: #fff; }
+.outfit-rarity.mythic { background-color: #ff3c28; color: #fff; }
+
+.outfit-description {
+  font-size: 0.9rem;
+  color: #ccc;
+  margin: 5px 0;
+  line-height: 1.3;
+}
+
+.outfit-series {
+  font-size: 0.9rem;
+  color: var(--fortnite-blue);
+  margin: 0;
+}
+
+/* ===================== Phone version media query ===================== */
  
 @media (max-width: 768px) {
   .main-lobby {
@@ -234,5 +297,18 @@
     object-fit: cover;
   }
 
+  .outfit-info {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
 
+  .outfit-icon {
+    width: 120px;
+    height: 120px;
+  }
+
+  .outfit-details {
+    align-items: center;
+  }
 }

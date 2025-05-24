@@ -33,32 +33,33 @@
       </ul>
     </article>
 
-    <!-- Season statistieken (later aanpassen) -->
-
+    <!-- Outfit informatie -->
     <article class="stats-card">
-      <header class="stats-title">Season Progress</header>
-      <ul class="stat-list">
-        <li class="stat-item">
-          <label>Level:</label>
-          <output class="stat-value">87</output>
-        </li>
-        <li class="stat-item">
-          <label>Battle Pass:</label>
-          <output class="stat-value">Tier 95</output>
-        </li>
-        <li class="stat-item">
-          <label>Days Left:</label>
-          <output class="stat-value">12</output>
-        </li>
-      </ul>
+      <header class="stats-title">Current Outfit</header>
+      <div class="outfit-info">
+        <img class="outfit-icon" src="<%= currentOutfit?.images?.smallIcon || '/images/Profile.webp' %>" alt="<%= currentOutfit?.name || 'Outfit' %>" />
+        <div class="outfit-details">
+          <h3 class="outfit-name"><%= currentOutfit?.name || 'No Outfit' %></h3>
+          <p class="outfit-type"><%= currentOutfit?.type?.displayValue || currentOutfit?.type?.value || 'Unknown' %></p>
+          <p class="outfit-rarity <%= currentOutfit?.rarity?.value?.toLowerCase() || 'common' %>">
+            <%= currentOutfit?.rarity?.displayValue || currentOutfit?.rarity?.value || 'Common' %>
+          </p>
+          <% if (currentOutfit?.description) { %>
+            <p class="outfit-description"><%= currentOutfit.description %></p>
+          <% } %>
+          <% if (currentOutfit?.series?.value) { %>
+            <p class="outfit-series">Series: <%= currentOutfit.series.value %></p>
+          <% } %>
+        </div>
+      </div>
     </article>
   </aside>
 
   <!-- Personage middelste deel -->
   <section class="character-display">
     <figure class="character-container">
-      <img class="character" src="/images/Full character.png" alt="Character" />
-      <figcaption class="character-name">John_Pork_2012</figcaption>
+      <img class="character" src="<%= currentOutfit?.images?.featured || currentOutfit?.images?.icon || '/images/Full character.png' %>" alt="<%= currentOutfit?.name || 'Character' %>" />
+      <figcaption class="character-name"><%= currentOutfit?.name || 'John_Pork_2012' %></figcaption>
     </figure>
     <a href="./battle">
       <button class="play-button">Speel</button>
@@ -70,21 +71,23 @@
     <article class="news-card">
       <header class="news-title">NIEUWS</header>
       <section id="news-content">
-        <% if (newsItems.length > 0) { %> <% newsItems.forEach((item) => { %>
-        <section class="news-item">
-          <h3><%= item.title %></h3>
-          <% if (item.image) { %>
-          <img
-            src="<%= item.image %>"
-            class="news-image"
-            alt="<%= item.title %>"
-          />
-          <% } %>
-          <p class="news-body"><%= item.body %></p>
-        </section>
-        <hr style="border-color: var(--fortnite-blue); margin: 15px 0" />
-        <% }); %> <% } else { %>
-        <figure class="spinner"></figure>
+        <% if (newsItems && newsItems.length > 0) { %>
+          <% newsItems.forEach((item) => { %>
+            <section class="news-item">
+              <h3><%= item.title || 'News Update' %></h3>
+              <% if (item.image) { %>
+                <img
+                  src="<%= item.image %>"
+                  class="news-image"
+                  alt="<%= item.title || 'News Image' %>"
+                />
+              <% } %>
+              <p class="news-body"><%= item.body || 'No content available' %></p>
+            </section>
+            <hr style="border-color: var(--fortnite-blue); margin: 15px 0" />
+          <% }); %>
+        <% } else { %>
+          <figure class="spinner"></figure>
         <% } %>
       </section>
     </article>
