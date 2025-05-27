@@ -111,13 +111,15 @@
                   name="blacklisted"
                   value="<%= JSON.stringify(item) %>"
                 />
-                <button type="submit" class="icon-button">
-                  <img
-                    src="/images/blacklist_new.png"
-                    alt="Blacklist"
-                    class="item-action blacklist-icon"
-                  />
-                </button>
+                <% if (item.type.value === 'outfit' && currentOutfitId !== item.id) { %>
+                  <button type="submit" class="icon-button">
+                    <img
+                      src="/images/blacklist_new.png"
+                      alt="Blacklist"
+                      class="item-action blacklist-icon"
+                    />
+                  </button>
+                <% } %>
               </form>
             </figcaption>
           </figure>
@@ -181,13 +183,15 @@
                   name="blacklisted"
                   value="<%= JSON.stringify(item) %>"
                 />
-                <button type="submit" class="icon-button">
-                  <img
-                    src="/images/blacklist_new.png"
-                    alt="Blacklist"
-                    class="item-action blacklist-icon"
-                  />
-                </button>
+                <% if (item.type.value === 'outfit' && currentOutfitId !== item.id) { %>
+                  <button type="submit" class="icon-button">
+                    <img
+                      src="/images/blacklist_new.png"
+                      alt="Blacklist"
+                      class="item-action blacklist-icon"
+                    />
+                  </button>
+                <% } %>
               </form>
             </figcaption>
           </figure>
@@ -278,33 +282,32 @@
                                                                     item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'equipped' : '') :
                                                                     item.type.value === 'emote' ? (currentEmoteId === item.id ? 'equipped' : '') :
                                                                     item.type.value === 'backpack' ? (currentBackpackId === item.id ? 'equipped' : '') : '' %>">
-                <img
-                  src="/images/equip.png"
-                  alt="Equip item"
-                  class="item-action equip-icon"
-                />
-              </button>
-            </form>
-            <form action="/lockerdetails" method="POST" class="icon-form">
-              <input
-                type="hidden"
-                name="favorite"
-                value="<%= JSON.stringify(item) %>"
+              <img
+                src="/images/equip.png"
+                alt="Equip item"
+                class="item-action equip-icon"
               />
-              <button type="submit" class="icon-button">
-                <img
-                  src="/images/star.webp"
-                  alt="Favorite"
-                  class="item-action star-icon"
-                />
-              </button>
-            </form>
-          </figcaption>
-        </figure>
-      </a>
-    </li>
-    <% }) %>
-  </ul>
+            </button>
+          </form>
+          <form action="/lockerdetails" method="POST" class="icon-form">
+            <input
+              type="hidden"
+              name="favorite"
+              value="<%= JSON.stringify(item) %>"
+            />
+            <button type="submit" class="icon-button">
+              <img
+                src="/images/star.webp"
+                alt="Favorite"
+                class="item-action star-icon"
+              />
+            </button>
+          </form>
+        </figcaption>
+      </figure>
+    </a>
+  </li>
+  <% }) %>
 </section>
 
   <!-- Dansjes -->
