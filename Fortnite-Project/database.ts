@@ -89,63 +89,51 @@ async function initializeUsers() {
     }
 }
 
-export async function createUser(email: string, password: string, username: string) {
-    try {
-        // Check if email already exists
-        const existingUser = await users.findOne({ email });
-        if (existingUser) {
-            throw new Error("Dit emailadres is al in gebruik");
-        }
-
-        // Get default items from cosmetics collection
-        const defaultOutfit = await cosmeticsCollection.findOne({ "type.value": "outfit" });
-        const defaultWeapon = await cosmeticsCollection.findOne({ "type.value": "pickaxe" });
-        const defaultEmote = await cosmeticsCollection.findOne({ "type.value": "emote" });
-        const defaultBackpack = await cosmeticsCollection.findOne({ "type.value": "backpack" });
-
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = {
-            username,
-            email,
-            password: hashedPassword,
-            stats: {
-                vBucks: 1000,
-                wins: 0,
-                losses: 0
-            },
-            collections: {
-                favorites: [],
-                blacklisted: [],
-                boughtItems: []
-            },
-            equipped: {
-                outfit: {
-                    item: defaultOutfit,
-                    id: defaultOutfit?.id || null
-                },
-                weapon: {
-                    item: defaultWeapon,
-                    id: defaultWeapon?.id || null
-                },
-                emote: {
-                    item: defaultEmote,
-                    id: defaultEmote?.id || null
-                },
-                backpack: {
-                    item: defaultBackpack,
-                    id: defaultBackpack?.id || null
-                }
-            },
-            createdAt: new Date()
-        };
-
-        const result = await users.insertOne(newUser);
-        return result;
-    } catch (error) {
-        console.error("Fout bij het aanmaken van gebruiker:", error);
-        throw error;
+export const createUser = async (email: string, password: string, username: string) => {
+    const existingUser = await users.findOne({ email });
+    if (existingUser) {
+        throw new Error("Email already in use");
     }
-}
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = {
+        email,
+        password: hashedPassword,
+        username,
+        currentPfp: null,
+        stats: {
+            vBucks: 1000
+        },
+        equipped: {
+            outfit: {
+                item: null,
+                id: null
+            },
+            weapon: {
+                item: null,
+                id: null
+            },
+            emote: {
+                item: null,
+                id: null
+            },
+            backpack: {
+                item: null,
+                id: null
+            }
+        },
+        collections: {
+            favorites: [],
+            blacklisted: [],
+            boughtItems: [],
+            outfitStats: {}
+        }
+    };
+
+    const result = await users.insertOne(newUser);
+    return result;
+};
 
 async function exit() {
     try {

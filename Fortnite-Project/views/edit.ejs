@@ -1,0 +1,30 @@
+<%- include('partials/head', { title: 'Bewerken', style: 'edit' }) %>
+<%- include('partials/nav') %>
+
+<div class="edit-container">
+    <div class="edit-content">
+        <div class="outfit-preview">
+            <img src="<%= currentOutfit.images.smallIcon %>" alt="<%= currentOutfit.name %>" class="outfit-image">
+            <h2 class="outfit-name"><%= currentOutfit.name %></h2>
+        </div>
+        
+        <form action="/item/<%= currentOutfit.id %>/edit" method="POST" class="edit-form">
+            <div class="form-group">
+                <label for="description">Beschrijving</label>
+                <textarea 
+                    id="description" 
+                    name="description" 
+                    class="description-input" 
+                    placeholder="Schrijf hier je beschrijving..."
+                ><%= currentOutfit.description || '' %></textarea>
+            </div>
+            
+            <div class="button-group">
+                <button type="submit" class="save-button">Opslaan</button>
+                <a href="/locker" class="cancel-button">Annuleren</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<%- include('partials/foot') %> 

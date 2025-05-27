@@ -8,9 +8,10 @@ body {
 .main-battle {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     padding: 4rem 2rem;
     min-height: 80vh;
+    gap: 2rem;
 }
 
 .battle-container {
@@ -94,4 +95,156 @@ body {
 
 .loss-button:hover {
     background-color: #c0392b;
+}
+
+.stats-side {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 2rem;
+    margin: 0 auto;
+}
+
+.stats-card {
+    flex: 1;
+    max-width: 400px;
+    background-color: rgba(15, 25, 35, 0.8);
+    border: 3px solid var(--fortnite-blue);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.stats-title {
+    color: var(--fortnite-yellow);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: bold;
+}
+
+.stat-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-item:last-child {
+    border-bottom: none;
+}
+
+.stat-item label {
+    color: #fff;
+    font-size: 1rem;
+}
+
+.stat-item .stat-value {
+    color: #fdbb2d;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.outfit-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.outfit-icon {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 0.5rem;
+}
+
+.outfit-details {
+    text-align: center;
+    color: #fff;
+}
+
+.outfit-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0 0 0.5rem 0;
+    color: #fff;
+}
+
+.outfit-type {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin: 0 0 0.5rem 0;
+}
+
+.outfit-rarity {
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin: 0 0 0.5rem 0;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.outfit-rarity.common { background-color: #b0c3d9; color: #2c3e50; }
+.outfit-rarity.uncommon { background-color: #5e98d9; color: #fff; }
+.outfit-rarity.rare { background-color: #4b69ff; color: #fff; }
+.outfit-rarity.epic { background-color: #8847ff; color: #fff; }
+.outfit-rarity.legendary { background-color: #d32ce6; color: #fff; }
+.outfit-rarity.mythic { background-color: #e4ae39; color: #fff; }
+
+.outfit-description {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin: 0.5rem 0;
+    line-height: 1.4;
+}
+
+.outfit-series {
+    font-size: 0.9rem;
+    color: #fdbb2d;
+    margin: 0.5rem 0 0 0;
+}
+
+@media (max-width: 1024px) {
+    .main-battle {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .stats-side {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .stats-card {
+        width: 100%;
+        max-width: 600px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-battle {
+        padding: 2rem 1rem;
+    }
+
+    .stats-card {
+        padding: 1rem;
+    }
+
+    .outfit-icon {
+        width: 100px;
+        height: 100px;
+    }
 }

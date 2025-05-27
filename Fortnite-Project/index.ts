@@ -30,8 +30,6 @@ app.use(async (req, res, next) => {
 
         // Set default values for all variables
         res.locals.vBucks = 0;
-        res.locals.wins = 0;
-        res.locals.losses = 0;
         res.locals.favorites = [];
         res.locals.blacklisted = [];
         res.locals.boughtItems = [];
@@ -49,11 +47,9 @@ app.use(async (req, res, next) => {
         if (req.session.userId) {
             const user = await users.findOne({ _id: new ObjectId(req.session.userId) });
             if (user) {
-                // Safely access stats and ensure vBucks, wins, losses are numbers
+                // Safely access stats and ensure vBucks is a number
                 res.locals.vBucks = Number(user.stats?.vBucks) || 0;
-                res.locals.wins = Number(user.stats?.wins) || 0;
-                res.locals.losses = Number(user.stats?.losses) || 0;
-                res.locals.username = user.username
+                res.locals.username = user.username;
 
                 // Safely access collections with default values
                 res.locals.favorites = user.collections?.favorites || [];
@@ -69,6 +65,12 @@ app.use(async (req, res, next) => {
                 res.locals.currentEmoteId = user.equipped?.emote?.id || defaultEmote?.id || null;
                 res.locals.currentBackpack = user.equipped?.backpack?.item || defaultBackpack || null;
                 res.locals.currentBackpackId = user.equipped?.backpack?.id || defaultBackpack?.id || null;
+
+                // Add outfit stats to currentOutfit if they exist
+                if (res.locals.currentOutfit && res.locals.currentOutfitId) {
+                    const outfitStats = user.collections?.outfitStats?.[res.locals.currentOutfitId] || { wins: 0, losses: 0 };
+                    res.locals.currentOutfit.stats = outfitStats;
+                }
             }
         }
         next();
@@ -76,8 +78,6 @@ app.use(async (req, res, next) => {
         console.error("Middleware error:", e);
         // Ensure all variables have default values even if there's an error
         res.locals.vBucks = 0;
-        res.locals.wins = 0;
-        res.locals.losses = 0;
         res.locals.favorites = [];
         res.locals.blacklisted = [];
         res.locals.boughtItems = [];
@@ -94,6 +94,22 @@ app.use(async (req, res, next) => {
     }
 });
 
+// Authentication middleware
+const requireAuth = (req: any, res: any, next: any) => {
+    if (!req.session.userId) {
+        return res.redirect("/login");
+    }
+    next();
+};
+
+// Prevent logged-in users from accessing login/register
+const preventAuth = (req: any, res: any, next: any) => {
+    if (req.session.userId) {
+        return res.redirect("/lobby");
+    }
+    next();
+};
+
 app.get("/", (req, res) => {
     res.render("index", {
         title: "Launch",
@@ -102,15 +118,8 @@ app.get("/", (req, res) => {
     });
 });
 
-app.get("/login", (req, res) => {
-    // If user is already logged in, redirect to lobby
-    if (req.session.userId) {
-        return res.redirect("/lobby");
-    }
-
-    // Get success message from query parameter
+app.get("/login", preventAuth, (req, res) => {
     const success = req.query.success as string;
-
     res.render("login", {
         title: "login",
         style: "login",
@@ -237,17 +246,22 @@ app.post("/register-form", async (req, res) => {
     }
 });
 
-app.get("/lobby", async (req, res) => {
+app.get("/lobby", requireAuth, async (req, res) => {
     try {
         const newsItems = await newsCollection.find({}).toArray();
+
+        // Get the current outfit's stats
+        const currentOutfit = res.locals.currentOutfit;
+        const outfitStats = currentOutfit?.stats || { wins: 0, losses: 0 };
+
         res.render("lobby", {
             title: "Lobby",
             style: "lobby",
             path: "/lobby",
-            wins: res.locals.wins || 0,
-            losses: res.locals.losses || 0,
+            wins: outfitStats.wins || 0,
+            losses: outfitStats.losses || 0,
             newsItems: newsItems,
-            currentOutfit: res.locals.currentOutfit || null,
+            currentOutfit: currentOutfit || null,
             currentOutfitId: res.locals.currentOutfitId || null
         });
     } catch (e) {
@@ -265,7 +279,7 @@ app.get("/lobby", async (req, res) => {
     }
 })
 
-app.get("/shop", async (req, res) => {
+app.get("/shop", requireAuth, async (req, res) => {
     try {
         const shopItems = await shopCollection.find({}).toArray();
 
@@ -339,11 +353,17 @@ app.post("/shop", async (req, res) => {
     }
 });
 
-app.get("/battle", (req, res) => {
+app.get("/battle", requireAuth, (req, res) => {
+    const currentOutfit = res.locals.currentOutfit;
+    const outfitStats = currentOutfit?.stats || { wins: 0, losses: 0 };
+
     res.render("battle", {
         title: "Spelen",
         style: "battle",
-        path: "/battle"
+        path: "/battle",
+        wins: outfitStats.wins || 0,
+        losses: outfitStats.losses || 0,
+        currentOutfit: currentOutfit
     });
 });
 
@@ -359,35 +379,45 @@ app.post("/battle", async (req, res) => {
         const user = await users.findOne({ _id: new ObjectId(req.session.userId) });
 
         if (!user) {
-            return res.status(404).send("User not found");
+            return res.status(404).send("Gebruiker niet gevonden");
         }
 
-        // Ensure stats fields are numbers, default to 0 if not
+        // Ensure vBucks is a number
         user.stats.vBucks = typeof user.stats.vBucks === 'number' ? user.stats.vBucks : 0;
-        user.stats.wins = typeof user.stats.wins === 'number' ? user.stats.wins : 0;
-        user.stats.losses = typeof user.stats.losses === 'number' ? user.stats.losses : 0;
 
-        if (win) {
-            user.stats.wins += 1;
-            user.stats.vBucks += 500;
-        }
-        if (loss) {
-            user.stats.losses += 1;
-        }
+        // Update outfit stats
+        if (user.equipped?.outfit?.id) {
+            const outfitId = user.equipped.outfit.id;
+            const outfitStats = user.collections?.outfitStats?.[outfitId] || { wins: 0, losses: 0 };
 
-        await users.replaceOne(
-            { _id: new ObjectId(req.session.userId) },
-            user
-        );
+            if (win) {
+                outfitStats.wins = (outfitStats.wins || 0) + 1;
+                user.stats.vBucks += 500;
+            }
+            if (loss) {
+                outfitStats.losses = (outfitStats.losses || 0) + 1;
+            }
+
+            // Update the user document with new stats
+            await users.updateOne(
+                { _id: new ObjectId(req.session.userId) },
+                {
+                    $set: {
+                        "stats.vBucks": user.stats.vBucks,
+                        [`collections.outfitStats.${outfitId}`]: outfitStats
+                    }
+                }
+            );
+        }
 
         res.redirect("/battle");
     } catch (error) {
         console.error("Battle route error:", error);
-        res.status(500).send("Error updating battle stats");
+        res.status(500).send("Fout bij het bijwerken van battle statistieken");
     }
 });
 
-app.get("/locker", (req, res) => {
+app.get("/locker", requireAuth, (req, res) => {
     res.render("locker", {
         title: "Locker",
         style: "locker",
@@ -443,7 +473,54 @@ app.post("/random", async (req, res) => {
     }
 });
 
-app.get("/lockerdetails", async (req, res) => {
+app.post("/setfavorite", async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.redirect("/login");
+        }
+
+        const user = await users.findOne({ _id: new ObjectId(req.session.userId) });
+        if (!user) {
+            return res.status(404).send("Gebruiker niet gevonden");
+        }
+
+        const currentOutfit = user.equipped?.outfit?.item;
+        if (!currentOutfit || !currentOutfit.images?.smallIcon) {
+            return res.status(400).send("Geen geldig huidig outfit gevonden");
+        }
+
+        const smallIcon = currentOutfit.images.smallIcon;
+        console.log("Setting profile picture to:", smallIcon);
+
+        // Add current outfit to favorites if not already in favorites
+        const isAlreadyFavorite = user.collections?.favorites?.some((fav: any) => fav.id === currentOutfit.id);
+        if (!isAlreadyFavorite) {
+            await users.updateOne(
+                { _id: new ObjectId(req.session.userId) },
+                {
+                    $set: { currentPfp: smallIcon },
+                    $push: { "collections.favorites": currentOutfit }
+                }
+            );
+        } else {
+            await users.updateOne(
+                { _id: new ObjectId(req.session.userId) },
+                { $set: { currentPfp: smallIcon } }
+            );
+        }
+
+        res.redirect("/locker");
+    } catch (error) {
+        console.error("Error setting profile picture:", error);
+        res.status(500).send("Fout bij het instellen van profielfoto");
+    }
+})
+
+app.post("/showinfo", async (req, res) => {
+
+})
+
+app.get("/lockerdetails", requireAuth, async (req, res) => {
     try {
         const shopItems = await shopCollection.find({}).toArray();
         const shopItemIds = new Set(
@@ -485,112 +562,178 @@ app.get("/lockerdetails", async (req, res) => {
     }
 });
 
-app.post("/remove-favorite", (req, res) => {
-    const itemId = req.body.itemId;
-    const item = res.locals.favorites.find((item: { id: string }) => item.id === itemId);
-
-    if (item) {
-        const newFavorites = res.locals.favorites.filter((fav: { id: string }) => fav.id !== itemId);
-        const newBoughtItems = res.locals.boughtItems.some((bought: { id: string }) => bought.id === itemId)
-            ? [...res.locals.boughtItems, item]
-            : res.locals.boughtItems;
-
-        res.locals.favorites = newFavorites;
-        res.locals.boughtItems = newBoughtItems;
-    }
-
-    res.redirect("/lockerdetails");
-});
-
-app.post("/remove-blacklisted", (req, res) => {
-    const itemId = req.body.itemId;
-    const item = res.locals.blacklisted.find((item: { id: string }) => item.id === itemId);
-
-    if (item) {
-        const newBlacklisted = res.locals.blacklisted.filter((bl: { id: string }) => bl.id !== itemId);
-        const newBoughtItems = res.locals.boughtItems.some((bought: { id: string }) => bought.id === itemId)
-            ? [...res.locals.boughtItems, item]
-            : res.locals.boughtItems;
-
-        res.locals.blacklisted = newBlacklisted;
-        res.locals.boughtItems = newBoughtItems;
-    }
-
-    res.redirect("/lockerdetails");
-});
-
-app.post("/equip-item", async (req, res) => {
+app.post("/lockerdetails", async (req, res) => {
     try {
         if (!req.session.userId) {
             return res.redirect("/login");
         }
 
-        const { itemId, itemType } = req.body;
-        const item = await cosmeticsCollection.findOne({ id: itemId });
-
-        if (!item) {
-            return res.status(404).send("Item not found");
+        const user = await users.findOne({ _id: new ObjectId(req.session.userId) });
+        if (!user) {
+            return res.status(404).send("Gebruiker niet gevonden");
         }
 
-        const update: any = {};
-        switch (itemType) {
-            case "outfit":
-                update["equipped.outfit"] = { item, id: itemId };
-                break;
-            case "pickaxe":
-                update["equipped.weapon"] = { item, id: itemId };
-                break;
-            case "emote":
-                update["equipped.emote"] = { item, id: itemId };
-                break;
-            case "backpack":
-                update["equipped.backpack"] = { item, id: itemId };
-                break;
-        }
-
-        await users.updateOne(
-            { _id: new ObjectId(req.session.userId) },
-            { $set: update }
-        );
-
-        res.redirect("/lockerdetails");
-    } catch (error) {
-        console.error(error);
-        res.status(500).send("Error equipping item");
-    }
-});
-
-app.post("/lockerdetails", (req, res) => {
-    try {
         if (req.body.favorite) {
             const item = JSON.parse(req.body.favorite);
             // Check if item is already in favorites
-            if (!res.locals.favorites.some((fav: { id: string }) => fav.id === item.id)) {
-                res.locals.favorites.push(item);
-                res.locals.boughtItems = res.locals.boughtItems.filter((bought: { id: string }) => bought.id !== item.id);
+            if (!user.collections?.favorites?.some((fav: { id: string }) => fav.id === item.id)) {
+                const updatedFavorites = [...(user.collections?.favorites || []), item];
+                const updatedBoughtItems = (user.collections?.boughtItems || []).filter((bought: { id: string }) => bought.id !== item.id);
+
+                await users.updateOne(
+                    { _id: new ObjectId(req.session.userId) },
+                    {
+                        $set: {
+                            "collections.favorites": updatedFavorites,
+                            "collections.boughtItems": updatedBoughtItems
+                        }
+                    }
+                );
+                res.locals.favorites = updatedFavorites;
+                res.locals.boughtItems = updatedBoughtItems;
             }
         }
 
         if (req.body.blacklisted) {
             const item = JSON.parse(req.body.blacklisted);
             // Check if item is already blacklisted
-            if (!res.locals.blacklisted.some((bl: { id: string }) => bl.id === item.id)) {
-                res.locals.blacklisted.push(item);
-                res.locals.boughtItems = res.locals.boughtItems.filter((bought: { id: string }) => bought.id !== item.id);
+            if (!user.collections?.blacklisted?.some((bl: { id: string }) => bl.id === item.id)) {
+                const updatedBlacklisted = [...(user.collections?.blacklisted || []), item];
+                const updatedBoughtItems = (user.collections?.boughtItems || []).filter((bought: { id: string }) => bought.id !== item.id);
+
+                await users.updateOne(
+                    { _id: new ObjectId(req.session.userId) },
+                    {
+                        $set: {
+                            "collections.blacklisted": updatedBlacklisted,
+                            "collections.boughtItems": updatedBoughtItems
+                        }
+                    }
+                );
+                res.locals.blacklisted = updatedBlacklisted;
+                res.locals.boughtItems = updatedBoughtItems;
             }
         }
 
         res.redirect("/lockerdetails");
     } catch (e) {
-        console.error(e);
-        res.status(500).send("Error processing request");
+        console.error("Error in lockerdetails POST:", e);
+        res.status(500).send("Fout bij het verwerken van het verzoek");
     }
 });
 
-app.get("/item/:id", async (req, res) => {
+app.post("/remove-favorite", async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.redirect("/login");
+        }
+
+        const itemId = req.body.itemId;
+        const user = await users.findOne({ _id: new ObjectId(req.session.userId) });
+        if (!user) {
+            return res.status(404).send("Gebruiker niet gevonden");
+        }
+
+        const item = user.collections?.favorites?.find((fav: { id: string }) => fav.id === itemId);
+        if (item) {
+            const updatedFavorites = (user.collections?.favorites || []).filter((fav: { id: string }) => fav.id !== itemId);
+
+            // Check if the item is from the shop API
+            const shopItems = await shopCollection.find({}).toArray();
+            const isFromShop = shopItems.some(shopItem =>
+                shopItem.brItems?.some((brItem: { id: string }) => brItem.id === itemId)
+            );
+
+            let updatedBoughtItems = user.collections?.boughtItems || [];
+            if (isFromShop) {
+                updatedBoughtItems = [...updatedBoughtItems, item];
+            }
+
+            await users.updateOne(
+                { _id: new ObjectId(req.session.userId) },
+                {
+                    $set: {
+                        "collections.favorites": updatedFavorites,
+                        "collections.boughtItems": updatedBoughtItems
+                    }
+                }
+            );
+            res.locals.favorites = updatedFavorites;
+            res.locals.boughtItems = updatedBoughtItems;
+        }
+
+        res.redirect("/lockerdetails");
+    } catch (e) {
+        console.error("Error in remove-favorite POST:", e);
+        res.status(500).send("Fout bij het verwijderen van favoriet");
+    }
+});
+
+app.post("/remove-blacklisted", async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.redirect("/login");
+        }
+
+        const itemId = req.body.itemId;
+        const user = await users.findOne({ _id: new ObjectId(req.session.userId) });
+        if (!user) {
+            return res.status(404).send("Gebruiker niet gevonden");
+        }
+
+        const item = user.collections?.blacklisted?.find((bl: { id: string }) => bl.id === itemId);
+        if (item) {
+            const updatedBlacklisted = (user.collections?.blacklisted || []).filter((bl: { id: string }) => bl.id !== itemId);
+
+            // Check if the item is from the shop API
+            const shopItems = await shopCollection.find({}).toArray();
+            const isFromShop = shopItems.some(shopItem =>
+                shopItem.brItems?.some((brItem: { id: string }) => brItem.id === itemId)
+            );
+
+            let updatedBoughtItems = user.collections?.boughtItems || [];
+            if (isFromShop) {
+                updatedBoughtItems = [...updatedBoughtItems, item];
+            }
+
+            await users.updateOne(
+                { _id: new ObjectId(req.session.userId) },
+                {
+                    $set: {
+                        "collections.blacklisted": updatedBlacklisted,
+                        "collections.boughtItems": updatedBoughtItems
+                    }
+                }
+            );
+            res.locals.blacklisted = updatedBlacklisted;
+            res.locals.boughtItems = updatedBoughtItems;
+        }
+
+        res.redirect("/lockerdetails");
+    } catch (e) {
+        console.error("Error in remove-blacklisted POST:", e);
+        res.status(500).send("Fout bij het verwijderen van zwarte lijst item");
+    }
+});
+
+app.get("/item/:id", requireAuth, async (req, res) => {
     const { id } = req.params;
     try {
-        const item = await cosmeticsCollection.findOne({ id });
+        // First check cosmetics collection
+        let item = await cosmeticsCollection.findOne({ id });
+
+        // If not found in cosmetics, check shop collection
+        if (!item) {
+            const shopItems = await shopCollection.find({}).toArray();
+            for (const shopItem of shopItems) {
+                const foundItem = shopItem.brItems?.find((brItem: { id: string }) => brItem.id === id);
+                if (foundItem) {
+                    item = foundItem;
+                    break;
+                }
+            }
+        }
+
         if (!item) {
             return res.status(404).render("item", {
                 error: "Item not found",
@@ -605,6 +748,7 @@ app.get("/item/:id", async (req, res) => {
                 currentBackpackId: res.locals.currentBackpackId
             });
         }
+
         res.render("item", {
             title: item.name,
             style: "item",
@@ -635,6 +779,48 @@ app.get("/item/:id", async (req, res) => {
     }
 });
 
+app.get("/item/:id/edit", requireAuth, async (req, res) => {
+    try {
+        const itemId = req.params.id;
+        const item = await cosmeticsCollection.findOne({ id: itemId });
+
+        if (!item) {
+            return res.status(404).send("Item niet gevonden");
+        }
+
+        res.render("edit", {
+            title: "Bewerken",
+            style: "edit",
+            path: `/item/${itemId}/edit`,
+            currentOutfit: item
+        });
+    } catch (error) {
+        console.error("Error loading edit page:", error);
+        res.status(500).send("Fout bij het laden van de bewerkingspagina");
+    }
+});
+
+app.post("/item/:id/edit", async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.redirect("/login");
+        }
+
+        const itemId = req.params.id;
+        const { description } = req.body;
+
+        await cosmeticsCollection.updateOne(
+            { id: itemId },
+            { $set: { description } }
+        );
+
+        res.redirect(`/item/${itemId}`);
+    } catch (error) {
+        console.error("Error saving description:", error);
+        res.status(500).send("Fout bij het opslaan van de beschrijving");
+    }
+});
+
 app.post("/logout", (req, res) => {
     // Destroy the session
     req.session.destroy((err) => {
@@ -649,6 +835,50 @@ app.post("/logout", (req, res) => {
     });
 });
 
+app.post("/equip-item", async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.redirect("/login");
+        }
+
+        const itemId = req.body.itemId;
+        const itemType = req.body.itemType;
+
+        const user = await users.findOne({ _id: new ObjectId(req.session.userId) });
+        if (!user) {
+            return res.status(404).send("Gebruiker niet gevonden");
+        }
+
+        // Find the item in the appropriate collection
+        let item;
+        if (user.collections?.favorites?.some((fav: { id: string }) => fav.id === itemId)) {
+            item = user.collections.favorites.find((fav: { id: string }) => fav.id === itemId);
+        } else if (user.collections?.boughtItems?.some((bought: { id: string }) => bought.id === itemId)) {
+            item = user.collections.boughtItems.find((bought: { id: string }) => bought.id === itemId);
+        } else {
+            item = await cosmeticsCollection.findOne({ id: itemId });
+        }
+
+        if (!item) {
+            return res.status(404).send("Item niet gevonden");
+        }
+
+        // Update the equipped item based on type
+        await users.updateOne(
+            { _id: new ObjectId(req.session.userId) },
+            {
+                $set: {
+                    [`equipped.${itemType}`]: { item, id: item.id }
+                }
+            }
+        );
+
+        res.redirect("/locker");
+    } catch (e) {
+        console.error("Error equipping item:", e);
+        res.status(500).send("Fout bij het uitrusten van item");
+    }
+});
 
 app.listen(app.get("port"), async () => {
     await connect();

@@ -115,7 +115,7 @@
                 <img src="/images/star.webp" alt="Favorite" class="item-action star-icon" />
               </button>
             </form>
-            <% if (item.type.value === 'outfit') { %>
+            <% if (item.type.value === 'outfit' && currentOutfitId !== item.id) { %>
             <form action="/lockerdetails" method="POST" class="icon-form">
               <input type="hidden" name="blacklisted" value="<%= JSON.stringify(item) %>" />
               <button type="submit" class="icon-button">
