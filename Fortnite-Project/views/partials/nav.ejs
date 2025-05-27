@@ -1,0 +1,25 @@
+<header>
+  <div class="user-info">
+    <div class="v-bucks">
+      <img class="v-bucks-img" src="/images/VBucksIcon.png" alt="V-Bucks" />
+      <span class="v-bucks-count"><%= vBucks %></span>
+    </div>
+    <nav>
+      <a href="./lobby" class="nav-item <%= (path === '/lobby') ? 'active' : ''  %>">Lobby</a>
+      <a href="./locker" class="nav-item <%= (path === '/locker' || path === '/lockerdetails') ? 'active' : ''  %>">Kleedkamer</a>
+      <a href="./shop" class="nav-item <%= (path === '/shop') ? 'active' : ''  %>">Winkel</a>
+      <a href="./battle" class="nav-item <%= (path === '/battle') ? 'active' : 'green'  %>">Speel</a>
+    </nav>
+      <img id="pfp-icon" src="/images/default-profile.svg" alt="Profile" />
+  </div>
+</header>
+
+<script>
+  // Load saved profile picture if it exists
+  document.addEventListener('DOMContentLoaded', function() {
+    const savedProfilePicture = localStorage.getItem('profilePicture');
+    if (savedProfilePicture) {
+      document.getElementById('pfp-icon').src = savedProfilePicture;
+    }
+  });
+</script>

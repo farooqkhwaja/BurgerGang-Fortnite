@@ -1,0 +1,331 @@
+body {
+  font-family: 'Burbank Big Condensed', sans-serif;
+  background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  color: white;
+  min-height: 100vh;
+  margin: 0;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.item-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 40px 0;
+}
+
+.item-card {
+  background: rgba(15, 25, 35, 0.95);
+  border-radius: 25px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  padding: 40px 60px;
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  max-width: 800px;
+  width: 100%;
+  border: 4px solid var(--fortnite-yellow, #f7d417);
+}
+
+.item-image {
+  width: 220px;
+  height: 220px;
+  object-fit: contain;
+  border-radius: 20px;
+  box-shadow: 0 0 25px 5px rgba(247, 212, 23, 0.4);
+  background: #222;
+  border: 3px solid var(--fortnite-blue, #00b0f0);
+}
+
+.item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.item-title {
+  font-size: 2.8rem;
+  color: var(--fortnite-yellow, #f7d417);
+  margin: 0 0 10px 0;
+  text-shadow: 2px 2px 0 var(--fortnite-red, #ff4655);
+  letter-spacing: 2px;
+  font-family: 'Burbank Big Condensed', sans-serif;
+}
+
+.item-type, .item-rarity, .item-series, .item-set {
+  font-size: 1.3rem;
+  margin: 0;
+  color: var(--fortnite-blue, #00b0f0);
+  font-family: 'Burbank Big Condensed', sans-serif;
+}
+
+.item-rarity {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.item-description {
+  font-size: 1.1rem;
+  color: #fff;
+  margin: 10px 0 0 0;
+  background: rgba(0,0,0,0.2);
+  padding: 12px 18px;
+  border-radius: 12px;
+  border-left: 4px solid var(--fortnite-yellow, #f7d417);
+  font-family: 'Burbank Big Condensed', sans-serif;
+}
+
+.item-error {
+  color: var(--fortnite-red, #ff4655);
+  font-size: 2rem;
+  text-align: center;
+  margin-top: 80px;
+  font-family: 'Burbank Big Condensed', sans-serif;
+}
+
+/* Rarity colors */
+.item-rarity.common { color: #b3b3b3; }
+.item-rarity.uncommon { color: #5ec75e; }
+.item-rarity.rare { color: #49aceb; }
+.item-rarity.epic { color: #b15be2; }
+.item-rarity.legendary { color: #eea236; }
+.item-rarity.mythic { color: #ee6636; }
+.item-rarity.exotic { color: #ffd700; }
+
+/* Action buttons */
+.item-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.icon-form {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  transition: transform 0.2s;
+}
+
+.icon-button:hover {
+  transform: scale(1.1);
+}
+
+.item-action {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  transition: all 0.3s;
+}
+
+.item-action:hover {
+  transform: scale(1.2);
+}
+
+.star-icon {
+  color: var(--fortnite-yellow);
+}
+
+.blacklist-icon {
+  background-color: var(--fortnite-red);
+  border-radius: 30%;
+}
+
+.cross:hover,
+.star-icon:hover {
+  transform: scale(1.2) rotate(180deg);
+}
+
+.equip-icon:hover {
+  transform: scale(1.2) rotate(360deg);
+  transition: transform 0.6s;
+}
+
+.blacklist-icon:hover {
+  transform: scale(1.2) rotate(360deg);
+  transition: transform 0.6s;
+}
+
+.equip-button.equipped {
+  background-color: var(--fortnite-green);
+  border-radius: 50%;
+  padding: 5px;
+  box-shadow: 0 0 15px var(--fortnite-green);
+  animation: pulse 2s infinite;
+  position: relative;
+  z-index: 2;
+}
+
+.equip-button.equipped img {
+  filter: brightness(1.2) drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 15px var(--fortnite-green);
+  }
+  50% {
+    box-shadow: 0 0 25px var(--fortnite-green);
+  }
+  100% {
+    box-shadow: 0 0 15px var(--fortnite-green);
+  }
+}
+
+.icon-button:focus {
+  outline: 2px solid var(--fortnite-blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.item-image-container {
+  position: relative;
+  width: 220px;
+  height: 220px;
+}
+
+.item-featured {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.item-image-container:hover .item-featured {
+  opacity: 1;
+}
+
+.item-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.item-added {
+  font-size: 1.1rem;
+  color: var(--fortnite-blue);
+}
+
+.item-series, .item-set, .item-introduction {
+  background: rgba(0,0,0,0.2);
+  padding: 15px;
+  border-radius: 12px;
+  margin-top: 15px;
+  border-left: 4px solid var(--fortnite-yellow);
+}
+
+.series-info, .set-info {
+  margin-top: 8px;
+  padding-left: 15px;
+  border-left: 2px solid var(--fortnite-blue);
+}
+
+.series-id, .set-id, .set-part {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--fortnite-blue);
+  margin-top: 5px;
+}
+
+.item-introduction {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.item-introduction p {
+  margin: 0;
+  color: var(--fortnite-yellow);
+}
+
+.item-gallery {
+  margin-top: 30px;
+}
+
+.item-gallery h3 {
+  color: var(--fortnite-yellow);
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.gallery-item {
+  position: relative;
+  background: rgba(0,0,0,0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s;
+}
+
+.gallery-item:hover {
+  transform: scale(1.05);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 150px;
+  object-fit: contain;
+  background: #222;
+  padding: 10px;
+}
+
+.gallery-caption {
+  display: block;
+  text-align: center;
+  padding: 8px;
+  background: rgba(0,0,0,0.8);
+  color: var(--fortnite-yellow);
+  font-size: 0.9rem;
+  text-transform: capitalize;
+}
+
+@media (max-width: 768px) {
+  .item-card {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .item-image-container {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+
+  .gallery-item img {
+    height: 120px;
+  }
+} 

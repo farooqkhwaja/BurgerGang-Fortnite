@@ -1,0 +1,43 @@
+<!-- Include head -->
+<%- include('./partials/head') %>
+<!-- Include nav -->
+<%- include('./partials/nav') %>
+
+<main class="main-battle">
+  <!-- Container -->
+
+  <section class="battle-container">
+    <h1 class="battle-title">Battle Results</h1>
+
+    <!-- Aantal gewonnen -->
+    <section class="battle-stats">
+      <article class="stat-box">
+        <header class="stat-label">Wins</header>
+        <output class="stat-value" id="wins-count"><%= wins %></output>
+      </article>
+
+      <!-- Aantal verloren -->
+      <article class="stat-box">
+        <header class="stat-label">Losses</header>
+        <output class="stat-value" id="losses-count"><%= losses %></output>
+      </article>
+    </section>
+
+    <!-- Win en verlies knoppen -->
+    <nav class="battle-buttons" aria-label="Battle outcome controls">
+      <form action="/battle" method="POST">
+        <input type="hidden" name="win" value="true" />
+        <button type="submit" class="battle-button win-button">WIN</button>
+      </form>
+      <form action="/battle" method="POST">
+        <input type="hidden" name="loss" value="true" />
+        <button type="submit" class="battle-button loss-button">LOSS</button>
+      </form>
+    </nav>
+  </section>
+</main>
+
+<!-- Include window -->
+<%- include('./partials/window') %>
+<!-- Include foot -->
+<%- include('./partials/foot') %>

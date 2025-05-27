@@ -1,0 +1,56 @@
+<!-- Include head -->
+<%- include('./partials/head') %>
+
+<main class="main-login">
+  <div class="login-container">
+    <!-- Login Form -->
+    <div class="form-section">
+      <header class="section-title">Inloggen</header>
+      <% if (locals.error) { %>
+        <div class="error-message"><%= error %></div>
+      <% } %>
+      <% if (locals.success) { %>
+        <div class="success-message"><%= success %></div>
+      <% } %>
+      <form action="/login-form" method="POST" class="auth-form">
+        <div class="form-group">
+          <input name="email" type="email" placeholder="E-mail" required class="form-input" value="<%= locals.formData?.email || '' %>" />
+        </div>
+        <div class="form-group">
+          <input name="password" type="password" placeholder="Wachtwoord" required class="form-input" />
+        </div>
+        <button type="submit" class="form-button">Inloggen</button>
+      </form>
+    </div>
+
+    <!-- Register Form -->
+    <div class="form-section">
+      <header class="section-title">Registreren</header>
+      <% if (locals.errors && errors.length > 0) { %>
+        <div class="error-message">
+          <% errors.forEach(error => { %>
+            <p><%= error %></p>
+          <% }); %>
+        </div>
+      <% } %>
+      <form action="/register-form" method="POST" class="auth-form">
+        <div class="form-group">
+          <input name="username" type="text" placeholder="Gebruikersnaam" required class="form-input" value="<%= locals.formData?.username || '' %>" />
+        </div>
+        <div class="form-group">
+          <input name="email" type="email" placeholder="E-mail" required class="form-input" value="<%= locals.formData?.email || '' %>" />
+        </div>
+        <div class="form-group">
+          <input name="password" type="password" placeholder="Wachtwoord" required class="form-input" />
+        </div>
+        <div class="form-group">
+          <input name="passwordConfirm" type="password" placeholder="Bevestig Wachtwoord" required class="form-input" />
+        </div>
+        <button type="submit" class="form-button">Account Aanmaken</button>
+      </form>
+    </div>
+  </div>
+</main>
+
+<!-- Include foot -->
+<%- include('./partials/foot') %>

@@ -1,0 +1,135 @@
+<%- include('./partials/head') %>
+<%- include('./partials/nav') %>
+
+<main class="item-main">
+  <% if (error) { %>
+    <div class="item-error"><%= error %></div>
+  <% } else if (item) { %>
+    <section class="item-card">
+      <div class="item-image-container">
+        <img class="item-image" src="<%= item.images?.icon || item.images?.smallIcon || '/images/default.png' %>" alt="<%= item.name %>" />
+        <% if (item.images?.featured) { %>
+          <img class="item-featured" src="<%= item.images.featured %>" alt="<%= item.name %> featured" />
+        <% } %>
+      </div>
+      <div class="item-info">
+        <h1 class="item-title"><%= item.name %></h1>
+        <div class="item-meta">
+          <p class="item-type"><span>Type:</span> <%= item.type?.displayValue || item.type?.value || 'Unknown' %></p>
+          <p class="item-rarity <%= item.rarity?.value?.toLowerCase() || 'common' %>"><span>Rarity:</span> <%= item.rarity?.displayValue || item.rarity?.value || 'Common' %></p>
+          <% if (item.added) { %>
+            <p class="item-added"><span>Added:</span> <%= new Date(item.added).toLocaleDateString() %></p>
+          <% } %>
+        </div>
+        <p class="item-description"><%= item.description || 'No description available' %></p>
+        
+        <% if (item.series?.value) { %>
+          <div class="item-series">
+            <span>Series:</span>
+            <div class="series-info">
+              <p><%= item.series.value %></p>
+              <% if (item.series.id) { %>
+                <span class="series-id">ID: <%= item.series.id %></span>
+              <% } %>
+            </div>
+          </div>
+        <% } %>
+        
+        <% if (item.set?.value) { %>
+          <div class="item-set">
+            <span>Set:</span>
+            <div class="set-info">
+              <p><%= item.set.value %></p>
+              <% if (item.set.id) { %>
+                <span class="set-id">ID: <%= item.set.id %></span>
+              <% } %>
+              <% if (item.set.partOf) { %>
+                <span class="set-part">Part of: <%= item.set.partOf %></span>
+              <% } %>
+            </div>
+          </div>
+        <% } %>
+
+        <% if (item.introduction) { %>
+          <div class="item-introduction">
+            <span>Introduction:</span>
+            <p>Chapter: <%= item.introduction.chapter || 'Unknown Chapter' %></p>
+            <p>Season: <%= item.introduction.season || 'Unknown Season' %></p>
+          </div>
+        <% } %>
+
+        <% if (item.images?.other) { %>
+          <div class="item-gallery">
+            <h3>Additional Images</h3>
+            <div class="gallery-grid">
+              <% Object.entries(item.images.other).forEach(([key, url]) => { %>
+                <div class="gallery-item">
+                  <img src="<%= url %>" alt="<%= item.name %> - <%= key %>" />
+                  <span class="gallery-caption"><%= key %></span>
+                </div>
+              <% }) %>
+            </div>
+          </div>
+        <% } %>
+        
+        <div class="item-actions">
+          <% if (favorites && favorites.some(fav => fav.id === item.id)) { %>
+            <form action="/equip-item" method="POST" class="icon-form">
+              <input type="hidden" name="itemId" value="<%= item.id %>" />
+              <input type="hidden" name="itemType" value="<%= item.type?.value %>" />
+              <button type="submit" class="icon-button equip-button <%= item.type?.value === 'outfit' ? (currentOutfitId === item.id ? 'equipped' : '') : 
+                                                                    item.type?.value === 'pickaxe' ? (currentWeaponId === item.id ? 'equipped' : '') :
+                                                                    item.type?.value === 'emote' ? (currentEmoteId === item.id ? 'equipped' : '') :
+                                                                    item.type?.value === 'backpack' ? (currentBackpackId === item.id ? 'equipped' : '') : '' %>">
+                <img src="/images/equip.png" alt="Equip item" class="item-action equip-icon" />
+              </button>
+            </form>
+
+            <form action="/remove-favorite" method="POST" class="icon-form">
+              <input type="hidden" name="itemId" value="<%= item.id %>" />
+              <button type="submit" class="icon-button">
+                <img src="/images/remove.png" alt="Remove favorite" class="item-action cross" />
+              </button>
+            </form>
+          <% } else if (blacklisted && blacklisted.some(bl => bl.id === item.id)) { %>
+            <form action="/remove-blacklisted" method="POST" class="icon-form">
+              <input type="hidden" name="itemId" value="<%= item.id %>" />
+              <button type="submit" class="icon-button">
+                <img src="/images/remove.png" alt="Remove from blacklist" class="item-action cross" />
+              </button>
+            </form>
+          <% } else { %>
+            <form action="/equip-item" method="POST" class="icon-form">
+              <input type="hidden" name="itemId" value="<%= item.id %>" />
+              <input type="hidden" name="itemType" value="<%= item.type?.value %>" />
+              <button type="submit" class="icon-button equip-button <%= item.type?.value === 'outfit' ? (currentOutfitId === item.id ? 'equipped' : '') : 
+                                                                    item.type?.value === 'pickaxe' ? (currentWeaponId === item.id ? 'equipped' : '') :
+                                                                    item.type?.value === 'emote' ? (currentEmoteId === item.id ? 'equipped' : '') :
+                                                                    item.type?.value === 'backpack' ? (currentBackpackId === item.id ? 'equipped' : '') : '' %>">
+                <img src="/images/equip.png" alt="Equip item" class="item-action equip-icon" />
+              </button>
+            </form>
+            <form action="/lockerdetails" method="POST" class="icon-form">
+              <input type="hidden" name="favorite" value="<%= JSON.stringify(item) %>" />
+              <button type="submit" class="icon-button">
+                <img src="/images/star.webp" alt="Favorite" class="item-action star-icon" />
+              </button>
+            </form>
+            <% if (item.type.value === 'outfit') { %>
+            <form action="/lockerdetails" method="POST" class="icon-form">
+              <input type="hidden" name="blacklisted" value="<%= JSON.stringify(item) %>" />
+              <button type="submit" class="icon-button">
+                <img src="/images/blacklist_new.png" alt="Blacklist" class="item-action blacklist-icon" />
+              </button>
+            </form>
+            <% } %>
+          <% } %>
+        </div>
+      </div>
+    </section>
+  <% } else { %>
+    <div class="item-error">No item information available</div>
+  <% } %>
+</main>
+
+<%- include('./partials/foot') %> 
