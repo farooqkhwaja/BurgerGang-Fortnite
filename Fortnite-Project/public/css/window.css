@@ -60,12 +60,10 @@
   text-align: center;
 }
 
-.venster-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  margin-top: auto;
-  margin-bottom: 30px;
+.venster-content > button,
+.venster-content > form {
+  margin-bottom: 20px;
+  width: 100%;
 }
 
 .fortnite-button {
@@ -82,6 +80,8 @@
   overflow: hidden;
   box-shadow: 0 5px 0 rgba(0, 0, 0, 0.3);
   letter-spacing: 1px;
+  width: 100%;
+  text-align: center;
 }
 
 .fortnite-button span {
@@ -130,6 +130,12 @@
   box-shadow: 0 5px 0 #8a0f0f;
 }
 
+form[action="/logout"] {
+  margin-top: auto;
+  margin-bottom: 30px;
+}
+
+/* Responsive styles */
 @media (max-width: 576px) {
   .sliding-venster {
     width: 280px;
@@ -138,12 +144,14 @@
   .venster-content {
     padding: 20px;
   }
- .venster-icons {
+  
+  .venster-icons {
     flex-direction: column;      
     align-items: center;        
     gap: 20px;                   
     margin-bottom: 30px;        
   }
+  
   .venster-icon span {
     font-size: 0.8rem;
   }
@@ -155,90 +163,96 @@
 }
 
 .window-container {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    justify-content: center;
-    align-items: center;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
 }
 
 .window {
-    background-color: #2a2a2a;
-    border-radius: 8px;
-    padding: 20px;
-    width: 80%;
-    max-width: 500px;
-    color: white;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  padding: 20px;
+  width: 80%;
+  max-width: 500px;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .window-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .window-title {
-    margin: 0;
-    font-size: 24px;
-    color: #ffd700;
+  margin: 0;
+  font-size: 24px;
+  color: #ffd700;
 }
 
 .window-close {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
-    padding: 0;
-    line-height: 1;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
 }
 
 .window-content {
-    line-height: 1.6;
+  line-height: 1.6;
 }
 
 .window-content ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 20px 0;
+  list-style-type: none;
+  padding: 0;
+  margin: 20px 0;
 }
 
 .window-content li {
-    margin: 10px 0;
-    padding-left: 20px;
-    position: relative;
+  margin: 10px 0;
+  padding-left: 20px;
+  position: relative;
 }
 
 .window-content li:before {
-    content: "•";
-    color: #ffd700;
-    position: absolute;
-    left: 0;
-}
-
-.logout-form {
-    margin-top: 20px;
-    text-align: center;
+  content: "•";
+  color: #ffd700;
+  position: absolute;
+  left: 0;
 }
 
 .logout-button {
-    background-color: #ff4444;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
+  background-color: var(--fortnite-red);
+  color: white;
+  border: none;
+  padding: 15px 25px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: "Burbank Big Condensed", sans-serif;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  width: 100%;
+  transition: all 0.3s;
+  box-shadow: 0 5px 0 #8a0f0f;
 }
 
 .logout-button:hover {
-    background-color: #ff0000;
+  background-color: #ff0000;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 0 #8a0f0f;
+}
+
+.logout-button:active {
+  transform: translateY(2px);
+  box-shadow: 0 3px 0 #8a0f0f;
 }

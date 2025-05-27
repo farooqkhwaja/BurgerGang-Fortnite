@@ -59,7 +59,7 @@
   <section class="character-display">
     <figure class="character-container">
       <img class="character" src="<%= currentOutfit?.images?.featured || currentOutfit?.images?.icon || '/images/Full character.png' %>" alt="<%= currentOutfit?.name || 'Character' %>" />
-      <figcaption class="character-name"><%= currentOutfit?.name || 'John_Pork_2012' %></figcaption>
+      <figcaption class="character-name"><%= username || 'John_Pork_2012' %></figcaption>
     </figure>
     <a href="./battle">
       <button class="play-button">Speel</button>

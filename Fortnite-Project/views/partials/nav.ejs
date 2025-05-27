@@ -10,6 +10,16 @@
       <a href="./shop" class="nav-item <%= (path === '/shop') ? 'active' : ''  %>">Winkel</a>
       <a href="./battle" class="nav-item <%= (path === '/battle') ? 'active' : 'green'  %>">Speel</a>
     </nav>
-    <img id="pfp-icon" src="<%= currentOutfit?.images?.icon || '/images/Profile.webp' %>" alt="Profile" />
+      <img id="pfp-icon" src="/images/default-profile.svg" alt="Profile" />
   </div>
 </header>
+
+<script>
+  // Load saved profile picture if it exists
+  document.addEventListener('DOMContentLoaded', function() {
+    const savedProfilePicture = localStorage.getItem('profilePicture');
+    if (savedProfilePicture) {
+      document.getElementById('pfp-icon').src = savedProfilePicture;
+    }
+  });
+</script>

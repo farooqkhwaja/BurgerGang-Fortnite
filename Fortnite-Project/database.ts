@@ -72,10 +72,11 @@ async function initializeUsers() {
     try {
         const adminEmail = process.env.ADMIN_EMAIL || "admin@gmail.com"
         const adminPassword = process.env.ADMIN_PASSWORD || "admin123"
+        const adminUsername = process.env.ADMIN_USERNAME || "admin"
 
         const adminExists = await users.findOne({ email: adminEmail })
         if (!adminExists) {
-            await createUser(adminEmail, adminPassword)
+            await createUser(adminEmail, adminPassword, adminUsername)
             await users.updateOne(
                 { email: adminEmail },
                 { $set: { role: "ADMIN" } }
@@ -88,8 +89,14 @@ async function initializeUsers() {
     }
 }
 
-export async function createUser(email: string, password: string) {
+export async function createUser(email: string, password: string, username: string) {
     try {
+        // Check if email already exists
+        const existingUser = await users.findOne({ email });
+        if (existingUser) {
+            throw new Error("Dit emailadres is al in gebruik");
+        }
+
         // Get default items from cosmetics collection
         const defaultOutfit = await cosmeticsCollection.findOne({ "type.value": "outfit" });
         const defaultWeapon = await cosmeticsCollection.findOne({ "type.value": "pickaxe" });
@@ -98,6 +105,7 @@ export async function createUser(email: string, password: string) {
 
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = {
+            username,
             email,
             password: hashedPassword,
             stats: {
@@ -134,7 +142,7 @@ export async function createUser(email: string, password: string) {
         const result = await users.insertOne(newUser);
         return result;
     } catch (error) {
-        console.error("Error creating user:", error);
+        console.error("Fout bij het aanmaken van gebruiker:", error);
         throw error;
     }
 }

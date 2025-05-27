@@ -31,7 +31,7 @@
     <div class="character-wrapper">
       <img class="character" src="<%= currentOutfit?.images?.featured || currentOutfit?.images?.icon || '/images/Full character.png' %>" alt="<%= currentOutfit?.name || 'Character' %>" />
     </div>
-    <p class="character-name"><%= currentOutfit?.name || 'John_Pork_2012' %></p>
+    <p class="character-name"><%= username || 'John_Pork_2012' %></p>
 
     <!-- Bovenste knopjes -->
 
@@ -52,7 +52,7 @@
         </a>
       </li>
       <li>
-        <a href="#" class="utility-button">
+        <a class="utility-button">
           <img src="/images/gdilKB.png" alt="Add" />
         </a>
       </li>
@@ -62,7 +62,9 @@
 
     <article class="action-buttons">
       <a href="./lobby" class="action-button">Terug</a>
-      <a href="#" class="action-button random">Willekeurig</a>
+      <form action="/random" method="post">
+        <button class="action-button random">Willekeurig</button>
+      </form>
     </article>
   </section>
 

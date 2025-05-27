@@ -37,19 +37,13 @@
         </svg>
         <span>Notifications</span>
       </div>
-    </section>      <% if (locals.userId) { %>
-        <form action="/logout" method="POST" class="logout-form">
-          <button type="submit" class="logout-button">Logout</button>
-        </form>
-      <% } %>
-    <section class="venster-buttons">
-      <button class="fortnite-button blue">
-        <span>Gegevens aanpassen</span>
-      </button>
-      <button class="fortnite-button red">
-        <span>Account verwijderen</span>
-      </button>
     </section>
+    
+      <form action="/logout" method="POST">
+        <button type="submit" class="fortnite-button red">
+          <span>Uitloggen</span>
+        </button>
+      </form>
   </section>
 </section>
 

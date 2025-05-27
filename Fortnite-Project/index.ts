@@ -53,6 +53,7 @@ app.use(async (req, res, next) => {
                 res.locals.vBucks = Number(user.stats?.vBucks) || 0;
                 res.locals.wins = Number(user.stats?.wins) || 0;
                 res.locals.losses = Number(user.stats?.losses) || 0;
+                res.locals.username = user.username
 
                 // Safely access collections with default values
                 res.locals.favorites = user.collections?.favorites || [];
@@ -132,7 +133,7 @@ app.post("/login-form", async (req, res) => {
                 title: "login",
                 style: "login",
                 path: "/login",
-                error: "Email and password are required",
+                error: "Email en wachtwoord zijn verplicht",
                 formData: { email }
             });
         }
@@ -143,7 +144,7 @@ app.post("/login-form", async (req, res) => {
                 title: "login",
                 style: "login",
                 path: "/login",
-                error: "Invalid credentials",
+                error: "Ongeldige inloggegevens",
                 formData: { email }
             });
         }
@@ -154,7 +155,7 @@ app.post("/login-form", async (req, res) => {
                 title: "login",
                 style: "login",
                 path: "/login",
-                error: "Invalid credentials",
+                error: "Ongeldige inloggegevens",
                 formData: { email }
             });
         }
@@ -170,7 +171,7 @@ app.post("/login-form", async (req, res) => {
             title: "login",
             style: "login",
             path: "/login",
-            error: "Login failed. Please try again.",
+            error: "Inloggen mislukt. Probeer het opnieuw.",
             formData: req.body
         });
     }
@@ -178,43 +179,59 @@ app.post("/login-form", async (req, res) => {
 
 app.post("/register-form", async (req, res) => {
     try {
-        const { username, email, password, passwordConfirm } = req.body;
+        const username = req.body.username
+        const email = req.body.email
+        const password = req.body.password
+        const passwordConfirm = req.body.passwordConfirm
 
         // Validation
         const errors = [];
         if (!username || !email || !password || !passwordConfirm) {
-            errors.push("All fields are required");
+            errors.push("Alle velden zijn verplicht");
         }
         if (password !== passwordConfirm) {
-            errors.push("Passwords don't match");
+            errors.push("Wachtwoorden komen niet overeen");
         }
         if (password.length < 8) {
-            errors.push("Password must be 8+ characters");
+            errors.push("Wachtwoord moet minimaal 8 tekens lang zijn");
         }
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            errors.push("Invalid email format");
+            errors.push("Ongeldig emailadres");
         }
 
         if (errors.length > 0) {
-            return res.render("register", {
-                title: "register",
+            return res.render("login", {
+                title: "login",
                 style: "login",
-                path: "/register",
+                path: "/login",
                 errors,
                 formData: req.body // Preserve input
             });
         }
 
-        await createUser(email, password);
-        res.redirect("/login?success=Registration successful");
+        try {
+            await createUser(email, password, username);
+            res.redirect("/login?success=Registratie succesvol");
+        } catch (error: any) {
+            if (error.message === "Email already in use") {
+                return res.render("login", {
+                    title: "login",
+                    style: "login",
+                    path: "/login",
+                    errors: ["Dit emailadres is al geregistreerd"],
+                    formData: req.body
+                });
+            }
+            throw error;
+        }
 
-    } catch (error) {
+    } catch (error: any) {
         console.error("Registration error:", error);
-        res.render("register", {
-            title: "register",
+        res.render("login", {
+            title: "login",
             style: "login",
-            path: "/register",
-            errors: ["Registration failed. Please try again."],
+            path: "/login",
+            errors: ["Registratie mislukt. Probeer het opnieuw."],
             formData: req.body
         });
     }
@@ -384,6 +401,46 @@ app.get("/locker", (req, res) => {
         currentBackpack: res.locals.currentBackpack || null,
         currentBackpackId: res.locals.currentBackpackId || null
     });
+});
+
+app.post("/random", async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.redirect("/login");
+        }
+
+        const outfits = await cosmeticsCollection.find({ "type.value": "outfit" }).toArray();
+        const pickaxes = await cosmeticsCollection.find({ "type.value": "pickaxe" }).toArray();
+        const emotes = await cosmeticsCollection.find({ "type.value": "emote" }).toArray();
+        const backpacks = await cosmeticsCollection.find({ "type.value": "backpack" }).toArray();
+
+        const getRandomItem = (items: any[]) => {
+            const randomIndex = Math.floor(Math.random() * items.length);
+            return items[randomIndex];
+        };
+
+        const randomOutfit = getRandomItem(outfits);
+        const randomPickaxe = getRandomItem(pickaxes);
+        const randomEmote = getRandomItem(emotes);
+        const randomBackpack = getRandomItem(backpacks);
+
+        await users.updateOne(
+            { _id: new ObjectId(req.session.userId) },
+            {
+                $set: {
+                    "equipped.outfit": { item: randomOutfit, id: randomOutfit.id },
+                    "equipped.weapon": { item: randomPickaxe, id: randomPickaxe.id },
+                    "equipped.emote": { item: randomEmote, id: randomEmote.id },
+                    "equipped.backpack": { item: randomBackpack, id: randomBackpack.id }
+                }
+            }
+        );
+
+        res.redirect("/locker");
+    } catch (error) {
+        console.error("Error randomizing items:", error);
+        res.status(500).send("Error randomizing items");
+    }
 });
 
 app.get("/lockerdetails", async (req, res) => {
@@ -591,6 +648,7 @@ app.post("/logout", (req, res) => {
         res.redirect("/login");
     });
 });
+
 
 app.listen(app.get("port"), async () => {
     await connect();
