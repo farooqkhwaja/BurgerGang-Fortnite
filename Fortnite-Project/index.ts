@@ -94,6 +94,22 @@ app.use(async (req, res, next) => {
     }
 });
 
+// Authentication middleware
+const requireAuth = (req: any, res: any, next: any) => {
+    if (!req.session.userId) {
+        return res.redirect("/login");
+    }
+    next();
+};
+
+// Prevent logged-in users from accessing login/register
+const preventAuth = (req: any, res: any, next: any) => {
+    if (req.session.userId) {
+        return res.redirect("/lobby");
+    }
+    next();
+};
+
 app.get("/", (req, res) => {
     res.render("index", {
         title: "Launch",
@@ -102,15 +118,8 @@ app.get("/", (req, res) => {
     });
 });
 
-app.get("/login", (req, res) => {
-    // If user is already logged in, redirect to lobby
-    if (req.session.userId) {
-        return res.redirect("/lobby");
-    }
-
-    // Get success message from query parameter
+app.get("/login", preventAuth, (req, res) => {
     const success = req.query.success as string;
-
     res.render("login", {
         title: "login",
         style: "login",
@@ -237,7 +246,7 @@ app.post("/register-form", async (req, res) => {
     }
 });
 
-app.get("/lobby", async (req, res) => {
+app.get("/lobby", requireAuth, async (req, res) => {
     try {
         const newsItems = await newsCollection.find({}).toArray();
         res.render("lobby", {
@@ -265,7 +274,7 @@ app.get("/lobby", async (req, res) => {
     }
 })
 
-app.get("/shop", async (req, res) => {
+app.get("/shop", requireAuth, async (req, res) => {
     try {
         const shopItems = await shopCollection.find({}).toArray();
 
@@ -339,7 +348,7 @@ app.post("/shop", async (req, res) => {
     }
 });
 
-app.get("/battle", (req, res) => {
+app.get("/battle", requireAuth, (req, res) => {
     res.render("battle", {
         title: "Spelen",
         style: "battle",
@@ -387,7 +396,7 @@ app.post("/battle", async (req, res) => {
     }
 });
 
-app.get("/locker", (req, res) => {
+app.get("/locker", requireAuth, (req, res) => {
     res.render("locker", {
         title: "Locker",
         style: "locker",
@@ -443,7 +452,54 @@ app.post("/random", async (req, res) => {
     }
 });
 
-app.get("/lockerdetails", async (req, res) => {
+app.post("/setfavorite", async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.redirect("/login");
+        }
+
+        const user = await users.findOne({ _id: new ObjectId(req.session.userId) });
+        if (!user) {
+            return res.status(404).send("Gebruiker niet gevonden");
+        }
+
+        const currentOutfit = user.equipped?.outfit?.item;
+        if (!currentOutfit || !currentOutfit.images?.smallIcon) {
+            return res.status(400).send("Geen geldig huidig outfit gevonden");
+        }
+
+        const smallIcon = currentOutfit.images.smallIcon;
+        console.log("Setting profile picture to:", smallIcon);
+
+        // Add current outfit to favorites if not already in favorites
+        const isAlreadyFavorite = user.collections?.favorites?.some((fav: any) => fav.id === currentOutfit.id);
+        if (!isAlreadyFavorite) {
+            await users.updateOne(
+                { _id: new ObjectId(req.session.userId) },
+                {
+                    $set: { currentPfp: smallIcon },
+                    $push: { "collections.favorites": currentOutfit }
+                }
+            );
+        } else {
+            await users.updateOne(
+                { _id: new ObjectId(req.session.userId) },
+                { $set: { currentPfp: smallIcon } }
+            );
+        }
+
+        res.redirect("/locker");
+    } catch (error) {
+        console.error("Error setting profile picture:", error);
+        res.status(500).send("Fout bij het instellen van profielfoto");
+    }
+})
+
+app.post("/showinfo", async (req, res) => {
+
+})
+
+app.get("/lockerdetails", requireAuth, async (req, res) => {
     try {
         const shopItems = await shopCollection.find({}).toArray();
         const shopItemIds = new Set(
@@ -587,7 +643,7 @@ app.post("/lockerdetails", (req, res) => {
     }
 });
 
-app.get("/item/:id", async (req, res) => {
+app.get("/item/:id", requireAuth, async (req, res) => {
     const { id } = req.params;
     try {
         const item = await cosmeticsCollection.findOne({ id });
@@ -635,6 +691,48 @@ app.get("/item/:id", async (req, res) => {
     }
 });
 
+app.get("/item/:id/edit", requireAuth, async (req, res) => {
+    try {
+        const itemId = req.params.id;
+        const item = await cosmeticsCollection.findOne({ id: itemId });
+
+        if (!item) {
+            return res.status(404).send("Item niet gevonden");
+        }
+
+        res.render("edit", {
+            title: "Bewerken",
+            style: "edit",
+            path: `/item/${itemId}/edit`,
+            currentOutfit: item
+        });
+    } catch (error) {
+        console.error("Error loading edit page:", error);
+        res.status(500).send("Fout bij het laden van de bewerkingspagina");
+    }
+});
+
+app.post("/item/:id/edit", async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.redirect("/login");
+        }
+
+        const itemId = req.params.id;
+        const { description } = req.body;
+
+        await cosmeticsCollection.updateOne(
+            { id: itemId },
+            { $set: { description } }
+        );
+
+        res.redirect(`/item/${itemId}`);
+    } catch (error) {
+        console.error("Error saving description:", error);
+        res.status(500).send("Fout bij het opslaan van de beschrijving");
+    }
+});
+
 app.post("/logout", (req, res) => {
     // Destroy the session
     req.session.destroy((err) => {
@@ -648,7 +746,6 @@ app.post("/logout", (req, res) => {
         res.redirect("/login");
     });
 });
-
 
 app.listen(app.get("port"), async () => {
     await connect();

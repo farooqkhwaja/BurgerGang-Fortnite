@@ -37,19 +37,25 @@
 
     <ul class="utility-buttons">
       <li>
-        <a href="#" class="utility-button" id="rotate-button">
+        <form action="/item/<%= currentOutfit.id %>" method="GET">
+        <button type="submit" class="utility-button" id="rotate-button">
           <img src="/images/Wv8dnX.png" alt="Rotate" />
-        </a>
+        </button>
+      </form>
       </li>
       <li>
-        <a href="#" class="utility-button">
+        <form action="/item/<%= currentOutfit.id %>/edit" method="GET">
+        <button type="submit" class="utility-button">
           <img src="/images/ftLA85.png" alt="Notes" />
-        </a>
+        </button>
+      </form>
       </li>
       <li>
-        <a href="#" class="utility-button">
+        <form action="/setfavorite" method="POST">
+        <button type="submit" class="utility-button">
           <img src="/images/starLocker.png" alt="Favorite" />
-        </a>
+        </button>
+      </form>
       </li>
       <li>
         <a class="utility-button">
