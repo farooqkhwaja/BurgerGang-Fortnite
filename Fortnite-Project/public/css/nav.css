@@ -113,7 +113,6 @@ header > .user-info {
   transform: scale(1.1);
 }
 
-/* Navigation Items */
 .nav-item {
   display: inline-block;
   background-color: var(--fortnite-red);

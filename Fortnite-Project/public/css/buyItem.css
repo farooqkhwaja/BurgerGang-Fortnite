@@ -137,7 +137,6 @@
   font-size: 1.2rem;
 }
 
-/* Rarity colors */
 .buy-item-rarity.common { color: #b0c3d9; }
 .buy-item-rarity.uncommon { color: #5e98d9; }
 .buy-item-rarity.rare { color: #4b69ff; }
@@ -145,7 +144,6 @@
 .buy-item-rarity.legendary { color: #d32ce6; }
 .buy-item-rarity.mythic { color: #e4ae39; }
 
-/* Responsive design */
 @media (max-width: 768px) {
   .buy-item-card {
     flex-direction: column;

@@ -92,7 +92,6 @@ body {
   font-family: 'Burbank Big Condensed', sans-serif;
 }
 
-/* Rarity colors */
 .item-rarity.common { color: #b3b3b3; }
 .item-rarity.uncommon { color: #5ec75e; }
 .item-rarity.rare { color: #49aceb; }
@@ -101,7 +100,6 @@ body {
 .item-rarity.mythic { color: #ee6636; }
 .item-rarity.exotic { color: #ffd700; }
 
-/* Action buttons */
 .item-actions {
   display: flex;
   gap: 10px;

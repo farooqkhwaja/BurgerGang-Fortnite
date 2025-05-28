@@ -28,9 +28,9 @@ export default session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-        httpOnly: true, // Prevents client side JS from reading the cookie
-        maxAge: 1000 * 60 * 60 * 24, // 24 hours
-        sameSite: 'strict' // CSRF protection
+        secure: process.env.NODE_ENV === 'production', 
+        httpOnly: true, 
+        maxAge: 1000 * 60 * 60 * 24, 
+        sameSite: 'strict' 
     }
 });

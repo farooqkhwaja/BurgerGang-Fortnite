@@ -135,7 +135,6 @@ form[action="/logout"] {
   margin-bottom: 30px;
 }
 
-/* Responsive styles */
 @media (max-width: 576px) {
   .sliding-venster {
     width: 280px;

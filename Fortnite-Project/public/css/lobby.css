@@ -235,7 +235,6 @@
   margin: 0;
 }
 
-/* ===================== Phone version media query ===================== */
  
 @media (max-width: 768px) {
   .main-lobby {
