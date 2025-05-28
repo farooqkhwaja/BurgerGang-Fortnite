@@ -224,7 +224,7 @@
 }
 
 .locker-item.selected-outfit::before {
-  content: "EQUIPPED";
+  content: "UITGERUST";
   position: absolute;
   top: -15px;
   left: 50%;

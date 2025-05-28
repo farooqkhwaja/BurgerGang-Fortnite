@@ -9,7 +9,7 @@
   <aside class="items-column">
     <a href="./lockerdetails?type=character" class="item-slot">
       <header class="slot-title">Personage</header>
-      <img class="item-image" src="<%= currentOutfit?.images?.smallIcon || '/images/Profile.webp' %>" alt="Character" />
+      <img class="item-image" src="<%= currentOutfit?.images?.smallIcon || '/images/Profile.webp' %>" alt="Karakter" />
       <p class="item-name"><%= currentOutfit?.name || 'Astronaut' %></p>
     </a>
 
@@ -18,7 +18,7 @@
       <img
         class="item-image"
         src="<%= currentWeapon?.images?.smallIcon || '/images/Harvesting Tool Locker Graphic.PNG' %>"
-        alt="Pickaxe"
+        alt="Bijl"
       />
       <p class="item-name"><%= currentWeapon?.name || 'Gewone Bijl' %></p>
     </a>
@@ -29,7 +29,7 @@
   <section class="character-container">
     <!-- Personage -->
     <div class="character-wrapper">
-      <img class="character" src="<%= currentOutfit?.images?.featured || currentOutfit?.images?.icon || '/images/Full character.png' %>" alt="<%= currentOutfit?.name || 'Character' %>" />
+      <img class="character" src="<%= currentOutfit?.images?.featured || currentOutfit?.images?.icon || '/images/Full character.png' %>" alt="<%= currentOutfit?.name || 'Karakter' %>" />
     </div>
     <p class="character-name"><%= username || 'John_Pork_2012' %></p>
 
@@ -39,28 +39,31 @@
       <li>
         <form action="/item/<%= currentOutfit.id %>" method="GET">
         <button type="submit" class="utility-button" id="rotate-button">
-          <img src="/images/Wv8dnX.png" alt="Rotate" />
+          <img src="/images/Wv8dnX.png" alt="Draaien" />
         </button>
       </form>
       </li>
       <li>
         <form action="/item/<%= currentOutfit.id %>/edit" method="GET">
         <button type="submit" class="utility-button">
-          <img src="/images/ftLA85.png" alt="Notes" />
+          <img src="/images/ftLA85.png" alt="Notities" />
         </button>
       </form>
       </li>
       <li>
         <form action="/setfavorite" method="POST">
-        <button type="submit" class="utility-button">
-          <img src="/images/starLocker.png" alt="Favorite" />
-        </button>
-      </form>
+          <input type="hidden" name="currentOutfit" value="<%= JSON.stringify(currentOutfit) %>">
+          <button type="submit" class="utility-button">
+            <img src="/images/starLocker.png" alt="Favoriet" />
+          </button>
+        </form>
       </li>
       <li>
-        <a class="utility-button">
-          <img src="/images/gdilKB.png" alt="Add" />
-        </a>
+        <div class="utility-button">
+          <button type="button" class="add-to-pfp" style="background: none; border: none; padding: 0; cursor: pointer;">
+            <img src="/images/gdilKB.png" alt="Toevoegen" />
+          </button>
+        </div>
       </li>
     </ul>
 
@@ -84,13 +87,13 @@
     </a>
 
     <a href="./lockerdetails" class="item-slot">
-      <header class="slot-title">Backpack</header>
+      <header class="slot-title">Rugzak</header>
       <img
         class="item-image"
         src="<%= currentBackpack?.images?.smallIcon %>"
-        alt="Backpack"
+        alt="Rugzak"
       />
-      <p class="item-name"><%= currentBackpack?.name || 'Gewone Backpack' %></p>
+      <p class="item-name"><%= currentBackpack?.name || 'Gewone Rugzak' %></p>
     </a>
   </aside>
 </main>

@@ -1,0 +1,33 @@
+<%- include('partials/head', { title: 'Zwarte Lijst Item', style: 'blacklisted' }) %>
+<%- include('partials/nav') %>
+
+<div class="blacklisted-container">
+    <div class="blacklisted-content">
+        <div class="item-preview">
+            <img src="<%= item.images?.smallIcon || item.images?.icon || '/images/default.png' %>" alt="<%= item.name %>" class="item-image">
+            <h2 class="item-name"><%= item.name %></h2>
+            <p class="item-type"><%= item.type?.displayValue || item.type?.value || 'Onbekend' %></p>
+            <p class="item-rarity <%= item.rarity?.value?.toLowerCase() || 'common' %>"><%= item.rarity?.displayValue || item.rarity?.value || 'Gewoon' %></p>
+        </div>
+        
+        <form action="/item/<%= item.id %>/blacklisted" method="POST" class="blacklisted-form">
+            <div class="form-group">
+                <label for="reason">Reden voor zwarte lijst</label>
+                <textarea 
+                    id="reason" 
+                    name="reason" 
+                    class="reason-input" 
+                    placeholder="Schrijf hier waarom je dit item op de zwarte lijst hebt gezet..."
+                    required
+                ><%= blacklistReason || '' %></textarea>
+            </div>
+            
+            <div class="button-group">
+                <button type="submit" class="save-button">Opslaan</button>
+                <a href="/lockerdetails" class="cancel-button">Terug naar Locker</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<%- include('partials/foot') %> 

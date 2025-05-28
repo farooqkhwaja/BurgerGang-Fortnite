@@ -14,8 +14,7 @@
 
     <% for (let i = 0; i < 6; i++) { %> 
       <% const skin = skinsOnly[i] %>
-      <% const isBought = boughtItems.some(bought => bought.id === skin.id) %>
-    <article class="shop-item <%= isBought ? 'bought' : '' %>">
+    <article class="shop-item <%= skin.isBought ? 'bought' : '' %>">
         <figure class="item-image-container">
             <img class="shop-item-image" src="<%= skin.images.icon %>" alt="<%= skin.name %>" />
         </figure>
@@ -25,7 +24,7 @@
                 <img src="/images/VBucksIcon.png" alt="V-Bucks" />
                 <span><%= skin.finalPrice %></span>
             </p>
-            <% if (!isBought) { %>
+            <% if (!skin.isBought) { %>
                 <form action="/shop" method="POST">
                     <input type="hidden" name="item" value="<%= JSON.stringify(skin) %>" />
                     <input type="hidden" name="price" value="<%= skin.finalPrice %>" />
@@ -47,9 +46,8 @@
 
 <% for (let i = 0; i < 6; i++) { %>
     <% const emote = emotesOnly[i] %>
-    <% const isBought = boughtItems.some(bought => bought.id === emote.id) %>
     
-    <article class="shop-item <%= isBought ? 'bought' : '' %>">
+    <article class="shop-item <%= emote.isBought ? 'bought' : '' %>">
         <figure class="item-image-container">
             <img class="shop-item-image" 
                  src="<%= emote.images.icon || emote.images.smallIcon %>" 
@@ -61,7 +59,7 @@
                 <img src="/images/VBucksIcon.png" alt="V-Bucks" />
                 <span><%= emote.finalPrice %></span>
             </p>
-            <% if (!isBought) { %>
+            <% if (!emote.isBought) { %>
                 <form action="/shop" method="POST">
                     <input type="hidden" name="item" value="<%= JSON.stringify(emote) %>" />
                     <input type="hidden" name="price" value="<%= emote.finalPrice %>" />
@@ -84,9 +82,8 @@
 
 <% for (let i = 0; i < Math.min(weaponsOnly.length, 6); i++) { %>
     <% const weapon = weaponsOnly[i] %>
-    <% const isBought = boughtItems.some(bought => bought.id === weapon.id) %>
     
-    <article class="shop-item <%= isBought ? 'bought' : '' %>">
+    <article class="shop-item <%= weapon.isBought ? 'bought' : '' %>">
         <figure class="item-image-container">
             <img class="shop-item-image" 
                  src="<%= weapon.images.icon || weapon.images.smallIcon %>" 
@@ -98,7 +95,7 @@
                 <img src="/images/VBucksIcon.png" alt="V-Bucks" />
                 <span><%= weapon.finalPrice %></span>
             </p>
-            <% if (!isBought) { %>
+            <% if (!weapon.isBought) { %>
                 <form action="/shop" method="POST">
                     <input type="hidden" name="item" value="<%= JSON.stringify(weapon) %>" />
                     <input type="hidden" name="price" value="<%= weapon.finalPrice %>" />
