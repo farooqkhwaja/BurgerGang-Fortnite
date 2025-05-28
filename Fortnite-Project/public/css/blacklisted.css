@@ -1,0 +1,123 @@
+.blacklisted-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.blacklisted-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.item-preview {
+    text-align: center;
+    padding: 1rem;
+    background-color: #2a2a2a;
+    border-radius: 8px;
+}
+
+.item-image {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    margin-bottom: 1rem;
+}
+
+.item-name {
+    font-size: 1.5rem;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+}
+
+.item-type {
+    color: #cccccc;
+    margin-bottom: 0.5rem;
+}
+
+.item-rarity {
+    font-weight: bold;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.item-rarity.common { background-color: #b0c3d9; color: #000; }
+.item-rarity.uncommon { background-color: #5e9e2e; color: #fff; }
+.item-rarity.rare { background-color: #4a90e2; color: #fff; }
+.item-rarity.epic { background-color: #9d4dbb; color: #fff; }
+.item-rarity.legendary { background-color: #e3ae39; color: #fff; }
+.item-rarity.mythic { background-color: #ff4d4d; color: #fff; }
+
+.blacklisted-form {
+    background-color: #2a2a2a;
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.reason-input {
+    width: 100%;
+    min-height: 150px;
+    padding: 1rem;
+    background-color: #1a1a1a;
+    border: 1px solid #3a3a3a;
+    border-radius: 4px;
+    color: #ffffff;
+    font-size: 1rem;
+    resize: vertical;
+}
+
+.reason-input:focus {
+    outline: none;
+    border-color: #4a90e2;
+}
+
+.button-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+.save-button, .cancel-button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.save-button {
+    background-color: #4a90e2;
+    color: white;
+}
+
+.save-button:hover {
+    background-color: #357abd;
+}
+
+.cancel-button {
+    background-color: #3a3a3a;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.cancel-button:hover {
+    background-color: #4a4a4a;
+} 

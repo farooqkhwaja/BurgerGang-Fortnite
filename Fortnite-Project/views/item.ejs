@@ -15,17 +15,17 @@
       <div class="item-info">
         <h1 class="item-title"><%= item.name %></h1>
         <div class="item-meta">
-          <p class="item-type"><span>Type:</span> <%= item.type?.displayValue || item.type?.value || 'Unknown' %></p>
-          <p class="item-rarity <%= item.rarity?.value?.toLowerCase() || 'common' %>"><span>Rarity:</span> <%= item.rarity?.displayValue || item.rarity?.value || 'Common' %></p>
+          <p class="item-type"><span>Type:</span> <%= item.type?.displayValue || item.type?.value || 'Onbekend' %></p>
+          <p class="item-rarity <%= item.rarity?.value?.toLowerCase() || 'common' %>"><span>Zeldzaamheid:</span> <%= item.rarity?.displayValue || item.rarity?.value || 'Gewoon' %></p>
           <% if (item.added) { %>
-            <p class="item-added"><span>Added:</span> <%= new Date(item.added).toLocaleDateString() %></p>
+            <p class="item-added"><span>Toegevoegd:</span> <%= new Date(item.added).toLocaleDateString() %></p>
           <% } %>
         </div>
-        <p class="item-description"><%= item.description || 'No description available' %></p>
+        <p class="item-description"><%= item.description || 'Geen beschrijving beschikbaar' %></p>
         
         <% if (item.series?.value) { %>
           <div class="item-series">
-            <span>Series:</span>
+            <span>Serie:</span>
             <div class="series-info">
               <p><%= item.series.value %></p>
               <% if (item.series.id) { %>
@@ -44,7 +44,7 @@
                 <span class="set-id">ID: <%= item.set.id %></span>
               <% } %>
               <% if (item.set.partOf) { %>
-                <span class="set-part">Part of: <%= item.set.partOf %></span>
+                <span class="set-part">Onderdeel van: <%= item.set.partOf %></span>
               <% } %>
             </div>
           </div>
@@ -52,15 +52,15 @@
 
         <% if (item.introduction) { %>
           <div class="item-introduction">
-            <span>Introduction:</span>
-            <p>Chapter: <%= item.introduction.chapter || 'Unknown Chapter' %></p>
-            <p>Season: <%= item.introduction.season || 'Unknown Season' %></p>
+            <span>Introductie:</span>
+            <p>Hoofdstuk: <%= item.introduction.chapter || 'Onbekend Hoofdstuk' %></p>
+            <p>Seizoen: <%= item.introduction.season || 'Onbekend Seizoen' %></p>
           </div>
         <% } %>
 
         <% if (item.images?.other) { %>
           <div class="item-gallery">
-            <h3>Additional Images</h3>
+            <h3>Extra Afbeeldingen</h3>
             <div class="gallery-grid">
               <% Object.entries(item.images.other).forEach(([key, url]) => { %>
                 <div class="gallery-item">
@@ -81,21 +81,21 @@
                                                                     item.type?.value === 'pickaxe' ? (currentWeaponId === item.id ? 'equipped' : '') :
                                                                     item.type?.value === 'emote' ? (currentEmoteId === item.id ? 'equipped' : '') :
                                                                     item.type?.value === 'backpack' ? (currentBackpackId === item.id ? 'equipped' : '') : '' %>">
-                <img src="/images/equip.png" alt="Equip item" class="item-action equip-icon" />
+                <img src="/images/equip.png" alt="Item uitrusten" class="item-action equip-icon" />
               </button>
             </form>
 
             <form action="/remove-favorite" method="POST" class="icon-form">
               <input type="hidden" name="itemId" value="<%= item.id %>" />
               <button type="submit" class="icon-button">
-                <img src="/images/remove.png" alt="Remove favorite" class="item-action cross" />
+                <img src="/images/remove.png" alt="Favoriet verwijderen" class="item-action cross" />
               </button>
             </form>
           <% } else if (blacklisted && blacklisted.some(bl => bl.id === item.id)) { %>
             <form action="/remove-blacklisted" method="POST" class="icon-form">
               <input type="hidden" name="itemId" value="<%= item.id %>" />
               <button type="submit" class="icon-button">
-                <img src="/images/remove.png" alt="Remove from blacklist" class="item-action cross" />
+                <img src="/images/remove.png" alt="Van zwarte lijst verwijderen" class="item-action cross" />
               </button>
             </form>
           <% } else { %>
@@ -106,20 +106,20 @@
                                                                     item.type?.value === 'pickaxe' ? (currentWeaponId === item.id ? 'equipped' : '') :
                                                                     item.type?.value === 'emote' ? (currentEmoteId === item.id ? 'equipped' : '') :
                                                                     item.type?.value === 'backpack' ? (currentBackpackId === item.id ? 'equipped' : '') : '' %>">
-                <img src="/images/equip.png" alt="Equip item" class="item-action equip-icon" />
+                <img src="/images/equip.png" alt="Item uitrusten" class="item-action equip-icon" />
               </button>
             </form>
             <form action="/lockerdetails" method="POST" class="icon-form">
               <input type="hidden" name="favorite" value="<%= JSON.stringify(item) %>" />
               <button type="submit" class="icon-button">
-                <img src="/images/star.webp" alt="Favorite" class="item-action star-icon" />
+                <img src="/images/star.webp" alt="Favoriet" class="item-action star-icon" />
               </button>
             </form>
             <% if (item.type.value === 'outfit' && currentOutfitId !== item.id) { %>
             <form action="/lockerdetails" method="POST" class="icon-form">
               <input type="hidden" name="blacklisted" value="<%= JSON.stringify(item) %>" />
               <button type="submit" class="icon-button">
-                <img src="/images/blacklist_new.png" alt="Blacklist" class="item-action blacklist-icon" />
+                <img src="/images/blacklist_new.png" alt="Zwarte lijst" class="item-action blacklist-icon" />
               </button>
             </form>
             <% } %>
@@ -128,7 +128,7 @@
       </div>
     </section>
   <% } else { %>
-    <div class="item-error">No item information available</div>
+    <div class="item-error">Geen item informatie beschikbaar</div>
   <% } %>
 </main>
 

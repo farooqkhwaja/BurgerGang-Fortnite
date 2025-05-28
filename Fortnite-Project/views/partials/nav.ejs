@@ -10,12 +10,12 @@
       <a href="/shop" class="nav-item <%= (path === '/shop') ? 'active' : ''  %>">Winkel</a>
       <a href="/battle" class="nav-item <%= (path === '/battle') ? 'active' : 'green'  %>">Speel</a>
     </nav>
-      <img id="pfp-icon" src="/images/default-profile.svg" alt="Profile" />
+      <img id="pfp-icon" src="/images/default-profile.svg" alt="Profiel" />
   </div>
 </header>
 
 <script>
-  // Load saved profile picture if it exists
+  // Laad opgeslagen profielfoto als deze bestaat
   document.addEventListener('DOMContentLoaded', function() {
     const savedProfilePicture = localStorage.getItem('profilePicture');
     if (savedProfilePicture) {

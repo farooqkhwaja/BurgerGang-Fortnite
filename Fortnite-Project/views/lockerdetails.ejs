@@ -33,7 +33,10 @@
                                                                       item.type.value === 'backpack' ? (currentBackpackId === item.id ? 'equipped' : '') : '' %>">
                   <img
                     src="/images/equip.png"
-                    alt="Equip item"
+                    alt="<%= item.type.value === 'outfit' ? (currentOutfitId === item.id ? 'Uitgerust' : 'Item uitrusten') : 
+                          item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'Uitgerust' : 'Item uitrusten') :
+                          item.type.value === 'emote' ? (currentEmoteId === item.id ? 'Uitgerust' : 'Item uitrusten') :
+                          item.type.value === 'backpack' ? (currentBackpackId === item.id ? 'Uitgerust' : 'Item uitrusten') : 'Item uitrusten' %>"
                     class="item-action equip-icon"
                   />
                 </button>
@@ -43,7 +46,7 @@
                 <button type="submit" class="icon-button">
                   <img
                     src="/images/remove.png"
-                    alt="Remove favorite"
+                    alt="Favoriet verwijderen"
                     class="item-action cross"
                   />
                 </button>
@@ -86,7 +89,10 @@
                                                                       item.type.value === 'backpack' ? (currentBackpackId === item.id ? 'equipped' : '') : '' %>">
                   <img
                     src="/images/equip.png"
-                    alt="Equip item"
+                    alt="<%= item.type.value === 'outfit' ? (currentOutfitId === item.id ? 'Uitgerust' : 'Item uitrusten') : 
+                          item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'Uitgerust' : 'Item uitrusten') :
+                          item.type.value === 'emote' ? (currentEmoteId === item.id ? 'Uitgerust' : 'Item uitrusten') :
+                          item.type.value === 'backpack' ? (currentBackpackId === item.id ? 'Uitgerust' : 'Item uitrusten') : 'Item uitrusten' %>"
                     class="item-action equip-icon"
                   />
                 </button>
@@ -100,7 +106,7 @@
                 <button type="submit" class="icon-button">
                   <img
                     src="/images/star.webp"
-                    alt="Favorite"
+                    alt="Favoriet"
                     class="item-action star-icon"
                   />
                 </button>
@@ -115,7 +121,7 @@
                   <button type="submit" class="icon-button">
                     <img
                       src="/images/blacklist_new.png"
-                      alt="Blacklist"
+                      alt="Op zwarte lijst"
                       class="item-action blacklist-icon"
                     />
                   </button>
@@ -145,7 +151,7 @@
           <figure>
             <img
               src="<%= item.images.smallIcon %>"
-              alt="Costume"
+              alt="Kostuum"
               class="item-image"
             />
             <figcaption class="item-actions">
@@ -158,7 +164,10 @@
                                                                       item.type.value === 'backpack' ? (currentBackpackId === item.id ? 'equipped' : '') : '' %>">
                   <img
                     src="/images/equip.png"
-                    alt="Equip outfit"
+                    alt="<%= item.type.value === 'outfit' ? (currentOutfitId === item.id ? 'Uitgerust' : 'Item uitrusten') : 
+                          item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'Uitgerust' : 'Item uitrusten') :
+                          item.type.value === 'emote' ? (currentEmoteId === item.id ? 'Uitgerust' : 'Item uitrusten') :
+                          item.type.value === 'backpack' ? (currentBackpackId === item.id ? 'Uitgerust' : 'Item uitrusten') : 'Item uitrusten' %>"
                     class="item-action equip-icon"
                   />
                 </button>
@@ -172,7 +181,7 @@
                 <button type="submit" class="icon-button">
                   <img
                     src="/images/star.webp"
-                    alt="Favorite"
+                    alt="Favoriet"
                     class="item-action star-icon"
                   />
                 </button>
@@ -187,7 +196,7 @@
                   <button type="submit" class="icon-button">
                     <img
                       src="/images/blacklist_new.png"
-                      alt="Blacklist"
+                      alt="Op zwarte lijst"
                       class="item-action blacklist-icon"
                     />
                   </button>
@@ -229,7 +238,10 @@
                                                                       item.type.value === 'backpack' ? (currentBackpackId === item.id ? 'equipped' : '') : '' %>">
                   <img
                     src="/images/equip.png"
-                    alt="Equip weapon"
+                    alt="<%= item.type.value === 'outfit' ? (currentOutfitId === item.id ? 'Uitgerust' : 'Item uitrusten') : 
+                          item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'Uitgerust' : 'Item uitrusten') :
+                          item.type.value === 'emote' ? (currentEmoteId === item.id ? 'Uitgerust' : 'Item uitrusten') :
+                          item.type.value === 'backpack' ? (currentBackpackId === item.id ? 'Uitgerust' : 'Item uitrusten') : 'Item uitrusten' %>"
                     class="item-action equip-icon"
                   />
                 </button>
@@ -284,7 +296,10 @@
                                                                     item.type.value === 'backpack' ? (currentBackpackId === item.id ? 'equipped' : '') : '' %>">
               <img
                 src="/images/equip.png"
-                alt="Equip item"
+                alt="<%= item.type.value === 'outfit' ? (currentOutfitId === item.id ? 'Uitgerust' : 'Item uitrusten') : 
+                      item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'Uitgerust' : 'Item uitrusten') :
+                      item.type.value === 'emote' ? (currentEmoteId === item.id ? 'Uitgerust' : 'Item uitrusten') :
+                      item.type.value === 'backpack' ? (currentBackpackId === item.id ? 'Uitgerust' : 'Item uitrusten') : 'Item uitrusten' %>"
                 class="item-action equip-icon"
               />
             </button>
@@ -338,7 +353,10 @@
                                                                       item.type.value === 'backpack' ? (currentBackpackId === item.id ? 'equipped' : '') : '' %>">
                   <img
                     src="/images/equip.png"
-                    alt="Equip emote"
+                    alt="<%= item.type.value === 'outfit' ? (currentOutfitId === item.id ? 'Uitgerust' : 'Item uitrusten') : 
+                          item.type.value === 'pickaxe' ? (currentWeaponId === item.id ? 'Uitgerust' : 'Item uitrusten') :
+                          item.type.value === 'emote' ? (currentEmoteId === item.id ? 'Uitgerust' : 'Item uitrusten') :
+                          item.type.value === 'backpack' ? (currentBackpackId === item.id ? 'Uitgerust' : 'Item uitrusten') : 'Item uitrusten' %>"
                     class="item-action equip-icon"
                   />
                 </button>
