@@ -25,8 +25,8 @@ app.use(session_1.default);
 app.set("view engine", "ejs");
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
-app.use(express_1.default.static(path_1.default.join(__dirname, "..", "public")));
-app.set("views", path_1.default.join(__dirname, "..", "views"));
+app.use(express_1.default.static(path_1.default.join(__dirname, "../public")));
+app.set("views", path_1.default.join(__dirname, "../views"));
 app.set("port", process.env.PORT || 3000);
 app.use((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x;
