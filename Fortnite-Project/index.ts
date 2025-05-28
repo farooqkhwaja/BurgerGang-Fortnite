@@ -5,6 +5,17 @@ import { connect, cosmeticsCollection, newsCollection, shopCollection, users, cr
 import bcrypt from "bcrypt";
 import session from "./session";
 import { ObjectId } from "mongodb";
+import { Session } from "express-session";
+
+// Extend the Session interface
+declare module 'express-session' {
+    interface Session {
+        userId?: string;
+        isAuthenticated?: boolean;
+        blacklisted?: boolean;
+        blacklistMessage?: string;
+    }
+}
 
 dotenv.config();
 
@@ -371,8 +382,14 @@ app.get("/battle", requireAuth, (req, res) => {
         path: "/battle",
         wins: outfitStats.wins || 0,
         losses: outfitStats.losses || 0,
-        currentOutfit: currentOutfit
+        currentOutfit: currentOutfit,
+        blacklisted: req.session.blacklisted,
+        blacklistMessage: req.session.blacklistMessage
     });
+
+    // Clear the session variables after rendering
+    req.session.blacklisted = false;
+    req.session.blacklistMessage = undefined;
 });
 
 app.post("/battle", async (req, res) => {
@@ -410,7 +427,14 @@ app.post("/battle", async (req, res) => {
             if (outfitStats.losses >= 3 && outfitStats.losses >= outfitStats.wins * 3) {
                 // Add current outfit to blacklist if not already blacklisted
                 if (!user.collections?.blacklisted?.some((bl: { id: string }) => bl.id === outfitId)) {
-                    const updatedBlacklisted = [...(user.collections?.blacklisted || []), user.equipped.outfit.item];
+                    const currentOutfit = user.equipped.outfit.item;
+                    const updatedBlacklisted = [...(user.collections?.blacklisted || []), currentOutfit];
+
+                    // Remove from favorites if it exists there
+                    const updatedFavorites = (user.collections?.favorites || []).filter((fav: { id: string }) => fav.id !== outfitId);
+
+                    // Remove from bought items if it exists there
+                    const updatedBoughtItems = (user.collections?.boughtItems || []).filter((bought: { id: string }) => bought.id !== outfitId);
 
                     // Find a new outfit from bought items that's not blacklisted
                     const availableOutfits = (user.collections?.boughtItems || [])
@@ -432,12 +456,24 @@ app.post("/battle", async (req, res) => {
                     const updatedOutfitStats = { ...user.collections?.outfitStats || {} };
                     updatedOutfitStats[outfitId] = { wins: 0, losses: 0 };
 
-                    // Update user document with new outfit, blacklist, blacklist reason, and reset stats
+                    // First, unequip the current outfit by setting equipped.outfit to null
+                    await users.updateOne(
+                        { _id: new ObjectId(req.session.userId) },
+                        {
+                            $set: {
+                                "equipped.outfit": null
+                            }
+                        }
+                    );
+
+                    // Then update all collections and equip the new outfit
                     await users.updateOne(
                         { _id: new ObjectId(req.session.userId) },
                         {
                             $set: {
                                 "collections.blacklisted": updatedBlacklisted,
+                                "collections.favorites": updatedFavorites,
+                                "collections.boughtItems": updatedBoughtItems,
                                 "equipped.outfit": {
                                     item: newOutfit,
                                     id: newOutfit?.id
@@ -447,19 +483,23 @@ app.post("/battle", async (req, res) => {
                             }
                         }
                     );
+
+                    // Redirect to lockerdetails after blacklisting
+                    res.redirect("/lockerdetails");
+                    return;
                 }
-            } else {
-                // Update the user document with new stats if not blacklisted
-                await users.updateOne(
-                    { _id: new ObjectId(req.session.userId) },
-                    {
-                        $set: {
-                            "stats.vBucks": user.stats.vBucks,
-                            [`collections.outfitStats.${outfitId}`]: outfitStats
-                        }
-                    }
-                );
             }
+
+            // Update the user document with new stats
+            await users.updateOne(
+                { _id: new ObjectId(req.session.userId) },
+                {
+                    $set: {
+                        "stats.vBucks": user.stats.vBucks,
+                        [`collections.outfitStats.${outfitId}`]: outfitStats
+                    }
+                }
+            );
         }
 
         res.redirect("/battle");
@@ -665,27 +705,37 @@ app.post("/lockerdetails", async (req, res) => {
             const item = JSON.parse(req.body.blacklisted);
             // Check if item is already blacklisted
             if (!user.collections?.blacklisted?.some((bl: { id: string }) => bl.id === item.id)) {
-                const updatedBlacklisted = [...(user.collections?.blacklisted || []), item];
-                // Remove from boughtItems if it exists there
+                // First remove from favorites if it exists there
+                const updatedFavorites = (user.collections?.favorites || []).filter((fav: { id: string }) => fav.id !== item.id);
+
+                // Then remove from bought items if it exists there
                 const updatedBoughtItems = (user.collections?.boughtItems || []).filter((bought: { id: string }) => bought.id !== item.id);
+
+                // Finally add to blacklist
+                const updatedBlacklisted = [...(user.collections?.blacklisted || []), item];
 
                 // Reset the blacklisted outfit's stats
                 const updatedOutfitStats = { ...user.collections?.outfitStats || {} };
                 updatedOutfitStats[item.id] = { wins: 0, losses: 0 };
 
+                // Update all collections at once
                 await users.updateOne(
                     { _id: new ObjectId(req.session.userId) },
                     {
                         $set: {
-                            "collections.blacklisted": updatedBlacklisted,
+                            "collections.favorites": updatedFavorites,
                             "collections.boughtItems": updatedBoughtItems,
+                            "collections.blacklisted": updatedBlacklisted,
                             "collections.outfitStats": updatedOutfitStats,
                             [`collections.blacklistReasons.${item.id}`]: "Personage trekt op niets"
                         }
                     }
                 );
-                res.locals.blacklisted = updatedBlacklisted;
+
+                // Update local variables
+                res.locals.favorites = updatedFavorites;
                 res.locals.boughtItems = updatedBoughtItems;
+                res.locals.blacklisted = updatedBlacklisted;
 
                 // Redirect to the blacklisted page for this item
                 return res.redirect(`/item/${item.id}/blacklisted`);
@@ -823,7 +873,13 @@ app.get("/item/:id", requireAuth, async (req, res) => {
             for (const shopItem of shopItems) {
                 const foundItem = shopItem.brItems?.find((brItem: { id: string }) => brItem.id === id);
                 if (foundItem) {
-                    item = foundItem;
+                    item = {
+                        ...foundItem,
+                        finalPrice: shopItem.finalPrice,
+                        isBought: user.collections?.boughtItems?.some((bought: { id: string }) => bought.id === id) ||
+                            user.collections?.favorites?.some((fav: { id: string }) => fav.id === id) ||
+                            user.collections?.blacklisted?.some((bl: { id: string }) => bl.id === id)
+                    };
                     break;
                 }
             }
@@ -840,7 +896,8 @@ app.get("/item/:id", requireAuth, async (req, res) => {
                 currentOutfitId: res.locals.currentOutfitId,
                 currentWeaponId: res.locals.currentWeaponId,
                 currentEmoteId: res.locals.currentEmoteId,
-                currentBackpackId: res.locals.currentBackpackId
+                currentBackpackId: res.locals.currentBackpackId,
+                vBucks: res.locals.vBucks
             });
         }
 
@@ -855,7 +912,8 @@ app.get("/item/:id", requireAuth, async (req, res) => {
             currentOutfitId: res.locals.currentOutfitId,
             currentWeaponId: res.locals.currentWeaponId,
             currentEmoteId: res.locals.currentEmoteId,
-            currentBackpackId: res.locals.currentBackpackId
+            currentBackpackId: res.locals.currentBackpackId,
+            vBucks: res.locals.vBucks
         });
     } catch (e) {
         console.error(e);
@@ -869,7 +927,8 @@ app.get("/item/:id", requireAuth, async (req, res) => {
             currentOutfitId: res.locals.currentOutfitId,
             currentWeaponId: res.locals.currentWeaponId,
             currentEmoteId: res.locals.currentEmoteId,
-            currentBackpackId: res.locals.currentBackpackId
+            currentBackpackId: res.locals.currentBackpackId,
+            vBucks: res.locals.vBucks
         });
     }
 });
@@ -877,7 +936,19 @@ app.get("/item/:id", requireAuth, async (req, res) => {
 app.get("/item/:id/edit", requireAuth, async (req, res) => {
     try {
         const itemId = req.params.id;
-        const item = await cosmeticsCollection.findOne({ id: itemId });
+        const user = await users.findOne({ _id: new ObjectId(req.session.userId) });
+
+        if (!user) {
+            return res.redirect("/login");
+        }
+
+        // First check if the item is in the user's bought items
+        let item = user.collections?.boughtItems?.find((bought: { id: string }) => bought.id === itemId);
+
+        // If not found in bought items, check cosmetics collection
+        if (!item) {
+            item = await cosmeticsCollection.findOne({ id: itemId });
+        }
 
         if (!item) {
             return res.status(404).send("Item niet gevonden");
@@ -903,11 +974,28 @@ app.post("/item/:id/edit", async (req, res) => {
 
         const itemId = req.params.id;
         const { description } = req.body;
+        const user = await users.findOne({ _id: new ObjectId(req.session.userId) });
 
-        await cosmeticsCollection.updateOne(
-            { id: itemId },
-            { $set: { description } }
-        );
+        if (!user) {
+            return res.redirect("/login");
+        }
+
+        // Check if the item is in the user's bought items
+        const boughtItemIndex = user.collections?.boughtItems?.findIndex((bought: { id: string }) => bought.id === itemId);
+
+        if (boughtItemIndex !== -1 && boughtItemIndex !== undefined) {
+            // Update the description in boughtItems
+            await users.updateOne(
+                { _id: new ObjectId(req.session.userId) },
+                { $set: { [`collections.boughtItems.${boughtItemIndex}.description`]: description } }
+            );
+        } else {
+            // Update in cosmetics collection
+            await cosmeticsCollection.updateOne(
+                { id: itemId },
+                { $set: { description } }
+            );
+        }
 
         res.redirect(`/item/${itemId}`);
     } catch (error) {

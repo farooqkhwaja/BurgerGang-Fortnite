@@ -11,108 +11,149 @@
   <!-- Verkoop items -->
   <section class="shop-items" aria-label="Winkelvoorwerpen">
     <!-- outfits -->
-
     <% for (let i = 0; i < 6; i++) { %> 
       <% const skin = skinsOnly[i] %>
-    <article class="shop-item <%= skin.isBought ? 'bought' : '' %>">
-        <figure class="item-image-container">
-            <img class="shop-item-image" src="<%= skin.images.icon %>" alt="<%= skin.name %>" />
-        </figure>
-        <div class="shop-item-details">
-            <h3 class="shop-item-name"><%= skin.name %></h3>
-            <p class="shop-item-price">
+      <article class="shop-item <%= skin.isBought ? 'bought' : '' %>">
+        <% if (!skin.isBought) { %>
+          <a href="/item/<%= skin.id %>" class="shop-item-link">
+            <figure class="item-image-container">
+              <img class="shop-item-image" src="<%= skin.images.icon %>" alt="<%= skin.name %>" />
+            </figure>
+            <div class="shop-item-details">
+              <h3 class="shop-item-name"><%= skin.name %></h3>
+              <p class="shop-item-price">
                 <img src="/images/VBucksIcon.png" alt="V-Bucks" />
                 <span><%= skin.finalPrice %></span>
-            </p>
-            <% if (!skin.isBought) { %>
-                <form action="/shop" method="POST">
-                    <input type="hidden" name="item" value="<%= JSON.stringify(skin) %>" />
-                    <input type="hidden" name="price" value="<%= skin.finalPrice %>" />
-                    <button 
-                        type="submit" 
-                        class="shop-item-button"
-                        <%= vBucks < skin.finalPrice ? 'disabled' : '' %>>
-                        KOPEN
-                    </button>
-                </form>
-            <% } else { %>
-                <button class="shop-item-button owned-button" disabled>GEKOCHT</button>
-            <% } %>
-        </div>
-    </article>
+              </p>
+            </div>
+          </a>
+          <form action="/shop" method="POST" class="shop-item-form">
+            <input type="hidden" name="item" value="<%= JSON.stringify(skin) %>" />
+            <input type="hidden" name="price" value="<%= skin.finalPrice %>" />
+            <button 
+              type="submit" 
+              class="shop-item-button"
+              <%= vBucks < skin.finalPrice ? 'disabled' : '' %>>
+              KOPEN
+            </button>
+          </form>
+        <% } else { %>
+          <div class="shop-item-content">
+            <figure class="item-image-container">
+              <img class="shop-item-image" src="<%= skin.images.icon %>" alt="<%= skin.name %>" />
+            </figure>
+            <div class="shop-item-details">
+              <h3 class="shop-item-name"><%= skin.name %></h3>
+              <p class="shop-item-price">
+                <img src="/images/VBucksIcon.png" alt="V-Bucks" />
+                <span><%= skin.finalPrice %></span>
+              </p>
+            </div>
+          </div>
+          <button class="shop-item-button owned-button" disabled>GEKOCHT</button>
+        <% } %>
+      </article>
     <% } %>
 
     <!-- Emotes -->
-
-<% for (let i = 0; i < 6; i++) { %>
-    <% const emote = emotesOnly[i] %>
-    
-    <article class="shop-item <%= emote.isBought ? 'bought' : '' %>">
-        <figure class="item-image-container">
-            <img class="shop-item-image" 
-                 src="<%= emote.images.icon || emote.images.smallIcon %>" 
-                 alt="<%= emote.name %>" />      
-        </figure>
-        <div class="shop-item-details">
-            <h3 class="shop-item-name"><%= emote.name %></h3>
-            <p class="shop-item-price">
+    <% for (let i = 0; i < 6; i++) { %>
+      <% const emote = emotesOnly[i] %>
+      <article class="shop-item <%= emote.isBought ? 'bought' : '' %>">
+        <% if (!emote.isBought) { %>
+          <a href="/item/<%= emote.id %>" class="shop-item-link">
+            <figure class="item-image-container">
+              <img class="shop-item-image" 
+                   src="<%= emote.images.icon || emote.images.smallIcon %>" 
+                   alt="<%= emote.name %>" />      
+            </figure>
+            <div class="shop-item-details">
+              <h3 class="shop-item-name"><%= emote.name %></h3>
+              <p class="shop-item-price">
                 <img src="/images/VBucksIcon.png" alt="V-Bucks" />
                 <span><%= emote.finalPrice %></span>
-            </p>
-            <% if (!emote.isBought) { %>
-                <form action="/shop" method="POST">
-                    <input type="hidden" name="item" value="<%= JSON.stringify(emote) %>" />
-                    <input type="hidden" name="price" value="<%= emote.finalPrice %>" />
-                    <button 
-                        type="submit" 
-                        class="shop-item-button"
-                        <%= vBucks < emote.finalPrice ? 'disabled' : '' %>
-                    >
-                        KOPEN
-                    </button>
-                </form>
-            <% } else { %>
-                <button class="shop-item-button owned-button" disabled>GEKOCHT</button>
-            <% } %>
-        </div>
-    </article>
-<% } %>
+              </p>
+            </div>
+          </a>
+          <form action="/shop" method="POST" class="shop-item-form">
+            <input type="hidden" name="item" value="<%= JSON.stringify(emote) %>" />
+            <input type="hidden" name="price" value="<%= emote.finalPrice %>" />
+            <button 
+              type="submit" 
+              class="shop-item-button"
+              <%= vBucks < emote.finalPrice ? 'disabled' : '' %>
+            >
+              KOPEN
+            </button>
+          </form>
+        <% } else { %>
+          <div class="shop-item-content">
+            <figure class="item-image-container">
+              <img class="shop-item-image" 
+                   src="<%= emote.images.icon || emote.images.smallIcon %>" 
+                   alt="<%= emote.name %>" />      
+            </figure>
+            <div class="shop-item-details">
+              <h3 class="shop-item-name"><%= emote.name %></h3>
+              <p class="shop-item-price">
+                <img src="/images/VBucksIcon.png" alt="V-Bucks" />
+                <span><%= emote.finalPrice %></span>
+              </p>
+            </div>
+          </div>
+          <button class="shop-item-button owned-button" disabled>GEKOCHT</button>
+        <% } %>
+      </article>
+    <% } %>
 
-<!-- Weapons -->
-
-<% for (let i = 0; i < Math.min(weaponsOnly.length, 6); i++) { %>
-    <% const weapon = weaponsOnly[i] %>
-    
-    <article class="shop-item <%= weapon.isBought ? 'bought' : '' %>">
-        <figure class="item-image-container">
-            <img class="shop-item-image" 
-                 src="<%= weapon.images.icon || weapon.images.smallIcon %>" 
-                 alt="<%= weapon.name %>" />
-        </figure>
-        <div class="shop-item-details">
-            <h3 class="shop-item-name"><%= weapon.name %></h3>
-            <p class="shop-item-price">
+    <!-- Weapons -->
+    <% for (let i = 0; i < Math.min(weaponsOnly.length, 6); i++) { %>
+      <% const weapon = weaponsOnly[i] %>
+      <article class="shop-item <%= weapon.isBought ? 'bought' : '' %>">
+        <% if (!weapon.isBought) { %>
+          <a href="/item/<%= weapon.id %>" class="shop-item-link">
+            <figure class="item-image-container">
+              <img class="shop-item-image" 
+                   src="<%= weapon.images.icon || weapon.images.smallIcon %>" 
+                   alt="<%= weapon.name %>" />
+            </figure>
+            <div class="shop-item-details">
+              <h3 class="shop-item-name"><%= weapon.name %></h3>
+              <p class="shop-item-price">
                 <img src="/images/VBucksIcon.png" alt="V-Bucks" />
                 <span><%= weapon.finalPrice %></span>
-            </p>
-            <% if (!weapon.isBought) { %>
-                <form action="/shop" method="POST">
-                    <input type="hidden" name="item" value="<%= JSON.stringify(weapon) %>" />
-                    <input type="hidden" name="price" value="<%= weapon.finalPrice %>" />
-                    <button 
-                        type="submit" 
-                        class="shop-item-button"
-                        <%= vBucks < weapon.finalPrice ? 'disabled' : '' %>
-                    >
-                        KOPEN
-                    </button>
-                </form>
-            <% } else { %>
-                <button class="shop-item-button owned-button" disabled>GEKOCHT</button>
-            <% } %>
-        </div>
-    </article>
-<% } %>
+              </p>
+            </div>
+          </a>
+          <form action="/shop" method="POST" class="shop-item-form">
+            <input type="hidden" name="item" value="<%= JSON.stringify(weapon) %>" />
+            <input type="hidden" name="price" value="<%= weapon.finalPrice %>" />
+            <button 
+              type="submit" 
+              class="shop-item-button"
+              <%= vBucks < weapon.finalPrice ? 'disabled' : '' %>
+            >
+              KOPEN
+            </button>
+          </form>
+        <% } else { %>
+          <div class="shop-item-content">
+            <figure class="item-image-container">
+              <img class="shop-item-image" 
+                   src="<%= weapon.images.icon || weapon.images.smallIcon %>" 
+                   alt="<%= weapon.name %>" />
+            </figure>
+            <div class="shop-item-details">
+              <h3 class="shop-item-name"><%= weapon.name %></h3>
+              <p class="shop-item-price">
+                <img src="/images/VBucksIcon.png" alt="V-Bucks" />
+                <span><%= weapon.finalPrice %></span>
+              </p>
+            </div>
+          </div>
+          <button class="shop-item-button owned-button" disabled>GEKOCHT</button>
+        <% } %>
+      </article>
+    <% } %>
   </section>
 </main>
 
