@@ -116,6 +116,30 @@ body {
   border: none;
 }
 
+.shop-item-button {
+  background-color: #0be881;
+  color: #000;
+  border: none;
+  padding: 0.75rem 2rem;
+  font-size: 1.2rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.shop-item-button:hover {
+  background-color: #05c46b;
+}
+
+.shop-item-button:disabled {
+  background-color: #666;
+  cursor: not-allowed;
+}
+
 .icon-button {
   background: none;
   border: none;

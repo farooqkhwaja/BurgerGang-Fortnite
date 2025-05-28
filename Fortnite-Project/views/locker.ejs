@@ -53,14 +53,14 @@
       <li>
         <form action="/setfavorite" method="POST">
           <input type="hidden" name="currentOutfit" value="<%= JSON.stringify(currentOutfit) %>">
-          <button type="submit" class="utility-button">
+          <button type="submit" class="utility-button" onclick="showPopup('Toegevoegd aan favorieten!'); return true;">
             <img src="/images/starLocker.png" alt="Favoriet" />
           </button>
         </form>
       </li>
       <li>
         <div class="utility-button">
-          <button type="button" class="add-to-pfp" style="background: none; border: none; padding: 0; cursor: pointer;">
+          <button type="button" class="add-to-pfp" style="background: none; border: none; padding: 0; cursor: pointer;" onclick="showPopup('Profielafbeelding bijgewerkt!'); return false;">
             <img src="/images/gdilKB.png" alt="Toevoegen" />
           </button>
         </div>
@@ -72,7 +72,7 @@
     <article class="action-buttons">
       <a href="./lobby" class="action-button">Terug</a>
       <form action="/random" method="post">
-        <button class="action-button random">Willekeurig</button>
+        <button class="action-button random" onclick="showPopup('Willekeurige items geselecteerd!'); return true;"">Willekeurig</button>
       </form>
     </article>
   </section>

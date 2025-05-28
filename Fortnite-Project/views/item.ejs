@@ -98,6 +98,14 @@
                 <img src="/images/remove.png" alt="Van zwarte lijst verwijderen" class="item-action cross" />
               </button>
             </form>
+          <% } else if (!item.isBought && item.finalPrice) { %>
+            <form action="/shop" method="POST" class="icon-form">
+              <input type="hidden" name="item" value="<%= JSON.stringify(item) %>" />
+              <input type="hidden" name="price" value="<%= item.finalPrice %>" />
+              <button type="submit" class="shop-item-button" <%= vBucks < item.finalPrice ? 'disabled' : '' %>>
+                KOPEN
+              </button>
+            </form>
           <% } else { %>
             <form action="/equip-item" method="POST" class="icon-form">
               <input type="hidden" name="itemId" value="<%= item.id %>" />
